@@ -20,10 +20,20 @@
     </div>
 
     <center>
-      <div class="buttons">
+      <div class="buttons" v-if="!loading">
         <button @click.stop="accept" class="button green">Accept</button>
         <button @click.stop="reject" class="button red">Reject</button>
       </div>
+
+      <v-progress-circular
+        v-else
+        style="margin-top: 2vh"
+        indeterminate
+        color="#27ade4"
+        :size="60"
+        :width="6"
+        class="loading-bar"
+      ></v-progress-circular>
     </center>
   </div>
 </template>
@@ -37,6 +47,7 @@ export default {
   data: function () {
     return {
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
+      loading: false,
     };
   },
   computed: {
@@ -53,9 +64,11 @@ export default {
   },
   methods: {
     accept() {
+      this.loading = true;
       this.$emit("accept", this.invite.external_id);
     },
     reject() {
+      this.loading = true;
       this.$emit("reject", this.invite.external_id);
     },
   },

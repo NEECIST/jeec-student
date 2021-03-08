@@ -7,7 +7,7 @@
       :key="name"
       :color="names[name] ? '#26A2D5' : '#6CBFE0'"
       @click="click(name)"
-      >{{ (n_invites && name === 'invitations') ? (name + ' (' + n_invites + ')') : name  }}
+      >{{ (n_invites && name === 'invites') ? (name + ' (' + n_invites + ')') : name  }}
     </v-btn>
   </div>
 </template>

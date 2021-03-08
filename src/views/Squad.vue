@@ -9,7 +9,11 @@
       :n_invites="invites.length"
     />
 
-    <div v-if="!loading_squad" v-show="button === 'my squad'" style="margin-top: 8vh">
+    <div
+      v-if="!loading_squad"
+      v-show="button === 'my squad'"
+      style="margin-top: 8vh"
+    >
       <SquadCreation
         v-if="squad === null"
         @create="create_squad"
@@ -85,11 +89,11 @@ export default {
       this.squad = null;
     },
     accept_invite(invite_id) {
-      UserService.acceptInvite(invite_id).then(
+      UserService.acceptInvitation(invite_id).then(
         (response) => {
           this.$store.dispatch("auth/userUpdate", response.data.data);
 
-          UserService.getSquadInvitesReceived().then(
+          UserService.getSquadInvitationsReceived().then(
             (response) => {
               this.invites = response.data.data;
             },
@@ -101,6 +105,7 @@ export default {
           UserService.getUserSquad().then(
             (response) => {
               this.squad = response.data.data;
+              this.button = "my squad";
               this.notification("Joined squad " + this.squad.name, "success");
             },
             (error) => {
@@ -110,24 +115,40 @@ export default {
         },
         (error) => {
           console.log(error);
+          UserService.getSquadInvitationsReceived().then(
+            (response) => {
+              this.invites = response.data.data;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
           this.notification("Failed to join squad", "error");
         }
       );
     },
     reject_invite(invite_id) {
-      UserService.rejectInvite(invite_id).then(
-        () => {},
-        (error) => {
-          console.log(error);
-        }
-      );
-
-      UserService.getSquadInvitesReceived().then(
-        (response) => {
-          this.invites = response.data.data;
+      UserService.rejectInvitation(invite_id).then(
+        () => {
+          UserService.getSquadInvitationsReceived().then(
+            (response) => {
+              this.invites = response.data.data;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         },
         (error) => {
           console.log(error);
+          UserService.getSquadInvitationsReceived().then(
+            (response) => {
+              this.invites = response.data.data;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         }
       );
     },
