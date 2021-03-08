@@ -313,6 +313,8 @@ export default {
         this.add_members_dialog = false;
         UserService.inviteSquad(this.squadmates).then(
           () => {
+            this.squadmates = [];
+            
             this.$emit(
               "notification",
               "Invitation sent successfully",
