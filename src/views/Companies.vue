@@ -7,45 +7,50 @@
       style="margin-top: 8vh"
       v-if="!loading_partners"
     >
-      <div class="main-sponsors sponsors">
-        <Partner
-          v-for="partner in main_sponsors"
-          :key="partner.name"
-          @learn="learn"
-          :name="partner.name"
-          :partnership="partner.partnership_tier"
-          :img_src="jeec_brain_url + partner.logo"
-        />
+      <div v-if="partners && partners.length > 0">
+        <div class="main-sponsors sponsors">
+          <Partner
+            v-for="partner in main_sponsors"
+            :key="partner.name"
+            @learn="learn"
+            :name="partner.name"
+            :partnership="partner.partnership_tier"
+            :img_src="jeec_brain_url + partner.logo"
+          />
+        </div>
+        <div class="gold-sponsors sponsors">
+          <Partner
+            v-for="partner in gold_sponsors"
+            :key="partner.name"
+            @learn="learn"
+            :name="partner.name"
+            :partnership="partner.partnership_tier"
+            :img_src="jeec_brain_url + partner.logo"
+          />
+        </div>
+        <div class="silver-sponsors sponsors">
+          <Partner
+            v-for="partner in silver_sponsors"
+            :key="partner.name"
+            @learn="learn"
+            :name="partner.name"
+            :partnership="partner.partnership_tier"
+            :img_src="jeec_brain_url + partner.logo"
+          />
+        </div>
+        <div class="bronze-sponsors sponsors">
+          <Partner
+            v-for="partner in bronze_sponsors"
+            :key="partner.name"
+            @learn="learn"
+            :name="partner.name"
+            :partnership="partner.partnership_tier"
+            :img_src="jeec_brain_url + partner.logo"
+          />
+        </div>
       </div>
-      <div class="gold-sponsors sponsors">
-        <Partner
-          v-for="partner in gold_sponsors"
-          :key="partner.name"
-          @learn="learn"
-          :name="partner.name"
-          :partnership="partner.partnership_tier"
-          :img_src="jeec_brain_url + partner.logo"
-        />
-      </div>
-      <div class="silver-sponsors sponsors">
-        <Partner
-          v-for="partner in silver_sponsors"
-          :key="partner.name"
-          @learn="learn"
-          :name="partner.name"
-          :partnership="partner.partnership_tier"
-          :img_src="jeec_brain_url + partner.logo"
-        />
-      </div>
-      <div class="bronze-sponsors sponsors">
-        <Partner
-          v-for="partner in bronze_sponsors"
-          :key="partner.name"
-          @learn="learn"
-          :name="partner.name"
-          :partnership="partner.partnership_tier"
-          :img_src="jeec_brain_url + partner.logo"
-        />
+      <div class="msg" v-else>
+        Our Partners will be here during the event (15th to 19th of March 2021)
       </div>
     </center>
     <div v-else class="loading">
@@ -153,10 +158,24 @@ export default {
   margin-top: 35vh;
 }
 
+.msg {
+  padding-top: 8vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  height: 92vh;
+  font-size: 3.5vh;
+  font-weight: 600;
+  color: black
+}
+
 @media screen and (max-width: 1100px) {
   .sponsors-page {
     height: 82vh;
     overflow-y: auto;
+  }
+
+  .msg {
+    height: 72vh;
   }
 }
 
