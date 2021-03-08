@@ -140,7 +140,7 @@ export default {
             console.log(error);
             this.$emit(
               "notification",
-              "You've already used a referral code",
+              error.response ? error.response.data.error : "Invalid code",
               "error"
             );
             this.loading_redeem = false;
