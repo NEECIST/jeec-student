@@ -12,7 +12,7 @@
       </p>
       <p>
         <b>
-          All activity types has their own xp value and there are some special
+          All activity types have their own xp value and there are some special
           activities that have a bonus, these are called the daily quests.
         </b>
       </p>
@@ -29,9 +29,9 @@
     <div class="card">
       <center>
         <p class="title">Game Rules</p>
-        <p>- In case of draw, our system picks randomly the winner;</p>
+        <p>- In case of a draw, our system picks the winner randomly;</p>
         <p>
-          - The use of inappropriate images or names result in a permanent ban
+          - The use of inappropriate images or names results in a permanent ban
           from the APP;
         </p>
         <p>
@@ -47,12 +47,13 @@
           >
         </p>
         <p>
-          - Any kind of exploit will result in a permanent ban of the
-          responsible user from the APP.
+          - Any kind of exploit will result in a permanent ban of the respective
+          user from the APP.
         </p>
         <p>
-          - All activity types has their own xp value and there are some special
-          activities that have a bonus, these are called the daily quests.
+          - All activity types have their own xp value and there are some
+          special activities that have a bonus, these are called the daily
+          quests.
         </p>
       </center>
     </div>
