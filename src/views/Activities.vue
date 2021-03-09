@@ -54,7 +54,7 @@
         <div class="activities-wrapper">
           <Activity
             v-for="activity in activities"
-            :key="activity.name + activity.type"
+            :key="activity.name + activity.type + Math.floor(Math.random() * 10000)"
             v-show="show_activity(activity)"
             :activity="activity"
           />
@@ -96,6 +96,7 @@ export default {
       button: "all",
       model: 0,
       event_days: [],
+      event_dates: [],
       activities: [],
       weekdays: [
         "Sunday",
@@ -119,10 +120,8 @@ export default {
       }
     },
     show_activity(activity) {
-      var activity_date = new Date(activity.day.substring(0, 11));
-
       return (
-        activity_date.getTime() === this.event_days[this.model].getTime() &&
+        activity.day === this.event_dates[this.model] &&
         (this.button === "all" ||
           (this.button === "my interests" && activity.interest))
       );
@@ -138,32 +137,50 @@ export default {
       return this.$store.state.auth.user;
     },
   },
-  created() {
+  async created() {
     if (!this.currentUser) {
       this.$router.push("/");
     }
 
-    UserService.getActivities().then(
+    await UserService.getEventDates().then(
       (response) => {
-        this.activities = response.data.data;
-        this.getEventDates(response.data.start_date, response.data.end_date);
-
-        var now = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          new Date().getDate()
-        );
-        var event_day = this.event_days
-          .map((day) => day.getTime())
-          .indexOf(now.getTime());
-        this.model = event_day !== -1 ? event_day : 0;
-        this.loading_activities = false;
+        this.event_dates = response.data;
       },
       (error) => {
         console.log(error);
-        this.loading_activities = false;
       }
     );
+
+    this.getEventDates(
+      this.event_dates[0],
+      this.event_dates[this.event_dates.length - 1]
+    );
+
+    var now = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate()
+    );
+
+    var event_day = this.event_days
+      .map((day) => day.getTime())
+      .indexOf(now.getTime());
+    this.model = event_day !== -1 ? event_day : 0;
+
+    for (var i = 0; i < this.event_dates.length; i++) {
+      UserService.getActivities(
+        this.event_dates[(this.model + i) % this.event_dates.length]
+      ).then(
+        (response) => {
+          this.activities = this.activities.concat(response.data.data);
+          this.loading_activities = false;
+        },
+        (error) => {
+          console.log(error);
+          this.loading_activities = false;
+        }
+      );
+    }
   },
 };
 </script>

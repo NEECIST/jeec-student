@@ -136,8 +136,8 @@ class UserService {
     );
   }
 
-  getActivities() {
-    return axios.get(jeec_brain_url + "/student/activities", {
+  async getActivities(date) {
+    return axios.get(jeec_brain_url + "/student/activities?date=" + date, {
       headers: authHeader()
     });
   }
@@ -271,6 +271,12 @@ class UserService {
 
   getEventInfo() {
     return axios.get(jeec_brain_url + "/student/event-info", {
+      headers: authHeader()
+    });
+  }
+
+  async getEventDates() {
+    return axios.get(jeec_brain_url + "/student/event-dates", {
       headers: authHeader()
     });
   }
