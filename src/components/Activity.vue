@@ -49,6 +49,7 @@
             >{{ activity.points }}</span
           >
           <span class="xp">xp</span>
+          <span v-if="activity.type === 'Job Fair'" class="xp" style="line-height: 2vh; font-size: 3vh">/booth</span>
         </div>
       </div>
     </div>
@@ -68,6 +69,7 @@
         >{{ activity.points }}</span
       >
       <span class="xp">xp</span>
+      <span v-if="activity.type === 'Job Fair'" class="xp" style="display: block; margin-top: -1.5vh; font-size: 2vh">/booth</span>
     </div>
 
     <div class="buttons mobile">
@@ -815,6 +817,11 @@ export default {
 
   .activity-text {
     max-width: calc(89vw - 13vh);
+    text-align: left;
+  }
+
+  .type {
+    max-width: calc(75vw - 13vh);
   }
 }
 

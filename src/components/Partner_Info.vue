@@ -9,7 +9,7 @@
           "
         ></div>
         <div>
-          <p class="name">{{ partner.name }}</p>
+          <p class="name">{{ partner.name }}aaaaaaaa aaaa</p>
           <p class="bio">{{ partner.business_area }}</p>
         </div>
       </div>
@@ -223,6 +223,10 @@ export default {
 }
 
 @media screen and (max-width: 1100px) {
+  .name {
+    font-size: 4.5vh;
+    max-width: calc(85vw - 13vh);
+  }
 }
 
 @media screen and (min-width: 1100px) {
