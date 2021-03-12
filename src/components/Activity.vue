@@ -110,7 +110,7 @@
               by {{ companies }}
             </p>
             <p class="dialog-description">{{ activity.description }}</p>
-            <p class="dialog-raffle">Raffle: {{ activity.reward.name }}</p>
+            <p v-if="activity.reward.name" class="dialog-raffle">Raffle: {{ activity.reward.name }}</p>
             <p class="dialog-warning" v-if="activity.type === '15/15'">
               This activity is held in the company's Job Fair booth
             </p>
@@ -516,6 +516,7 @@ export default {
 
 .name {
   font-size: 2.8vh;
+  line-height: 3vh;
   font-weight: 700;
   margin: 0;
   color: #707070;
@@ -882,7 +883,7 @@ export default {
     text-align: justify;
     margin-top: 2vh;
     margin-bottom: 0;
-    line-height: 2.2vh;
+    line-height: 2.4vh;
   }
 
   .inner-description::-webkit-scrollbar {
