@@ -38,6 +38,12 @@
           - The current team of JEEC and NEECIST cannot participate in the game;
         </p>
         <p>
+          - <b>You can only insert a code from an activity you were in.</b> Our team
+          will be taking note of each participation and will know the veracity
+          of the redeem. Breaking this rule will result in being banned from the
+          JEEC Web App;
+        </p>
+        <p>
           - In the case of activities that need previous registration, if the
           student does not attend the activity it will result in a permanent ban
           from the APP.<br />
@@ -70,11 +76,11 @@
         <a
           :href="event_info.instagram_link"
           target="_blank"
-          style="margin-right:3vw"
+          style="margin-right: 3vw"
         >
           <img src="../assets/instagram_icon.svg" class="icon" />
         </a>
-        <a href="https://jeec.ist" style="margin-right:3vw" target="_blank">
+        <a href="https://jeec.ist" style="margin-right: 3vw" target="_blank">
           <img src="../assets/globe_icon.svg" class="icon" />
         </a>
         <a :href="event_info.facebook_link" target="_blank">
@@ -88,18 +94,18 @@
 <script>
 export default {
   name: "GeneralRules",
-  data: function() {
+  data: function () {
     return {};
   },
   props: {
-    event_info: Object
+    event_info: Object,
   },
   computed: {},
   methods: {
     goto_code() {
       this.$router.push("/code");
-    }
-  }
+    },
+  },
 };
 </script>
 
