@@ -112,7 +112,9 @@
               by {{ companies }}
             </p>
             <p class="dialog-description">{{ activity.description }}</p>
-            <p v-if="activity.reward.name" class="dialog-raffle">Raffle: {{ activity.reward.name }}</p>
+            <p v-if="activity.reward.name" class="dialog-raffle">
+              Raffle: {{ activity.reward.name }}
+            </p>
             <p class="dialog-warning" v-if="activity.type === '15/15'">
               This activity is held in the company's Job Fair booth
             </p>
@@ -210,7 +212,7 @@
               <button
                 v-if="activity.zoom_url"
                 style="background-color: #27ade4"
-                @click.stop="$refs.zoom.click()"
+                @click.stop="click_zoom()"
               >
                 <a ref="zoom" :href="activity.zoom_url" target="_blank"
                   >Zoom Link</a
@@ -219,7 +221,7 @@
               <button
                 v-if="activity.registration_open && activity.registration_link"
                 style="background-color: #e42741"
-                @click.stop="$refs.registration.click()"
+                @click.stop="click_registraion()"
               >
                 <a
                   ref="registration"
@@ -230,7 +232,7 @@
               </button>
               <button
                 style="background-color: #27ade4"
-                @click.stop="$refs.calendar.click()"
+                @click.stop="click_add_to_calendar()"
               >
                 Add to Calendar
               </button>
@@ -335,6 +337,14 @@ export default {
     async click_add_to_calendar() {
       this.$refs.calendar.click();
       LogService.postLog("/add_to_calendar/" + this.activity.name);
+    },
+    async click_zoom() {
+      this.$refs.zoom.click();
+      LogService.postLog("/zoom/" + this.activity.name);
+    },
+    async click_registration() {
+      this.$refs.registration.click();
+      LogService.postLog("/registrarion/" + this.activity.name);
     },
     updateImages() {
       setInterval(() => {
