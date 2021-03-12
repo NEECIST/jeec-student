@@ -380,20 +380,36 @@ export default {
         url =
           url +
           "&details=" +
-          "Registrations: " +
+          "<b>Registrations:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.registration_link +
-          "\n" +
-          "Zoom: " +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Zoom:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.zoom_url +
-          "\n" +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Description:</b>" +
+          "<br>" +
           this.activity.description;
       } else {
         url =
           url +
           "&details=" +
-          "Zoom: " +
+          "<b>Zoom:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.zoom_url +
-          "\n" +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Description:</b>" +
+          "<br>" +
           this.activity.description;
       }
 
