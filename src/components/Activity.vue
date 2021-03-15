@@ -49,7 +49,12 @@
             >{{ activity.points }}</span
           >
           <span class="xp">xp</span>
-          <span v-if="activity.type === 'Job Fair'" class="xp" style="line-height: 2vh; font-size: 3vh">/booth</span>
+          <span
+            v-if="activity.type === 'Job Fair'"
+            class="xp"
+            style="line-height: 2vh; font-size: 3vh"
+            >/booth</span
+          >
         </div>
       </div>
     </div>
@@ -69,7 +74,12 @@
         >{{ activity.points }}</span
       >
       <span class="xp">xp</span>
-      <span v-if="activity.type === 'Job Fair'" class="xp" style="display: block; margin-top: -1.5vh; font-size: 2vh">/booth</span>
+      <span
+        v-if="activity.type === 'Job Fair'"
+        class="xp"
+        style="display: block; margin-top: -1.5vh; font-size: 2vh"
+        >/booth</span
+      >
     </div>
 
     <div class="buttons mobile">
@@ -212,27 +222,32 @@
               <button
                 v-if="activity.zoom_url"
                 style="background-color: #27ade4"
-                @click.stop="click_zoom()"
+                @click.stop="$refs.zoom.click()"
               >
-                <a ref="zoom" :href="activity.zoom_url" target="_blank"
+                <a
+                  ref="zoom"
+                  :href="activity.zoom_url"
+                  target="_blank"
+                  @click.stop="click_zoom()"
                   >Zoom Link</a
                 >
               </button>
               <button
                 v-if="activity.registration_open && activity.registration_link"
                 style="background-color: #e42741"
-                @click.stop="click_registraion()"
+                @click.stop="$refs.registration.click()"
               >
                 <a
                   ref="registration"
                   :href="activity.registration_link"
                   target="_blank"
+                  @click.stop="click_registration()"
                   >Registration</a
                 >
               </button>
               <button
                 style="background-color: #27ade4"
-                @click.stop="click_add_to_calendar()"
+                @click.stop="$refs.calendar.click()"
               >
                 Add to Calendar
               </button>
@@ -335,15 +350,12 @@ export default {
       LogService.postLog("/see_more/" + this.activity.name);
     },
     async click_add_to_calendar() {
-      this.$refs.calendar.click();
       LogService.postLog("/add_to_calendar/" + this.activity.name);
     },
     async click_zoom() {
-      this.$refs.zoom.click();
       LogService.postLog("/zoom/" + this.activity.name);
     },
     async click_registration() {
-      this.$refs.registration.click();
       LogService.postLog("/registrarion/" + this.activity.name);
     },
     updateImages() {
@@ -368,20 +380,36 @@ export default {
         url =
           url +
           "&details=" +
-          "Registrations: " +
+          "<b>Registrations:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.registration_link +
-          "\n" +
-          "Zoom: " +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Zoom:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.zoom_url +
-          "\n" +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Description:</b>" +
+          "<br>" +
           this.activity.description;
       } else {
         url =
           url +
           "&details=" +
-          "Zoom: " +
+          "<b>Zoom:</b>" +
+          "<br>" +
+          "<a>" +
           this.activity.zoom_url +
-          "\n" +
+          "</a>" +
+          "<br>" +
+          "<br>" +
+          "<b>Description:</b>" +
+          "<br>" +
           this.activity.description;
       }
 
