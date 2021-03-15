@@ -124,6 +124,35 @@ export default {
         }
       );
     }
+
+    if (this.$route.name !== "Login") {
+      var today = new Date();
+      var last_login = localStorage.getItem("last-login")
+        ? new Date(localStorage.getItem("last-login"))
+        : null;
+
+      if (
+        !last_login ||
+        (this.currentUser && today.getDate() !== last_login.getDate())
+      ) {
+        UserService.todayLogin().then(
+          (response) => {
+            localStorage.setItem("last-login", today);
+            this.$store.dispatch("auth/userUpdate", response.data.data);
+            this.notification(
+              "New daily login +" + process.env.VUE_APP_REWARD_LOGIN + "pts",
+              "points"
+            );
+          },
+          (error) => {
+            console.log(error);
+            if (error.response.status == 409) {
+              localStorage.setItem("last-login", today);
+            }
+          }
+        );
+      }
+    }
   },
 };
 </script>
