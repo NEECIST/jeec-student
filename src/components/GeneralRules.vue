@@ -31,17 +31,23 @@
         <p class="title">Game Rules</p>
         <p>- In case of a draw, our system picks the winner randomly;</p>
         <p>
-          - The use of inappropriate images or names results in a permanent ban
-          from the APP;
+          - The current team of JEEC and NEECIST cannot participate in the game;
         </p>
         <p>
-          - The current team of JEEC and NEECIST cannot participate in the game;
+          - All activity types have their own xp value and there are some
+          special activities that have a bonus, these are called the daily
+          quests;
         </p>
         <p>
           - <b>You can only insert a code from an activity you were in.</b> Our
           team will be taking note of each participation and will know the
           veracity of the redeem. Breaking this rule will result in being banned
           from the JEEC Web App;
+        </p>
+        <p>- Codes are only valid on the day of their respective activity;</p>
+        <p>
+          - The use of inappropriate images or names results in a permanent ban
+          from the APP;
         </p>
         <p>
           - In the case of activities that need previous registration, if the
@@ -53,20 +59,10 @@
           >
         </p>
         <p>
-          - If one member of the squad gets banned the squad is disbanded;
-        </p>
-        <p>
           - Any kind of exploit will result in a permanent ban of the respective
           user from the APP;
         </p>
-        <p>
-          - All activity types have their own xp value and there are some
-          special activities that have a bonus, these are called the daily
-          quests;
-        </p>
-        <p>
-          - Codes are only valid on the day of their respective activity.
-        </p>
+        <p>- If one member of the squad gets banned the squad is disbanded.</p>
       </center>
     </div>
     <div class="card">
@@ -100,18 +96,18 @@
 <script>
 export default {
   name: "GeneralRules",
-  data: function() {
+  data: function () {
     return {};
   },
   props: {
-    event_info: Object
+    event_info: Object,
   },
   computed: {},
   methods: {
     goto_code() {
       this.$router.push("/code");
-    }
-  }
+    },
+  },
 };
 </script>
 
