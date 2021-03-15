@@ -62,7 +62,7 @@
         <p>
           - All activity types have their own xp value and there are some
           special activities that have a bonus, these are called the daily
-          quests.
+          quests;
         </p>
         <p>
           - Codes are only valid on the day of their respective activity.
