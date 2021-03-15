@@ -93,7 +93,7 @@ export default {
   font-size: 6.1vh;
   text-shadow: 0.5vh 0.5vh 1vh rgba(0, 0, 0, 0.219);
   margin-left: 3vw;
-  margin-right: 3vw;
+  margin-right: 5vw;
   width: 15vw;
   text-align: right;
 }
@@ -178,7 +178,7 @@ export default {
 
   .index {
     margin-left: 1vw;
-    margin-right: 0vw;
+    margin-right: 1vw;
   }
 }
 
