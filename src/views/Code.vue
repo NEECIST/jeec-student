@@ -77,7 +77,7 @@ import UserService from "../services/user.service";
 export default {
   name: "Code",
   components: {},
-  data: function() {
+  data: function () {
     return {
       code: "",
       prev_length: 0,
@@ -86,7 +86,7 @@ export default {
       squad: null,
       error: "",
       loading_redeem: false,
-      loading_squad: true
+      loading_squad: true,
     };
   },
   computed: {
@@ -104,23 +104,23 @@ export default {
         "-" +
         code.substring(12, 16)
       );
-    }
+    },
   },
   methods: {
     redeem() {
       if (this.code.replaceAll("-", "").length == 16) {
         this.loading_redeem = true;
         UserService.redeemCode(this.code).then(
-          response => {
+          (response) => {
             this.points =
               response.data.data.total_points - this.currentUser.total_points;
             this.$store.dispatch("auth/userUpdate", response.data.data);
 
             UserService.getUserSquad().then(
-              response => {
+              (response) => {
                 this.squad = response.data.data;
               },
-              error => {
+              (error) => {
                 console.log(error);
               }
             );
@@ -135,7 +135,7 @@ export default {
             );
             this.loading_redeem = false;
           },
-          error => {
+          (error) => {
             this.error = "Invalid Code";
             console.log(error);
             this.$emit(
@@ -146,12 +146,14 @@ export default {
             this.loading_redeem = false;
           }
         );
+      } else {
+        this.$emit("notification", "Incomplete code", "error");
       }
     },
     clipboard() {
       this.$refs.referral.select();
       document.execCommand("copy");
-    }
+    },
   },
   watch: {
     code(val) {
@@ -180,7 +182,7 @@ export default {
       }
 
       this.prev_length = val.length;
-    }
+    },
   },
   mounted() {
     if (!this.currentUser) {
@@ -188,16 +190,16 @@ export default {
     }
 
     UserService.getUserSquad().then(
-      response => {
+      (response) => {
         this.squad = response.data.data;
         this.loading_squad = false;
       },
-      error => {
+      (error) => {
         console.log(error);
         this.loading_squad = false;
       }
     );
-  }
+  },
 };
 </script>
 
