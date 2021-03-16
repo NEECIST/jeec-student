@@ -31,7 +31,12 @@
         <div class="buttons">
           <!-- <button v-if="activity.zoom_url"><a :href="zoom()">Add to Calendar</a></button> -->
           <button @click.stop="click_see_more()">See More</button>
-          <button @click.stop="click_add_to_calendar()">
+          <button
+            @click.stop="
+              $refs.calendar.click();
+              click_add_to_calendar();
+            "
+          >
             <a ref="calendar" :href="calendar()" target="_blank"
               >Add to Calendar</a
             >
