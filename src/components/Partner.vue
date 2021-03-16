@@ -77,7 +77,7 @@ export default {
 }
 
 .name {
-  font-size: 3.5vh;
+  font-size: 6vw;
   font-weight: 600;
   margin: 0;
   margin-bottom: 0.5vh;
@@ -119,8 +119,9 @@ export default {
   }
 
   .name {
-    font-size: 5vh;
-    margin: 2.5vh;
+    font-size: 2vw;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh
   }
 
   .partner {
