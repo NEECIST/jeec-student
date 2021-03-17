@@ -6,7 +6,12 @@
       <p class="name">
         {{ nameArray[0] }} {{ nameArray[nameArray.length - 1] }}
       </p>
-      <p v-if="level != null" class="level">level {{ level }}</p>
+      <p v-if="level != null && (level < 18)" class="level">level {{ level }}</p>
+      <p v-else-if="level == 18" class="level" style="color: #936928">JEEC Mastery Level I</p>
+      <p v-else-if="level == 19" class="level" style="color: #28272866">JEEC Mastery Level II</p>
+      <p v-else-if="level == 20" class="level" style="color: #EDD549">JEEC Mastery Level III</p>
+      <p v-else-if="level == 21" class="level" style="color: #62BD66">JEEC Mastery Level IV</p>
+      <p v-else-if="level == 22" class="level" style="color: #9FD5F4">JEEC Mastery Level V</p>
       <p v-if="cry" class="cry">{{ cry }}</p>
     </div>
 
