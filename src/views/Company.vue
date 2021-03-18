@@ -103,7 +103,7 @@ export default {
               this.$router.push({
                 name: "Chat",
                 query: {
-                  room_id: "/channel/" + partner_name.replace(" ", "_"),
+                  room_id: "/channel/" + partner_name.All(" ", "_"),
                 },
               });
             } else {
@@ -112,7 +112,7 @@ export default {
                 this.rocket_chat_room_url =
                   this.rocket_chat_url +
                   "/channel/" +
-                  partner_name.replace(" ", "_") +
+                  partner_name.replaceAll(" ", "_") +
                   "?layout=embedded";
               }
             }
