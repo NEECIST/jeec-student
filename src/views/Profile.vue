@@ -25,6 +25,7 @@
           class="add-cv"
           v-if="currentUser.uploaded_cv === false"
           @click.stop="cv_click"
+          style="background-color: #70c3e4"
         >
           <p>Add CV</p>
           <p><v-icon large style="color: white">mdi-plus</v-icon></p>
@@ -34,7 +35,7 @@
             <p>Added</p>
             <v-icon large style="color: white">mdi-check</v-icon>
           </div>
-          <p @click.stop="cv_click" style="cursor: pointer">
+          <p @click.stop="cv_click" style="cursor: pointer; background-color: #70c3e4">
             <v-icon large style="color: white">mdi-lead-pencil</v-icon>
           </p>
           <p @click.stop="see_cv" style="cursor: pointer">
@@ -277,7 +278,8 @@ export default {
       );
     },
     cv_click() {
-      this.$refs.cv.click();
+      return;
+      // this.$refs.cv.click();
     },
     tag_click(tag) {
       if (this.currentUser.tags.includes(tag)) {
