@@ -93,7 +93,7 @@ export default {
           page: "Activities",
         },
         {
-          name: "Chat & Job Fair",
+          name: "Chat & Partners",
           src: require("../assets/icons/chat.svg"),
           page: "Companies",
         },
