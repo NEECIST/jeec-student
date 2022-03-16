@@ -35,7 +35,10 @@
             <p>Added</p>
             <v-icon large style="color: white">mdi-check</v-icon>
           </div>
-          <p @click.stop="cv_click" style="cursor: pointer; background-color: #70c3e4">
+          <p
+            @click.stop="cv_click"
+            style="cursor: pointer; background-color: #70c3e4"
+          >
             <v-icon large style="color: white">mdi-lead-pencil</v-icon>
           </p>
           <p @click.stop="see_cv" style="cursor: pointer">
@@ -221,9 +224,9 @@ import UserService from "../services/user.service";
 export default {
   name: "Profile",
   components: {
-    Expbar
+    Expbar,
   },
-  data: function() {
+  data: function () {
     return {
       color: "gray",
       dialog: false,
@@ -236,7 +239,7 @@ export default {
       loading_tags: true,
       loading_companies: true,
       loading_cv: false,
-      loading_linkedin: false
+      loading_linkedin: false,
     };
   },
   methods: {
@@ -252,7 +255,7 @@ export default {
       this.dialog = false;
 
       UserService.addLinkedin(url).then(
-        response => {
+        (response) => {
           if (!this.currentUser.linkedin_url) {
             this.$emit(
               "notification",
@@ -270,7 +273,7 @@ export default {
           this.$store.dispatch("auth/userUpdate", response.data.data);
           this.loading_linkedin = false;
         },
-        error => {
+        (error) => {
           console.log(error);
           this.$emit("notification", "Failed to add LinkedIn", "error");
           this.loading_linkedin = false;
@@ -278,8 +281,7 @@ export default {
       );
     },
     cv_click() {
-      return;
-      // this.$refs.cv.click();
+      this.$refs.cv.click();
     },
     tag_click(tag) {
       if (this.currentUser.tags.includes(tag)) {
@@ -298,7 +300,7 @@ export default {
     add_cv() {
       this.loading_cv = true;
       UserService.addCV(this.$refs.cv).then(
-        response => {
+        (response) => {
           if (!this.currentUser.uploaded_cv) {
             this.$emit(
               "notification",
@@ -312,7 +314,7 @@ export default {
           this.$store.dispatch("auth/userUpdate", response.data.data);
           this.loading_cv = false;
         },
-        error => {
+        (error) => {
           console.log(error);
           this.$emit("notification", "Fail to upload CV", "error");
           this.loading_cv = false;
@@ -324,14 +326,14 @@ export default {
     see_cv() {
       if (this.currentUser.uploaded_cv) {
         UserService.getCV().then(
-          response => {
+          (response) => {
             var raw = atob(response.data.data);
             var uint8Array = new Uint8Array(raw.length);
             for (var i = 0; i < raw.length; i++) {
               uint8Array[i] = raw.charCodeAt(i);
             }
             var fileBlob = new Blob([uint8Array], {
-              type: response.data["content-type"]
+              type: response.data["content-type"],
             });
             var objetURL = window.URL.createObjectURL(fileBlob);
 
@@ -340,7 +342,7 @@ export default {
             this.$refs.see_cv.href = objetURL;
             this.$refs.see_cv.click();
           },
-          error => {
+          (error) => {
             console.log(error);
           }
         );
@@ -355,7 +357,7 @@ export default {
 
       UserService.addTags([tag]).then(
         () => {},
-        error => {
+        (error) => {
           this.$store.dispatch("auth/userUpdate", user_backup);
           console.log(error);
         }
@@ -370,7 +372,7 @@ export default {
 
       UserService.addCompanies([company]).then(
         () => {},
-        error => {
+        (error) => {
           this.$store.dispatch("auth/userUpdate", user_backup);
           console.log(error);
         }
@@ -380,12 +382,12 @@ export default {
       let user_backup = JSON.parse(JSON.stringify(this.currentUser));
       let user = JSON.parse(JSON.stringify(this.currentUser));
 
-      user.tags = user.tags.filter(_tag => _tag !== tag);
+      user.tags = user.tags.filter((_tag) => _tag !== tag);
       this.$store.dispatch("auth/userUpdate", user);
 
       UserService.deleteTag(tag).then(
         () => {},
-        error => {
+        (error) => {
           this.$store.dispatch("auth/userUpdate", user_backup);
           console.log(error);
         }
@@ -395,12 +397,14 @@ export default {
       let user_backup = JSON.parse(JSON.stringify(this.currentUser));
       let user = JSON.parse(JSON.stringify(this.currentUser));
 
-      user.companies = user.companies.filter(_company => _company !== company);
+      user.companies = user.companies.filter(
+        (_company) => _company !== company
+      );
       this.$store.dispatch("auth/userUpdate", user);
 
       UserService.deleteCompany(company).then(
         () => {},
-        error => {
+        (error) => {
           this.$store.dispatch("auth/userUpdate", user_backup);
           console.log(error);
         }
@@ -424,7 +428,7 @@ export default {
       } else {
         this.height = 60;
       }
-    }
+    },
   },
   computed: {
     currentUser() {
@@ -442,7 +446,7 @@ export default {
       var end_points = this.$store.state.auth.user.level.data.end_points;
 
       return ((xp - start_points) / (end_points - start_points)) * 100;
-    }
+    },
   },
   destroyed() {
     window.removeEventListener("resize", this.resize);
@@ -457,27 +461,27 @@ export default {
     this.resize();
 
     UserService.getTags().then(
-      response => {
+      (response) => {
         this.tags = response.data;
         this.loading_tags = false;
       },
-      error => {
+      (error) => {
         console.log(error);
         this.loading_tags = false;
       }
     );
 
     UserService.getCompanies().then(
-      response => {
+      (response) => {
         this.companies = response.data;
         this.loading_companies = false;
       },
-      error => {
+      (error) => {
         console.log(error);
         this.loading_companies = false;
       }
     );
-  }
+  },
 };
 </script>
 

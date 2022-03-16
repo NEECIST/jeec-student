@@ -42,12 +42,6 @@
           />
           Return to Website
         </div>
-        <div style="font-size: 1.5vh; margin-top: 1vh;">
-          We are also available @
-          <a style="text-decoration: underline" href="https://tecnicoevents.easyvirtualfair.com/" target="_blank"
-            >Tecnico EVF</a
-          >
-        </div>
       </div>
       <div v-else>
         <v-progress-circular
