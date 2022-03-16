@@ -5,10 +5,13 @@
         <p class="title">Redeem Codes</p>
       </center>
       <p>
-        Every activity and job fair booth has redeem codes. Each participant
-        gets a one use code after the activity is over or when given by one of
-        our partners at their booth. This is how we measure how many activities
-        you've attended and keep track of your score.
+        Every activity, except for the job fair booths, has a redeem code. Each
+        participant gets a one time use code after the activity is over. This
+        way, we measure how many activities you've attended and keep track of
+        your score. In the job fair there are no redeem codes, simply give your
+        IST Id to the company and they will add the points to your account. You
+        will receive points for each company booth you go to and can only do so
+        once everyday.
       </p>
       <p>
         <b>
@@ -52,7 +55,9 @@
         <p>
           - In the case of activities that need previous registration, if the
           student does not attend the activity it will result in a permanent ban
-          from the APP.<br />
+          from the APP.
+        </p>
+        <p>
           <b
             >It's possible to cancel your registration ahead of time through the
             Eventbrite page of the activity;</b

@@ -24,9 +24,7 @@
         Every activity has a prize that will be drawn between the participants.
       </p>
       <p><b>King of the Job Fair</b></p>
-      <p>
-        Highest number of booths visited.
-      </p>
+      <p>Highest number of booths visited.</p>
       <p><b>King of Knowledge</b></p>
       <p>Highest number of Speakers and Discussion Panels visited.</p>
       <p><b>King of Hacking</b></p>
@@ -62,8 +60,7 @@
     </div>
     <div class="card">
       <p>
-        When Técnico opens doors again, we will distribute all the prizes to the
-        specific student with order and safety.
+        <b>You can redeem your prizes on the JEEC check-in booth.</b>
       </p>
       <center>
         <v-btn
@@ -81,7 +78,7 @@
 <script>
 export default {
   name: "PrizeRules",
-  data: function() {
+  data: function () {
     return {};
   },
   props: {},
@@ -89,8 +86,8 @@ export default {
   methods: {
     goto_rewards() {
       this.$router.push("/rewards");
-    }
-  }
+    },
+  },
 };
 </script>
 

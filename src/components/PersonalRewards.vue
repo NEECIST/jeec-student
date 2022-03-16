@@ -175,9 +175,9 @@
 
       <Expbar
         v-if="user_level === levels[model].value"
-        :xp="user_points"
+        :xp="user_points - levels[model].start_points"
         :progress="(user_points / levels[model].end_points) * 100"
-        :end_points="levels[model].end_points"
+        :end_points="levels[model].end_points - levels[model].start_points"
         class="xpbar"
         :width="xpbar_width"
         :height="height"

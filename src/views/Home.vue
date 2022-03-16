@@ -11,9 +11,9 @@
           <p class="sub-sub-title">lvl. {{ currentUser.level.data.value }}</p>
           <center class="expbar">
             <Expbar
-              :xp="currentUser.total_points"
+              :xp="currentUser.total_points - currentUser.level.data.start_points"
               :progress="progress"
-              :end_points="currentUser.level.data.end_points"
+              :end_points="currentUser.level.data.end_points - currentUser.level.data.start_points"
               :width="xpbar_width"
               :height="height"
             />
