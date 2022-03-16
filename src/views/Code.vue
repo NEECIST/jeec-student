@@ -68,10 +68,10 @@
         >
       </div>
       <div>
-        <h1 style="color: red; margin: 40px; text-align: center">
+        <h3 style="color: red; margin: 40px; text-align: center">
           ATTENTION: You will only grant points to the person whose code you
           redeemed if you participate in an activity.
-        </h1>
+        </h3>
       </div>
     </div>
   </div>
