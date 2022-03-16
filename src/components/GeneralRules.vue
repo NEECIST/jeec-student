@@ -49,6 +49,12 @@
         </p>
         <p>- Codes are only valid on the day of their respective activity;</p>
         <p>
+          - You can redeem someone else's referral code to gain extra points.
+          The person whose code you redeemed will only earn points if you
+          participate in, at least, one activity (You will only grant points to
+          the person whose code you redeemed if you participate in an activity).
+        </p>
+        <p>
           - The use of inappropriate images or names results in a permanent ban
           from the APP;
         </p>
@@ -59,8 +65,8 @@
         </p>
         <p>
           <b
-            >It's possible to cancel your registration ahead of time through the
-            Eventbrite page of the activity;</b
+            >- It's possible to cancel your registration ahead of time through
+            the Eventbrite page of the activity;</b
           >
         </p>
         <p>
