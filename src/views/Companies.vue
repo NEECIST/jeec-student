@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="msg" v-else>
-        Our Partners will be here during the event (15th to 19th of March 2021)
+        Our Partners will be here during the event (21st to 25th of March 2022)
       </div>
     </center>
     <div v-else class="loading">
