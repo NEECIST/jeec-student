@@ -52,7 +52,7 @@
           - You can redeem someone else's referral code to gain extra points.
           The person whose code you redeemed will only earn points if you
           participate in, at least, one activity (You will only grant points to
-          the person whose code you redeemed if you participate in an activity).
+          the person whose code you redeemed if you participate in an activity);
         </p>
         <p>
           - The use of inappropriate images or names results in a permanent ban
@@ -61,7 +61,7 @@
         <p>
           - In the case of activities that need previous registration, if the
           student does not attend the activity it will result in a permanent ban
-          from the APP.
+          from the APP;
         </p>
         <p>
           <b
