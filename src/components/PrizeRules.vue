@@ -54,8 +54,7 @@
       <p><b>CV Platform Raffle</b></p>
       <p>
         If you submit your CV to our platform, not only will you receive some
-        XP, but also be automatically registered in a Raffle to win an iPad 6th
-        Gen. 9.7''.
+        XP, but also be automatically registered in a Raffle to win an iPad 10.2'' 2021.
       </p>
     </div>
     <div class="card">
