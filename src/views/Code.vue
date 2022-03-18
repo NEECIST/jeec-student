@@ -67,12 +67,12 @@
           ></v-btn
         >
       </div>
-      <div>
-        <h3 style="color: red; margin: 2vw; text-align: center">
-          ATTENTION: You will only grant points to the person whose code you
-          redeemed if you participate in an activity.
-        </h3>
-      </div>
+    </div>
+    <div>
+      <p class="code-warning" style="font-weight: 800; color: red; margin: 1vw; text-align: center">
+        ATTENTION: You will only grant points to the person whose code you
+        redeemed if you participate in an activity.
+      </p>
     </div>
   </div>
 </template>
@@ -216,7 +216,7 @@ export default {
 
 .code-page {
   padding-top: 6vh;
-  padding-bottom: 6vh;
+  padding-bottom: 1vh;
   padding-left: 10vw;
   padding-right: 10vw;
 }
@@ -308,6 +308,10 @@ export default {
   margin-top: 1vh;
 }
 
+.code-warning {
+  font-size: 3vh;
+}
+
 @media screen and (max-width: 1100px) {
   .code-title {
     display: none;
@@ -317,6 +321,10 @@ export default {
   }
   .clipboard {
     font-size: 3vw !important;
+  }
+
+  .code-warning {
+    font-size: 2vh;
   }
 }
 
