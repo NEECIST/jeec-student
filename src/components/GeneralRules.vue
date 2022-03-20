@@ -49,6 +49,10 @@
         </p>
         <p>- Codes are only valid on the day of their respective activity;</p>
         <p>
+          - All points obtained before the start of the event are accounted for
+          the first daily reward;
+        </p>
+        <p>
           - You can redeem someone else's referral code to gain extra points.
           The person whose code you redeemed will only earn points if you
           participate in, at least, one activity (You will only grant points to
