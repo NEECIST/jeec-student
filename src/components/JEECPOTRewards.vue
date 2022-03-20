@@ -248,6 +248,31 @@
               />
             </div>
           </div>
+
+          <div class="king-reward">
+            <div>
+              <div
+                class="image"
+                :class="{ winner: jeecpot_rewards.cv_platform_raffle_winner }"
+                :style="
+                  'background-image:' +
+                  'url(' +
+                  jeec_brain_url +
+                  jeecpot_rewards.cv_platform_raffle_reward.image +
+                  ')'
+                "
+              ></div>
+              <img
+                src="../assets/icons/gold_crown.svg"
+                alt=""
+                class="crown king-crown"
+              />
+            </div>
+            <div class="reward-info">
+              <p>CV Platform Raffle</p>
+              <p>{{ jeecpot_rewards.cv_platform_raffle_reward.name }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </center>
