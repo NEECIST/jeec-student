@@ -78,6 +78,11 @@ export default {
           page: "Code",
         },
         {
+          name: "QR Code",
+          src: require("../assets/icons/qrcode.png"),
+          page: "QRCode",
+        },
+        {
           name: "My Profile",
           src: require("../assets/icons/user.svg"),
           page: "Profile",
