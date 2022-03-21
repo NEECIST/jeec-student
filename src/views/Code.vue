@@ -82,7 +82,8 @@ import UserService from "../services/user.service";
 
 export default {
   name: "Code",
-  components: {},
+  components: {
+  },
   data: function () {
     return {
       code: "",

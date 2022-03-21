@@ -13,6 +13,7 @@ import Chat from "../views/Chat.vue";
 import Company from "../views/Company.vue";
 import Companies from "../views/Companies.vue";
 import Rules from "../views/Rules.vue";
+import QRCode from "../views/QRCode.vue";
 import qs from "qs";
 
 Vue.use(VueRouter);
@@ -32,6 +33,11 @@ const routes = [
     path: "/code",
     name: "Code",
     component: Code
+  },
+  {
+    path: "/qrcode",
+    name: "QRCode",
+    component: QRCode
   },
   {
     path: "/activities",

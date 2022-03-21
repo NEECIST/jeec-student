@@ -130,9 +130,9 @@
             <p v-if="activity.reward.name" class="dialog-raffle">
               Raffle: {{ activity.reward.name }}
             </p>
-            <p class="dialog-warning" v-if="activity.type === '15/15'">
+            <!-- <p class="dialog-warning" v-if="activity.type === '15/15'">
               This activity is held in the company's Job Fair booth
-            </p>
+            </p> -->
             <p
               class="dialog-warning"
               v-if="
