@@ -6,9 +6,10 @@
         personal: button === 'personal',
         squad: button === 'squad',
         jeecpot: button === 'jeecpot',
+        lootbox: button === 'lootbox',
       }"
     />
-    <div v-if="!loading_jeecpot_rewards && !loading_levels && !loading_squad && !loading_squad_rewards">
+    <div v-if="!loading_jeecpot_rewards && !loading_levels && !loading_squad && !loading_squad_rewards && !loading_lootbox_rewards">
       <PersonalRewards
         style="margin-top: 15vh"
         v-if="button === 'personal'"
@@ -29,6 +30,13 @@
         v-if="button === 'jeecpot'"
         :jeecpot_rewards="jeecpot_rewards"
       />
+
+      <LOOTBOXRewards
+        style="margin-top: 8vh"
+        v-if="button === 'lootbox'"
+        :lootboxes="lootboxes"
+        :student_lootboxes="student_lootboxes"
+      />
     </div>
     <div v-else class="loading">
       <v-progress-circular
@@ -47,6 +55,7 @@ import Buttons from "@/components/Buttons.vue";
 import PersonalRewards from "@/components/PersonalRewards.vue";
 import SquadRewards from "@/components/SquadRewards.vue";
 import JEECPOTRewards from "@/components/JEECPOTRewards.vue";
+import LOOTBOXRewards from "@/components/LOOTBOXRewards.vue";
 import UserService from "../services/user.service";
 
 export default {
@@ -55,6 +64,7 @@ export default {
     PersonalRewards,
     SquadRewards,
     JEECPOTRewards,
+    LOOTBOXRewards,
     Buttons,
   },
   data: function () {
@@ -62,12 +72,15 @@ export default {
       levels: [],
       squads_rewards: [],
       jeecpot_rewards: null,
+      lootboxes: [],
+      student_lootboxes: [],
       squad: null,
       button: "personal",
       loading_squad: true,
       loading_levels: true,
       loading_squad_rewards: true,
       loading_jeecpot_rewards: true,
+      loading_lootbox_rewards: true,
     };
   },
   computed: {
@@ -117,6 +130,18 @@ export default {
       (error) => {
         console.log(error);
         this.loading_jeecpot_rewards = false;
+      }
+    );
+
+    UserService.getLOOTBOXRewards().then(
+      (response) => {
+        this.lootboxes = response.data.lootboxes;
+        this.student_lootboxes = response.data.student_lootboxes;
+        this.loading_lootbox_rewards = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading_lootbox_rewards = false;
       }
     );
 

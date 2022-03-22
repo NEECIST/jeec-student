@@ -233,6 +233,11 @@ class UserService {
       headers: authHeader()
     });
   }
+  getLOOTBOXRewards() {
+    return axios.get(jeec_brain_url + "/student/lootbox-rewards", {
+      headers: authHeader()
+    });
+  }
 
   getChatToken() {
     return axios.get(jeec_brain_url + "/student/chat-token", {
