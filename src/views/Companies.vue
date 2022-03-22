@@ -8,6 +8,16 @@
       v-if="!loading_partners"
     >
       <div v-if="partners && partners.length > 0">
+        <div class="main-sponsors sponsors">
+          <Partner
+            v-for="partner in main_sponsors"
+            :key="partner.name"
+            @learn="learn"
+            :name="partner.name"
+            :partnership="partner.partnership_tier"
+            :img_src="jeec_brain_url + partner.logo"
+          />
+        </div>
         <div class="gold-sponsors sponsors">
           <Partner
             v-for="partner in gold_sponsors"
@@ -31,16 +41,6 @@
         <div class="bronze-sponsors sponsors">
           <Partner
             v-for="partner in bronze_sponsors"
-            :key="partner.name"
-            @learn="learn"
-            :name="partner.name"
-            :partnership="partner.partnership_tier"
-            :img_src="jeec_brain_url + partner.logo"
-          />
-        </div>
-        <div class="main-sponsors sponsors">
-          <Partner
-            v-for="partner in main_sponsors"
             :key="partner.name"
             @learn="learn"
             :name="partner.name"
