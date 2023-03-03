@@ -31,11 +31,9 @@ export default {
       this.$emit("_click", name);
     },
   },
-  destroyed() {
-    window.removeEventListener("resize", this.resize);
-  },
+ 
   mounted() {
-    window.addEventListener("resize", this.resize);
+
     this.resize();
   },
 };
@@ -63,13 +61,5 @@ export default {
   text-align: center !important;
 }
 
-@media screen and (min-width: 1100px) {
-  .buttons {
-    width: 75vw;
-  }
 
-  .button {
-    font-size: 3vh !important;
-  }
-}
 </style>

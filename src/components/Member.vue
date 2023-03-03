@@ -12,7 +12,7 @@
     <img
       v-if="is_kickable && !loading_kick"
       @click.stop="kick"
-      src="../assets/icons/kick.svg"
+      src="../assets/icons/recycle-icon.svg"
       alt="kick"
       class="kick"
     />
@@ -96,6 +96,8 @@ export default {
   width: 10vh;
   border-radius: 50%;
   align-self: center;
+  border: 3px solid #03618C;
+  margin-left:5vw;
 }
 
 .profile-info {
@@ -120,6 +122,8 @@ export default {
   line-height: 3vh;
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
+  color: #03618C;
+
 }
 
 .level {
@@ -132,10 +136,10 @@ export default {
 .kick {
   height: 5vh;
   align-self: center;
-  justify-self: flex-end;
   transform: scaleX(-1);
-  margin-left: auto;
   cursor: pointer;
+  position:absolute;
+  right:10vw;
 }
 
 .loading {
@@ -145,9 +149,4 @@ export default {
   margin-left: auto;
 }
 
-@media screen and (min-width: 1100px) {
-  .profile-info {
-    margin-left: 1vw;
-  }
-}
 </style>

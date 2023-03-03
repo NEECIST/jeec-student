@@ -122,17 +122,5 @@ export default {
   margin-top: 35vh;
 }
 
-@media screen and (max-width: 1100px) {
-}
 
-@media screen and (min-width: 1100px) {
-  .chat {
-    height: 100vh;
-  }
-
-  .chat-frame {
-    width: 75vw;
-    height: 92vh;
-  }
-}
 </style>

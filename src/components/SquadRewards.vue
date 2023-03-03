@@ -1,152 +1,125 @@
 <template>
-  <div class="squads-rewards" v-if="squads_rewards">
-    <center>
-      <p class="date">
-        {{ selected_date ? days[selected_date.getDay()] : "" }}
-      </p>
-
-      <v-carousel
-        v-model="model"
-        hide-delimiter-background
-        hide-delimiters
-        :style="window_width > 1100 ? 'height:30vh' : 'height:35vh'"
-      >
-        <template v-slot:prev="{ on, attrs }">
-          <v-btn
-            depressed
-            color="#27ADE4"
-            class="arrow-btn"
-            v-bind="attrs"
-            v-on="on"
-            ><v-icon class="arrow" color="blue">mdi-chevron-left</v-icon></v-btn
-          >
-        </template>
-        <template v-slot:next="{ on, attrs }">
-          <v-btn
-            depressed
-            color="#27ADE4"
-            class="arrow-btn"
-            v-bind="attrs"
-            v-on="on"
-            ><v-icon class="arrow" color="blue"
-              >mdi-chevron-right</v-icon
-            ></v-btn
-          >
-        </template>
-
-        <div class="image-wrapper browser">
-          <div
-            class="image first"
-            :class="rewardClass(image_index(model - 1))"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              squads_rewards[image_index(model - 1)].reward.image +
-              ')'
-            "
-          >
-            <img
-              v-if="rewardClass(image_index(model - 1)) === 'lost_reward'"
-              src="../assets/icons/cross.svg"
-              class="small-cross"
-            />
-          </div>
-
-          <span class="rect"></span>
-
-          <div
-            class="image second"
-            :class="rewardClass(model)"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              squads_rewards[model].reward.image +
-              ')'
-            "
-          >
-            <img
-              v-if="rewardClass(model) === 'lost_reward'"
-              src="../assets/icons/cross.svg"
-              class="cross"
-            />
-          </div>
-
-          <span class="rect"></span>
-
-          <div
-            class="image third"
-            :class="rewardClass(image_index(model + 1))"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              squads_rewards[image_index(model + 1)].reward.image +
-              ')'
-            "
-          >
-            <img
-              v-if="rewardClass(image_index(model + 1)) === 'lost_reward'"
-              src="../assets/icons/cross.svg"
-              class="small-cross"
-            />
-          </div>
+  <!-- Property of Duarte Santos -->
+  <div class="squads-rewards" v-if="squads_rewards" style="overflow: scroll; height:  auto;">
+    <div class="day-box" v-if="now.getDay() == 1 && squads_rewards[0]">
+      <div class="today-name">Today</div>
+      <div class="today-prize">
+        <div class="today-squad-rank">
+          <p><b>Prize:</b></p>
+          <p v-if="squad!=null"><small>
+            {{ daily_max_points - squad_points }} xp to 1<sup>st</sup>! 
+          </small></p>
         </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[0].reward.image"/>
+      </div>
+    </div>
+    <div class="day-box" v-if="now.getDay() !=1 && squads_rewards[0]">
+      <div class="day-name">Monday</div>
+      <div class="day-prize">
+        <div class="squad-rank">
+          <p><b>Prize:</b></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[0].reward.image"/>
+      </div>
+    </div>
 
-        <v-carousel-item
-          v-for="(squad_reward, i) in squads_rewards"
-          :key="i"
-          class="mobile"
-        >
-          <div class="image-wrapper">
-            <div
-              class="image second"
-              :class="rewardClass(i)"
-              :style="
-                'background-image:' +
-                'url(' +
-                jeec_brain_url +
-                squad_reward.reward.image +
-                ')'
-              "
-            >
-              <img
-                v-if="rewardClass(i) === 'lost_reward'"
-                src="../assets/icons/cross.svg"
-                class="cross"
-              />
-            </div>
-          </div>
-        </v-carousel-item>
-      </v-carousel>
+    <div class="day-box" v-if="now.getDay() == 2 && squads_rewards[1]">
+      <div class="today-name">Today</div>
+      <div class="today-prize">
+        <div class="today-squad-rank">
+          <p><b>Prize:</b></p>
+          <p v-if="squad!=null"><small>
+            {{ daily_max_points - squad_points }} xp to 1<sup>st</sup>! 
+          </small></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[1].reward.image"/>
+      </div>
+    </div>
+    <div class="day-box" v-if="now.getDay() != 2 && squads_rewards[1]">
+      <div class="day-name">Tuesday</div>
+      <div class="day-prize">
+        <div class="squad-rank">
+          <p><b>Prize:</b></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[1].reward.image"/>
+      </div>
+    </div>
 
-      <div class="name">{{ squads_rewards[model].reward.name }}</div>
-      <div v-if="squads_rewards[model].winner" class="congratulations">
-        Congratulations!
+    <div class="day-box" v-if="now.getDay() == 3 && squads_rewards[2]">
+      <div class="today-name">Today</div>
+      <div class="today-prize">
+        <div class="today-squad-rank">
+          <p><b>Prize:</b></p>
+          <p v-if="squad!=null"><small>
+            {{ daily_max_points - squad_points }} xp to 1<sup>st</sup>! 
+          </small></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[2].reward.image"/>
       </div>
-      <div
-        v-if="
-          rewardClass(model) === 'current_reward' ||
-          rewardClass(model) === 'future_reward'
-        "
-        class="today-points"
-      >
-        Today's Points:
+    </div>
+    <div class="day-box" v-if="now.getDay() != 3 && squads_rewards[2]">
+      <div class="day-name">Wednesday</div>
+      <div class="day-prize">
+        <div class="squad-rank">
+          <p><b>Prize:</b></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[2].reward.image"/>
       </div>
-      <div v-if="rewardClass(model) === 'current_reward'" class="xp-wrapper">
-        <div class="points">{{ squad_points }}</div>
-        <div class="xp">xp</div>
+    </div>
+
+    <div class="day-box" v-if="now.getDay() == 4 && squads_rewards[3]">
+      <div class="today-name">Today</div>
+      <div class="today-prize">
+        <div class="today-squad-rank">
+          <p><b>Prize:</b></p>
+          <p v-if="squad!=null"><small>
+            {{ daily_max_points - squad_points }} xp to 1<sup>st</sup>! 
+          </small></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[3].reward.image"/>
       </div>
-      <div v-if="rewardClass(model) === 'future_reward'" class="points">--</div>
-    </center>
+    </div>
+    <div class="day-box" v-if="now.getDay() != 4 && squads_rewards[3]">
+      <div class="day-name">Thursday</div>
+      <div class="day-prize">
+        <div class="squad-rank">
+          <p><b>Prize:</b></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[3].reward.image"/>
+      </div>
+    </div>
+
+    <div class="day-box" v-if="now.getDay() == 5 && squads_rewards[4]">
+      <div class="today-name">Today</div>
+      <div class="today-prize">
+        <div class="today-squad-rank">
+          <p><b>Prize:</b></p>
+          <p v-if="squad!=null"><small>
+            {{ daily_max_points - squad_points }} xp to 1<sup>st</sup>! 
+          </small></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[4].reward.image"/>
+      </div>
+    </div>
+    <div class="day-box" v-if="now.getDay() != 5 && squads_rewards[4]">
+      <div class="day-name">Friday</div>
+      <div class="day-prize">
+        <div class="squad-rank">
+          <p><b>Prize:</b></p>
+        </div>
+        <img class="reward-img" :src="jeec_brain_url + squads_rewards[4].reward.image"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import UserService from "../services/user.service";
+
 export default {
   name: "SquadRewards",
   props: {
+    squad: Object,
     squads_rewards: Array,
     squad_points: Number,
   },
@@ -208,6 +181,20 @@ export default {
       .map((day) => new Date(day.date.substring(0, 11)).getTime())
       .indexOf(now.getTime());
     this.model = event_day !== -1 ? event_day : 0;
+
+    UserService.getDailySquadsRanking().then(
+      (response) => {
+        let daily_squads = response.data.data;
+        if (!Array.isArray(this.daily_squads)) this.daily_squads = [this.daily_squads];
+        this.loading_daily = false;
+        this.daily_max_points = daily_squads[0].daily_points
+        this.weekly_max_points = daily_squads[0].total_points
+      },
+      (error) => {
+        console.log(error);
+        this.loading_daily = false;
+      }
+    );
   },
 };
 </script>
@@ -215,114 +202,113 @@ export default {
 <style scoped>
 .squads-rewards {
   font-weight: 600;
-}
-
-.date {
-  font-size: 5.5vh;
-  margin: 0;
-  margin-top: 2vh;
-  color: black;
-}
-
-.arrow-btn {
-  width: 0 !important;
-  height: 0 !important;
-}
-
-.arrow {
-  font-size: 15vh !important;
-}
-
-.image {
-  align-self: center;
-  position: relative;
-  width: 25vh;
-  height: 25vh;
-  border-radius: 50%;
-  margin: 3vh;
-  background-color: white;
-  background-size: 105%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.cross {
-  height: 17vh;
-  width: 17vh;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.small-cross {
-  height: 11vh;
-  width: 11vh;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.current_reward {
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.7vh #27ade4;
-}
-
-.lost_reward {
-  border: 0.5vh solid #e42727;
-  box-shadow: 0 0 2.5vh 0.7vh #e42727;
-}
-
-.win_reward {
-  border: 0.5vh solid #27e453;
-  box-shadow: 0 0 2.5vh 0.7vh #27e453;
-}
-
-.level {
-  font-size: 5vh;
-}
-
-.name {
-  font-size: 5vh;
-  margin-top: -2vh;
-}
-
-.congratulations {
-  font-size: 2.8vh;
-  font-weight: 700;
-  color: #27ade4;
-}
-
-.today-points {
-  font-size: 4vh;
-  font-weight: 700;
-  margin-top: 2vh;
-}
-
-.xp-wrapper {
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom:10vh;
 }
 
-.points {
-  font-size: 9vh;
-  line-height: 9vh;
-  color: #26a2d5;
+.day-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 5vh;
 }
 
-.xp {
-  font-size: 2.5vh;
+.day-name{
+  width: 90vw;
+  height: 39px;
+  background-color: rgba(26, 156, 216, 0.4);
+  border-radius: 35px 35px 0px 0px;
+  text-align: center;
+  font-family: 'Montserrat';
+  font-style: normal;
   font-weight: 700;
-  line-height: 13vh;
+  font-size: 32px;
+  line-height: 39px;
+  letter-spacing: 0.01em;
+  color: #03618C;
 }
 
-.next-points {
-  color: #aaadb0;
+.today-name{
+  width: 90vw;
+  height: 39px;
+  background-color: #03618C;
+  border-radius: 35px 35px 0px 0px;
+  text-align: center;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 39px;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+}
+
+.day-prize{
+  width: 90vw;
+  height: auto;
+  background-color: rgba(26, 156, 216, 0.2);
+  border-radius: 0px 0px 35px 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.today-prize{
+  width: 90vw;
+  height: auto;
+  background-color: #1A9CD8;
+  border-radius: 0px 0px 35px 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.reward-img{
+  border-radius: 50%;
+
+  position: relative;
+  width: 12.5vh;
+  height: 12.5vh;
+
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border:  3px solid #03618C;
+}
+
+.squad-rank{
+  margin-top:5vh;
+  margin-bottom:5vh;
+  width:auto;
+}
+
+.squad-rank p{
+  color: #03618C;
+  text-align: left;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.today-squad-rank{
+  margin-top:5vh;
+  margin-bottom:5vh;
+  width:auto;
+}
+
+.today-squad-rank p{
+  color: #FFFFFF;
+  text-align: left;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 1100px) {
@@ -342,58 +328,5 @@ export default {
   .squads-rewards {
     margin-top: 18vh !important;
   }
-
-  .date {
-    margin-bottom: 2vh;
-  }
-
-  .image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .first,
-  .third {
-    height: 18vh;
-    width: 18vh;
-  }
-
-  .second {
-    height: 28vh;
-    width: 28vh;
-  }
-
-  .rect {
-    width: 10vw;
-    margin-left: -5vw;
-    margin-right: -5vw;
-    height: 0.5vh;
-    background-color: #27ade4;
-  }
-
-  .name {
-    margin-top: 0;
-  }
-
-  /* .other-points {
-    width: 82vh;
-    display: flex;
-    justify-content: space-between;
-    margin-top: -6vh;
-  }
-
-  .other-points > div {
-    width: 24vh;
-  }
-
-  .other-points .level {
-    font-size: 3vh;
-  }
-
-  .other-points .points,
-  .other-points .done {
-    font-size: 2vh;
-  } */
 }
 </style>

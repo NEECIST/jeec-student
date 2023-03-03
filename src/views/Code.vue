@@ -313,65 +313,19 @@ export default {
   font-size: 3vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .code-title {
-    display: none;
-  }
-  .referral input {
-    font-size: 6vw;
-  }
-  .clipboard {
-    font-size: 3vw !important;
-  }
 
-  .code-warning {
-    font-size: 2vh;
-  }
+.code-title {
+  display: none;
+}
+.referral input {
+  font-size: 6vw;
+}
+.clipboard {
+  font-size: 3vw !important;
 }
 
-@media screen and (min-width: 1100px) {
-  .code-title {
-    margin-top: 8vh;
-  }
-
-  .code-page {
-    padding: 0;
-  }
-
-  .input-code {
-    width: 45vw;
-    margin-left: 15vw;
-  }
-
-  .clipboard,
-  .redeem {
-    font-size: 2.5vh !important;
-    height: 5vh !important;
-    margin-top: 2.5vh;
-  }
-
-  .redeem {
-    width: 20vw;
-  }
-
-  .xp-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 10vw;
-    margin-right: 10vw;
-  }
-
-  .xp-top {
-    font-size: 5vh;
-  }
-
-  .xp-value {
-    font-size: 14vh;
-  }
-
-  .xp {
-    font-size: 4vh;
-    font-weight: 700;
-  }
+.code-warning {
+  font-size: 2vh;
 }
+
 </style>

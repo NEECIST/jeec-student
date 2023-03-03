@@ -1,206 +1,73 @@
 <template>
-  <div class="personal-reward" v-if="levels[model]">
-    <center>
-      <p class="name">
-        {{ levels[model].reward ? levels[model].reward.name : " " }}
-      </p>
-
-      <v-carousel
-        v-model="model"
-        hide-delimiter-background
-        hide-delimiters
-        :style="xpbar_width === '65vw' ? 'height:30vh' : 'height:35vh'"
-      >
-        <template v-slot:prev="{ on, attrs }">
-          <v-btn
-            depressed
-            color="#27ADE4"
-            class="arrow-btn"
-            v-bind="attrs"
-            v-on="on"
-            ><v-icon class="arrow" color="blue">mdi-chevron-left</v-icon></v-btn
-          >
-        </template>
-        <template v-slot:next="{ on, attrs }">
-          <v-btn
-            depressed
-            color="#27ADE4"
-            class="arrow-btn"
-            v-bind="attrs"
-            v-on="on"
-            ><v-icon class="arrow" color="blue"
-              >mdi-chevron-right</v-icon
-            ></v-btn
-          >
-        </template>
-
-        <div class="image-wrapper browser">
-          <div
-            class="image first"
-            :class="[
-              user_points >= levels[image_index(model - 1)].end_points
-                ? 'image_done'
-                : '',
-              user_level < levels[image_index(model - 1)].value
-                ? 'next_reward'
-                : '',
-            ]"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              levels[image_index(model - 1)].reward.image +
-              ')'
-            "
-          ></div>
-          <span class="rect"></span>
-          <div
-            class="image second"
-            :class="[
-              user_points >= levels[model].end_points ? 'image_done' : '',
-              user_level < levels[model].value ? 'next_reward' : '',
-            ]"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              levels[model].reward.image +
-              ')'
-            "
-          ></div>
-          <span class="rect"></span>
-          <div
-            class="image third"
-            :class="[
-              user_points >= levels[image_index(model + 1)].end_points
-                ? 'image_done'
-                : '',
-              user_level < levels[image_index(model + 1)].value
-                ? 'next_reward'
-                : '',
-            ]"
-            :style="
-              'background-image:' +
-              'url(' +
-              jeec_brain_url +
-              levels[image_index(model + 1)].reward.image +
-              ')'
-            "
-          ></div>
-        </div>
-        <v-carousel-item v-for="(level, i) in levels" :key="i" class="mobile">
-          <div class="image-wrapper">
-            <div
-              class="image"
-              :class="[
-                user_points >= levels[model].end_points ? 'image_done' : '',
-                user_level < levels[model].value ? 'next_reward' : '',
-              ]"
-              :style="
-                'background-image:' +
-                'url(' +
-                jeec_brain_url +
-                level.reward.image +
-                ')'
-              "
-            ></div>
-          </div>
-        </v-carousel-item>
-      </v-carousel>
-
-      <div class="other-points">
-        <div>
-          <p
-            class="level"
-            :class="{
-              level_done:
-                user_points >= levels[image_index(model - 1)].end_points,
-            }"
-          >
-            Level {{ levels[image_index(model - 1)].value }}
-          </p>
-          <div
-            v-if="user_points >= levels[image_index(model - 1)].end_points"
-            class="done"
-          >
-            Done!
-          </div>
-
-          <div
-            v-if="user_level < levels[image_index(model - 1)].value"
-            class="points"
-          >
-            {{ user_points }}/{{ levels[image_index(model - 1)].end_points }}
-            points
-          </div>
-        </div>
-
-        <div>
-          <p
-            class="level"
-            :class="{
-              level_done:
-                user_points >= levels[image_index(model + 1)].end_points,
-            }"
-          >
-            Level {{ levels[image_index(model + 1)].value }}
-          </p>
-          <div
-            v-if="user_points >= levels[image_index(model + 1)].end_points"
-            class="done"
-          >
-            Done!
-          </div>
-
-          <div
-            v-if="user_level < levels[image_index(model + 1)].value"
-            class="points"
-          >
-            {{ user_points }}/{{ levels[image_index(model + 1)].end_points }}
-            points
-          </div>
+  <!-- Property of Duarte Santos -->
+  <div class="personal-reward" >
+    <div style="overflow: scroll; height:  auto;">
+      <img src="../assets/roadmap.svg" style="width: 85vw; display: block; position: relative; left: 5vw; padding-top: 8vh; padding-bottom: 8vh;"/>
+      <div class="prizes" style="position: absolute; top: 9%; left: 8%" v-if="levels[0]">
+        <img  :class="[{current_prize_img: currentLevel(1)}, {prize_img: !currentLevel(1)}]" 
+              :src="jeec_brain_url + levels[0].reward.image"/>
+        <div class="prize-name-box">
+          <p :class="[{current_prize_name: currentLevel(1)}, {prize_name: !currentLevel(1)}]">{{ '1. ' + levels[0].reward.name }}</p>
         </div>
       </div>
-
-      <p
-        class="level"
-        :class="{ level_done: user_points >= levels[model].end_points }"
-      >
-        Level {{ levels[model].value }}
-      </p>
-
-      <div v-if="user_points >= levels[model].end_points" class="done">
-        Done!
+      <div class="prizes" style="position: absolute; top: 17%; left: 58%" v-if="levels[1]">
+        <img :class="[{current_prize_img: currentLevel(2)}, {prize_img: !currentLevel(2)}]" 
+             :src="jeec_brain_url + levels[1].reward.image"/>
+        <div class="prize-name-box">
+          <p :class="[{current_prize_name: currentLevel(2)}, {prize_name: !currentLevel(2)}]">{{ '2. ' + levels[1].reward.name }}</p>
+        </div>
       </div>
-
-      <Expbar
-        v-if="user_level === levels[model].value"
-        :xp="user_points - levels[model].start_points"
-        :progress="
-          ((user_points - levels[model].start_points) /
-            (levels[model].end_points - levels[model].start_points)) *
-          100
-        "
-        :end_points="levels[model].end_points - levels[model].start_points"
-        class="xpbar"
-        :width="xpbar_width"
-        :height="height"
-      />
-
-      <div v-if="user_level < levels[model].value" class="points">
-        {{ user_points }}/{{ levels[model].end_points }} points
+      <div class="prizes" style="position: absolute; top: 24%; left: 15%" v-if="levels[2]">
+        <img :class="[{current_prize_img: currentLevel(3)}, {prize_img: !currentLevel(3)}]"
+             :src="jeec_brain_url + levels[2].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(3)}, {prize_name: !currentLevel(3)}]">{{ '3. ' + levels[2].reward.name }}</p>
       </div>
-    </center>
+      <div class="prizes" style="position: absolute; top: 32%; left: 52%" v-if="levels[3]">
+        <img :class="[{current_prize_img: currentLevel(4)}, {prize_img: !currentLevel(4)}]"
+             :src="jeec_brain_url + levels[3].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(4)}, {prize_name: !currentLevel(4)}]">{{ '4. ' + levels[3].reward.name }}</p>
+      </div>
+      <div class="prizes" style="position: absolute; top: 47%; left: 59%" v-if="levels[4]">
+        <img :class="[{current_prize_img: currentLevel(5)}, {prize_img: !currentLevel(5)}]"
+             :src="jeec_brain_url + levels[4].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(5)}, {prize_name: !currentLevel(5)}]">{{ '5. ' + levels[4].reward.name }}</p>
+      </div>
+      <div class="prizes" style="position: absolute; top: 48%; left: 10%" v-if="levels[5]">
+        <img :class="[{current_prize_img: currentLevel(6)}, {prize_img: !currentLevel(6)}]"
+             :src="jeec_brain_url + levels[5].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(6)}, {prize_name: !currentLevel(6)}]">{{ '6. ' + levels[5].reward.name }}</p>
+      </div>
+      <div class="prizes" style="position: absolute; top: 60%; left: 40%" v-if="levels[6]">
+        <img :class="[{current_prize_img: currentLevel(7)}, {prize_img: !currentLevel(7)}]"
+             :src="jeec_brain_url + levels[6].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(7)}, {prize_name: !currentLevel(7)}]">{{ '7. ' + levels[6].reward.name }}</p>
+      </div>
+      <div class="prizes" style="position: absolute; top: 73%; left: 59%" v-if="levels[7]">
+        <img :class="[{current_prize_img: currentLevel(8)}, {prize_img: !currentLevel(8)}]"
+             :src="jeec_brain_url + levels[7].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(8)}, {prize_name: !currentLevel(8)}]">{{ '8. ' + levels[7].reward.name }}</p>
+      </div>
+      <div class="prizes" style="position: absolute; top: 75%; left: 10%" v-if="levels[8]">
+        <img :class="[{current_prize_img: currentLevel(9)}, {prize_img: !currentLevel(9)}]"
+             :src="jeec_brain_url + levels[8].reward.image"/>
+        <p :class="[{current_prize_name: currentLevel(9)}, {prize_name: !currentLevel(9)}]">{{ '9. ' + levels[8].reward.name }}</p>
+      </div>
+      <div class="prizes" style="flex-direction: row; align-items: center; position: absolute; top: 87%; left: 34%" v-if="levels[9]">
+        <img :class="[{current_prize_img: currentLevel(10)}, {prize_img: !currentLevel(10)}]"
+             :src="jeec_brain_url + levels[9].reward.image" style="width: 15vh; height: 15vh;"/>
+        <p :class="[{current_prize_name: currentLevel(10)}, {prize_name: !currentLevel(10)}]">{{ '10. ' + levels[9].reward.name }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Expbar from "@/components/Expbar.vue";
+// import Expbar from "@/components/Expbar.vue";
 
 export default {
   name: "PersonalRewards",
   components: {
-    Expbar,
+    // Expbar,
   },
   props: {
     levels: Array,
@@ -209,13 +76,18 @@ export default {
   },
   data() {
     return {
-      model: this.user_level ? this.user_level - 1 : 0,
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
       xpbar_width: "65vw",
       height: 30,
     };
   },
   methods: {
+    currentLevel(level){
+      if(level == this.user_level){
+        return true;
+      }
+      return false;
+    },
     image_index(i) {
       return (i + this.levels.length) % this.levels.length;
     },
@@ -251,77 +123,79 @@ export default {
 <style scoped>
 .personal-reward {
   font-weight: 600;
+  height: auto;
+  width: 100vw;
+  overflow-y: visible;
 }
 
-.name {
-  font-size: 5.5vh;
-  line-height: 5.5vh;
-  min-height: 11vh;
-  margin: 0;
-  margin-top: 2vh;
-  color: black;
+.prizes{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.arrow-btn {
-  width: 0 !important;
-  height: 0 !important;
-}
-
-.arrow {
-  font-size: 15vh !important;
-}
-
-.image {
-  align-self: center;
-  position: relative;
-  width: 25vh;
-  height: 25vh;
+.prize_img{
+  z-index: 1;
   border-radius: 50%;
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.7vh #27aee4bf;
-  margin: 3vh;
-  background-color: white;
-  background-size: 105%;
-  background-repeat: no-repeat;
-  background-position: center;
+
+  position: relative;
+  width: 10vh;
+  height: 10vh;
+
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border:  3px solid #1A9CD8;
 }
 
-.image_done {
-  border: 0.5vh solid #27e453;
-  box-shadow: 0 0 2.5vh 0.7vh #27e453;
+.current_prize_img{
+  z-index: 1;
+  border-radius: 50%;
+
+  position: relative;
+  width: 10vh;
+  height: 10vh;
+
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border:  3px solid #D9D004;
 }
 
-.next_reward {
-  border: 0.5vh solid rgba(0, 0, 0, 0.44);
-  box-shadow: 0 0 2.5vh 0.7vh rgba(0, 0, 0, 0.261);
-  filter: gray;
-  -webkit-filter: grayscale(10);
-  filter: grayscale(10);
-  /* filter: blur(2px); */
+.prize-name-box{
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  align-items: center;
 }
 
-.level {
-  font-size: 5vh;
-  margin: 0;
-  color: black;
-}
-
-.level_done {
-  color: #27ade4;
-}
-
-.done {
-  font-size: 3.3vh;
+.prize_name{
+  padding: 5px;
+  color: #1A9CD8;
+  font-family: 'Montserrat';
+  font-style: normal;
   font-weight: 700;
-  color: rgba(88, 185, 224, 0.638);
-  line-height: 2vh;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  background-color: #DDEDF3;
+  border: 3px solid #1A9CD8;
+  border-radius: 35px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.points {
-  line-height: 1.7vh;
-  font-size: 2.2vh;
+.current_prize_name{
+  padding: 5px;
+  color: #D9D004;
+  font-family: 'Montserrat';
+  font-style: normal;
   font-weight: 700;
-  color: black;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  background-color: #F7F3C7;
+  border: 3px solid #D9D004;
+  border-radius: 35px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media screen and (max-width: 1100px) {
@@ -331,73 +205,6 @@ export default {
   .other-points,
   .browser {
     display: none;
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  .personal-reward {
-    margin-top: 18vh !important;
-  }
-
-  .mobile {
-    display: none;
-  }
-
-  /* .name {
-    margin-bottom: 2vh;
-  } */
-
-  .image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .first,
-  .third {
-    height: 18vh;
-    width: 18vh;
-  }
-
-  .second {
-    height: 28vh;
-    width: 28vh;
-  }
-
-  .rect {
-    width: 10vw;
-    margin-left: -5vw;
-    margin-right: -5vw;
-    height: 0.5vh;
-    background-color: #27ade4;
-  }
-
-  .level {
-    margin-top: 1vh;
-  }
-
-  .xpbar {
-    margin-top: 1vh;
-  }
-
-  .other-points {
-    width: 82vh;
-    display: flex;
-    justify-content: space-between;
-    margin-top: -6vh;
-  }
-
-  .other-points > div {
-    width: 24vh;
-  }
-
-  .other-points .level {
-    font-size: 3vh;
-  }
-
-  .other-points .points,
-  .other-points .done {
-    font-size: 2vh;
   }
 }
 </style>

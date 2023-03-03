@@ -6,99 +6,62 @@
       quest: !activity.participated && activity.quest,
     }"
   >
-    <p class="hours mobile">{{ activity.time }}</p>
-
-    <div class="activity-info">
-      <div
-        class="activity-img"
-        :style="
-          'background-image:' +
-          'url(' +
-          images[current_image % images.length] +
-          ')'
-        "
-      ></div>
+    
+  
       <div class="activity-text">
-        <p class="type">{{ activity.type }}</p>
-        <p v-if="activity.name" class="name">{{ activity.name }}</p>
-        <p v-if="companies" class="companies">{{ companies }}</p>
+        <p class="type">{{ activity.name }}</p>
+        <p v-if="activity.name" class="name">{{ activity.type }}</p>
+        <p v-if="companies" class="companies">by {{ companies }}</p>
         <p v-if="speakers" class="speakers">{{ speakers }}</p>
         <p class="inner-description">{{ activity.description }}</p>
       </div>
-      <div class="activity-right browser">
-        <p class="hours">{{ activity.time }}</p>
+      <div>
 
-        <div class="buttons">
+        <div class="right-side">
+          <button class="schedule-btn" v-show="activity.registration_open"
+          >
+          <a :href="activity.registration_link"> 
+            <div class="schedule-whitespace"><img class="schedule-icon" src="../assets/icons/add_to_schedule_icon.svg"></div>
+          </a>
+          </button>
+          <br>
+          <br>
+
+          <p class="hours mobile">{{ activity.time }}-{{ activity.end_time }}</p>
           <!-- <button v-if="activity.zoom_url"><a :href="zoom()">Add to Calendar</a></button> -->
-          <button @click.stop="click_see_more()">See More</button>
           <button
             @click.stop="
               $refs.calendar.click();
               click_add_to_calendar();
             "
+            
           >
-            <a ref="calendar" :href="calendar()" target="_blank"
-              >Add to Calendar</a
-            >
+        
+            <a ref="calendar" :href="calendar()" target="_blank" class="add-to-calendar-btn">
+            <p class="calendar-txt">Add to Calendar</p>
+            <div style="height:9vw">
+              <div class="top-btn">
+
+              </div>
+              <div class="bottom-btn">
+                <p class="btn-text">+</p>
+              </div>
+              
+                
+            </div>
+          </a>
+     
+          
           </button>
         </div>
 
-        <div
-          v-if="activity.points"
-          class="xp-wrapper"
-          :class="{ quest2: !activity.participated && activity.quest }"
-        >
-          <span
-            class="xp-value"
-            :class="{ quest3: !activity.participated && activity.quest }"
-            >{{ activity.points }}</span
-          >
-          <span class="xp">xp</span>
-          <span
-            v-if="activity.type === 'Job Fair'"
-            class="xp"
-            style="line-height: 2vh; font-size: 3vh"
-            >/booth</span
-          >
-        </div>
-      </div>
+
     </div>
 
     <!-- <p v-if="currentPage !== 'Quests'" class="description">
       {{ activity.description }}
     </p> -->
 
-    <div
-      v-if="activity.points"
-      class="xp-wrapper mobile"
-      :class="{ quest2: !activity.participated && activity.quest }"
-    >
-      <span
-        class="xp-value"
-        :class="{ quest3: !activity.participated && activity.quest }"
-        >{{ activity.points }}</span
-      >
-      <span class="xp">xp</span>
-      <span
-        v-if="activity.type === 'Job Fair'"
-        class="xp"
-        style="display: block; margin-top: -1.5vh; font-size: 2vh"
-        >/booth</span
-      >
-    </div>
-
-    <div class="buttons mobile">
-      <!-- <button v-if="activity.zoom_url"><a :href="zoom()">Add to Calendar</a></button> -->
-      <button @click.stop="click_see_more()">See More</button>
-      <button
-        @click.stop="
-          click_add_to_calendar();
-          $refs.calendar.click();
-        "
-      >
-        Add to Calendar
-      </button>
-    </div>
 
     <v-dialog
       v-model="dialog"
@@ -263,6 +226,18 @@
               >
                 Add to Calendar
               </button>
+              <button v-show="!inSchedule"
+                style="background-color: #27ade4"
+                @click.stop="click_add_to_schedule(activity)"
+              >
+                Add to Schedule
+              </button>
+              <button v-show="inSchedule"
+                style="background-color: #27ade4"
+                @click.stop="click_delete_to_schedule(activity)"
+              >
+                Delete From Schedule
+              </button>
             </div>
           </div>
           <div class="dialog-time mobile">
@@ -282,6 +257,7 @@
 
 <script>
 import LogService from "../services/log.service";
+import axios from 'axios';
 
 export default {
   name: "Activity",
@@ -292,13 +268,18 @@ export default {
       images: [],
       current_image: 0,
       dialog: false,
-      width: window.innerWidth,
+
+      inSchedule: false,
+      add_calendar_img: require("../assets/add_calendar_btn.png")
     };
   },
   props: {
     activity: Object,
   },
   computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
     speakers_companies() {
       var speakers = this.activity.speakers.data.slice(0);
       var companies = [];
@@ -357,9 +338,35 @@ export default {
     },
   },
   methods: {
+    async isInSchedule() {
+      await axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/is_activity_in_schedule_vue', 
+      {student_ist_id: this.currentUser.ist_id, activity_name: this.activity.name})
+         .then((response) => {
+          const data = response.data; // [{}, {}]
+          this.inSchedule = data.inSchedule;
+        });       
+    },
     async click_see_more() {
       this.dialog = true;
       LogService.postLog("/see_more/" + this.activity.name);
+    },
+    async click_add_to_schedule(activity) {
+      axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/add_to_schedule_vue', 
+      {student_ist_id: this.currentUser.ist_id, activity_name: activity.name})
+         .then((response) => {
+          const data = response.data; // [{}, {}]
+          this.error = data.error;
+          this.inSchedule = true;
+        });  
+    },
+    async click_delete_to_schedule(activity) {
+      axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/delete_from_schedule_vue', 
+      {student_ist_id: this.currentUser.ist_id, activity_name: activity.name})
+         .then((response) => {
+          const data = response.data; // [{}, {}]
+          this.error = data.error;
+          this.inSchedule = false;
+        });  
     },
     async click_add_to_calendar() {
       LogService.postLog("/add_to_calendar/" + this.activity.name);
@@ -483,15 +490,9 @@ export default {
 
       return start_date + "/" + end_date;
     },
-    resize() {
-      this.width = window.innerWidth;
-    },
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.resize);
   },
   created() {
-    window.addEventListener("resize", this.resize);
+
 
     for (var i = 0; i < this.activity.companies.data.length; i++) {
       if (this.activity.companies.data[i].logo) {
@@ -511,20 +512,93 @@ export default {
 
     this.updateImages();
   },
+  mounted() {
+    this.isInSchedule()
+    //console.log(this.inSchedule)
+  }
 };
 </script>
 
 <style scoped>
+
 .activity {
   margin-bottom: 0.5vh;
-  background-color: #f1f1f1;
+  background-color: #1A9CD8;
+  color:white;
   padding-top: 2vh;
   padding-bottom: 2vh;
   padding-left: 4vw;
   padding-right: 4vw;
   position: relative;
+  width:90vw;
+  border-radius:30px;
+  margin-left:5vw;
+  display:flex;
+  justify-content: space-between;
 }
 
+.add-to-calendar-btn{
+  display:flex;
+  flex-wrap: nowrap;
+  width:30vw;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.schedule-icon{
+  background-color:white;
+  width:5vw;
+  position:relative;
+  top:1.25vw;
+  min-width:20px;
+  min-height:20px;
+}
+
+.schedule-whitespace{
+  background-color:white;
+  width:7.5vw;
+  height:7.5vw;
+  border-radius:100%;
+  min-width:30px;
+  min-height:30px;
+  position: relative;
+  left: 2.5vw;
+}
+
+.schedule-btn{
+  width:7.5vw;
+  height:7.5vw;
+  position:relative;
+  left:20vw;
+  min-width:30px;
+  min-height:30px;
+}
+
+.top-btn{
+  margin-top:1vw;
+  background-color: #D93046;
+  height:2vw;
+  width:9vw;
+  display:block;
+  border-top-left-radius: 3vw;
+  border-top-right-radius: 3vw;
+}
+
+.bottom-btn{
+  background-color: #DE5F70;
+  height:5vw;
+  width:9vw;
+  border-bottom-left-radius: 2vw;
+  border-bottom-right-radius: 2vw;
+}
+
+.btn-text{
+  color:white;
+  font-size:8vw;
+  position:relative;
+  top:-3.5vw;
+}
 .participated {
   background-color: #c0ffbc;
 }
@@ -533,18 +607,6 @@ export default {
   background-color: #ffbcbc;
 }
 
-.activity-img {
-  position: relative;
-  height: 13vh;
-  width: 13vh;
-  border-radius: 50%;
-  border: 0.1vh solid #707070;
-  background-color: white;
-  background-size: 105%;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-right: 3vw;
-}
 
 .activity-info {
   position: relative;
@@ -560,35 +622,39 @@ export default {
 }
 
 .hours {
-  position: absolute;
-  right: 0;
-  margin-right: 4vw;
-  font-size: 2.7vh;
+  position: relative;
+    right: -2.5vw;
+    font-size: 3.5vw;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 5vh;
 }
 
 .name {
-  font-size: 2.8vh;
-  line-height: 3vh;
-  font-weight: 700;
-  margin: 0;
-  color: #707070;
-  text-align: left;
+  font-size: 3.5vw;
+    line-height: 3vh;
+    font-weight: 700;
+    margin-bottom: 2vh;
+    color: white;
+    text-align: left;
 }
 
 .type {
-  font-size: 3.5vh;
-  font-weight: 600;
-  margin: 0;
-  text-align: left;
-  line-height: 3vh;
+    font-size: 4.5vw;
+    font-weight: 600;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+    text-align: left;
+    line-height: 3vh;
 }
 
 .companies,
 .speakers {
   margin: 0;
-  margin-bottom: -0.5vh;
-  text-align: left;
-  font-size: 2.5vh;
+    margin-bottom: -0.5vh;
+    text-align: left;
+    font-size: 3.0vw;
+    font-weight: 700;
 }
 
 .description {
@@ -856,189 +922,25 @@ export default {
   margin-top: 1.5vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .inner-description {
-    display: none;
-  }
-
-  .browser {
-    display: none;
-  }
-
-  .activity-text {
-    max-width: calc(89vw - 13vh);
-    text-align: left;
-  }
-
-  .type {
-    max-width: calc(75vw - 13vh);
-  }
+.calendar-img{
+  width:10vw;
 }
 
-@media screen and (min-width: 1100px) {
-  .activity-img {
-    height: 20vh;
-    width: 20vh;
-  }
-
-  .description {
-    display: none;
-  }
-
-  .activity-text {
-    max-width: 100vw;
-    width: calc(48vw - 20vh);
-  }
-
-  .activity-right {
-    width: 16vw;
-  }
-
-  .hours {
-    position: relative;
-    width: 100%;
-    text-align: center;
-    font-size: 4vh;
+.calendar-txt{
+  text-align: center;
+    font-size: 2.5vw;
+    line-height: 3vh;
+    font-weight: 700;
     margin: 0;
-  }
+    color: white;
 
-  .xp-wrapper {
-    position: relative;
-    margin: 0;
-    margin-top: -1vh;
-    width: 100%;
-    text-align: center;
-  }
-
-  .xp-value {
-    font-size: 5vh;
-  }
-
-  .xp {
-    font-size: 4vh;
-  }
-
-  .buttons {
-    display: block;
-  }
-
-  .buttons {
-    width: 16vw;
-  }
-
-  .buttons button {
-    width: 14vw;
-    min-height: 7vh;
-    font-size: 2.5vh;
-    padding: 0.5vhvh;
-    line-height: 2.6vh;
-    margin-bottom: 1vh;
-  }
-
-  .inner-description {
-    font-size: 2.1vh;
-    text-align: justify;
-    margin-top: 2vh;
-    margin-bottom: 0;
-    line-height: 2.4vh;
-  }
-
-  .inner-description::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 0.5vw;
-    background-color: #70707077;
-  }
-
-  .inner-description::-webkit-scrollbar-thumb {
-    border-radius: 1vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
-
-  .mobile {
-    display: none;
-  }
-
-  .dialog-wrapper {
-    display: flex;
-    padding-left: 1.5vw;
-    padding-right: 1.5vw;
-  }
-
-  .dialog-wrapper * {
-    text-align: left;
-  }
-
-  .dialog-wrapper > div:first-of-type {
-    width: 52vw;
-  }
-
-  .dialog-wrapper > div:nth-child(3) {
-    width: 48vw;
-  }
-
-  .dialog-time {
-    justify-content: left;
-  }
-
-  .dialog-day {
-    margin-right: 2vw;
-  }
-
-  .dialog-description {
-    padding-right: 1vw;
-    height: auto;
-  }
-
-  .rect {
-    width: 4px;
-    height: auto;
-    background-color: #27ade4;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
-  }
-
-  .dialog-company-img {
-    margin-left: 2vw;
-    margin-right: 2vw;
-  }
-
-  .dialog-speakers {
-    width: 100%;
-  }
-
-  .dialog-speaker {
-    margin: 0;
-    margin-bottom: 1.7vh;
-  }
-
-  .dialog-speaker-caption {
-    width: 9vw;
-  }
-
-  .dialog-speaker-caption p:first-of-type {
-    line-height: 2.5vh;
-  }
-
-  .dialog-speaker-caption p:last-of-type {
-    font-size: 1.3vh;
-    font-weight: 500;
-  }
-
-  .dialog-speaker-img {
-    margin-right: 1vw;
-  }
-
-  .dialog-buttons {
-    flex-wrap: wrap;
-  }
-
-  .dialog-buttons button {
-    text-align: center;
-    font-size: 2.4vh;
-    width: 20vw;
-    margin-top: 1vh;
-    min-height: 5vh;
-  }
 }
+
+.inner-description{
+  font-size: 3.0vw;
+    font-weight: 600;
+    margin-top: 5vh;
+}
+
+
 </style>

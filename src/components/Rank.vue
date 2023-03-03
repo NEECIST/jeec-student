@@ -1,6 +1,7 @@
 <template>
-  <div class="rank" @click.stop="dialog = true">
-    <p class="index" :style="{ color: color }">{{ index }}#</p>
+  
+  <div class="rank" @click.stop="dialog = true" :class="[{top: index==0},{bottom: index==total-1}]">
+    <p class="index" >{{ rank+3 }}#</p>
     <img class="image" :src="img_src" alt="image" />
     <div class="personal-info">
       <p class="name">
@@ -41,18 +42,20 @@ export default {
     };
   },
   props: {
-    index: Number,
+    rank: Number,
     img_src: String,
     name: String,
     level: Number,
     cry: String,
     members: Array,
+    total: Number,
+    index:Number
   },
   computed: {
     color() {
-      if (this.index == 1) return "#FFC02E";
-      else if (this.index == 2) return "#BCBCBC";
-      else if (this.index == 3) return "#DC8A26";
+      if (this.rank == 1) return "#FFC02E";
+      else if (this.rank == 2) return "#BCBCBC";
+      else if (this.rank == 3) return "#DC8A26";
       else return "black";
     },
 
@@ -85,28 +88,43 @@ export default {
 
 <style scoped>
 .rank {
-  width: 100%;
-  background-color: white;
+  background-color: #1A9CD826;
   display: flex;
   align-items: center;
-  margin-bottom: 0.7vh;
+  width:90vw;
+  margin-left:5vw;
+  border-top:2px solid #1A9CD8B2;
+  border-bottom:2px solid #1A9CD8B2;
 }
 
 .index {
   margin: 0;
-  font-weight: 700;
-  font-size: 6.1vh;
-  text-shadow: 0.5vh 0.5vh 1vh rgba(0, 0, 0, 0.219);
-  margin-left: 3vw;
-  margin-right: 5vw;
-  width: 15vw;
   text-align: right;
+  font-family: Montserrat;
+  font-size: 5vw;
+  font-weight: 500;
+  margin-left:3vw;
+  margin-right:2vw;
+}
+
+.top{
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  border-top: 2px solid transparent;
+  margin-top:3vh;
+}
+
+.bottom{
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom:2px solid transparent;
 }
 
 .image {
-  width: 7vh;
-  height: 7vh;
+  width: 5vh;
+  height: 5vh;
   border-radius: 50%;
+  border:2px solid #03618C
 }
 
 .personal-info p {
@@ -167,24 +185,6 @@ export default {
 .star {
   position: absolute;
   right: 3vw;
-}
-
-@media screen and (min-width: 1100px) {
-  .index {
-    width: 6vw;
-    text-align: left;
-  }
-
-  .name,
-  .cry,
-  .level {
-    margin-left: 1vw !important;
-  }
-
-  .index {
-    margin-left: 1vw;
-    margin-right: 1vw;
-  }
 }
 
 </style>

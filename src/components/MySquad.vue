@@ -266,7 +266,7 @@ export default {
       invites_sent: [],
       today_reward: {},
       default_image: require("../assets/jeec_colour_no_edition_transparent.svg"),
-      width: window.innerWidth,
+    
       loading_delete: false,
       loading_add: false,
     };
@@ -381,9 +381,7 @@ export default {
         }
       );
     },
-    resize() {
-      this.width = window.innerWidth;
-    },
+ 
   },
   watch: {
     search(val) {
@@ -411,11 +409,8 @@ export default {
       }
     },
   },
-  destroyed() {
-    window.removeEventListener("resize", this.resize);
-  },
+  
   created() {
-    window.addEventListener("resize", this.resize);
     UserService.getTodaySquadReward().then(
       (response) => {
         this.today_reward = response.data;
@@ -654,153 +649,29 @@ export default {
   margin-top: -1.5vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .big-today-reward {
-    display: none;
-  }
 
-  .members {
-    margin-bottom: 0;
-  }
-
-  .my-squad {
-    margin-top: 8vh;
-    height: 82vh;
-    overflow-y: auto;
-  }
-
-  .reward-info p {
-    max-width: calc(83vw - 12vh);
-  }
-
-  .browser {
-    display: none;
-  }
+.big-today-reward {
+  display: none;
 }
 
-@media screen and (min-width: 1100px) {
-  .today-reward {
-    display: none;
-  }
-
-  .squad-info-top {
-    margin-bottom: 2vh;
-    width: 100%;
-  }
-
-  .squad-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .squad-data {
-    width: auto;
-    min-width: 25vw;
-  }
-
-  .xp-wrapper {
-    width: 100%;
-    display: flex;
-    margin-top: 0vh;
-    margin-bottom: 0vh;
-    justify-content: space-between;
-  }
-
-  .xp-wrapper > div:first-of-type {
-    margin-right: 4vw;
-  }
-
-  .xp-name {
-    margin-right: 5vw;
-    margin-bottom: 0vh;
-    font-size: 2.3vh;
-  }
-
-  .xp-value {
-    font-size: 8vh;
-    line-height: 7vh;
-  }
-
-  .xp {
-    font-size: 3vh;
-  }
-
-  .squad-image {
-    height: 25vh;
-    width: 25vh;
-    margin-left: 6vw;
-  }
-
-  .squad-name {
-    font-size: 5vh;
-  }
-
-  .squad-cry {
-    font-size: 3.5vh;
-  }
-
-  .squad-rank {
-    font-size: 3vh;
-  }
-
-  .members {
-    height: 35vh;
-    overflow-y: auto;
-    width: 49.75%;
-    margin-bottom: 0;
-    padding-top: 1vh;
-    padding-bottom: 0;
-  }
-
-  .big-wrapper {
-    display: flex;
-    justify-content: space-between;
-    background-color: #e6e6e6;
-  }
-
-  .big-today-reward-title {
-    text-align: center;
-  }
-
-  .big-today-reward,
-  .members {
-    width: 37.3vw;
-    height: 54vh;
-    background-color: #f1f1f1;
-  }
-
-  .members > p {
-    margin: 0;
-    font-size: 3.2vh;
-    font-weight: 500;
-    color: #848484;
-    margin-bottom: 1.5vh;
-  }
-
-  .bottom-buttons {
-    display: none;
-  }
-
-  .bottom-button {
-    margin-top: 1vh;
-    height: auto;
-    width: auto;
-  }
-
-  .dialog-title {
-    font-size: 3vh;
-  }
-
-  .invite {
-    width: 8vw;
-    padding: 0;
-    font-size: 2.5vh;
-  }
-
-  .mobile {
-    display: none;
-  }
+.members {
+  margin-bottom: 0;
 }
+
+.my-squad {
+  margin-top: 8vh;
+  height: 82vh;
+  overflow-y: auto;
+}
+
+.reward-info p {
+  max-width: calc(83vw - 12vh);
+}
+
+.browser {
+  display: none;
+}
+
+
+
 </style>

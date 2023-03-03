@@ -1,12 +1,11 @@
 <template>
   <div class="rankings">
-    <Buttons
+    <!-- <Buttons
       @_click="click"
       class="-buttons"
       :names="{
         personal: button === 'personal',
         squads: button === 'squads',
-        daily: button === 'daily',
       }"
     />
     <Buttons
@@ -16,99 +15,91 @@
         personal: button === 'personal',
         squads: button === 'squads',
       }"
-    />
+    /> -->
+
+    
+       <div class="btns">
+       <button class="personal-btn unselected" :class="{selected: personal}" @click="Personal">Personal</button>
+       <button class="squad-btn unselected" :class="{selected: squad}" @click="Squad">Squad</button>
+      </div>
 
     <div style="height: 8vh"></div>
 
     <div v-if="!loading_students && !loading_squads && !loading_daily">
-      <div class="big-title" v-if="button == 'squads'">
-        <p>Daily</p>
-        <p>Weekly</p>
+      <div v-show="personal">
+      <div class="podium">
+        <div class="stand" v-if="students.length>1">
+          <img :src="students[1].photo" class="podium-img second">                 <!--mudar index-->
+          <p class="podium-text">{{names[1]}}</p>
+          <div class="second pilar">
+            <span>2</span><sup class="super">nd</sup>
+          </div>
+        </div>
+        <div class="stand">
+          <img :src="students[0].photo" class="podium-img first">
+          <p class="podium-text">{{names[0]}}</p>
+          <div class="first pilar">
+            <span>1</span><sup class="super">st</sup>
+          </div>
+        </div>
+        <div class="stand" v-if="students.length>2">
+          <img :src="students[2].photo" class="podium-img third">
+          <p class="podium-text">{{names[2]}}</p>
+          <div class="third pilar">
+            <span>3</span><sup class="super">rd</sup>
+          </div>
+        </div>
       </div>
 
-      <div class="rank-wrapper">
+     <!-- replace for other_students -->
         <Rank
-          v-for="(student, index) in students"
-          v-show="button === 'personal'"
+          v-for="(student, index) in other_students"
+          v-show="personal"
           :key="student.ist_id"
           :name="student.name"
-          :index="rank(index, students)"
+          :rank="rank(index, students)"
           :level="student.level.data.value"
           :img_src="student.photo"
+          :total = "other_students.length"
+          :index="index"
         />
+        </div>
+        <div v-show="squad">
+      <div class="podium">
+        <div class="stand" v-if="squads.length>1">
+          <img :src="jeec_brain_url + squads[1].image" class="podium-img second">                 <!--mudar index-->
+          <p class="podium-text">{{squads[1].name}}</p>
+          <div class="second pilar">
+            <span>2</span><sup class="super">nd</sup>
+          </div>
+        </div>
+        <div class="stand">
+          <img :src="jeec_brain_url + squads[0].image" class="podium-img first">
+          <p class="podium-text">{{squads[0].name}}</p>
+          <div class="first pilar">
+            <span>1</span><sup class="super">st</sup>
+          </div>
+        </div>
+        <div class="stand" v-if="squads.length>2">
+          <img :src="jeec_brain_url + squads[2].image" class="podium-img third">
+          <p class="podium-text">{{squads[2].name}}</p>
+          <div class="third pilar">
+            <span>3</span><sup class="super">rd</sup>
+          </div>
+        </div>
+      </div>
         <Rank
-          v-for="(squad, index) in squads"
-          v-show="button === 'squads'"
+          v-for="(squad, index) in other_squads"
+          v-show="squad"
           :key="squad.name"
           :name="squad.name"
           :cry="squad.cry"
-          :index="rank(index, squads)"
+          :rank="rank(index, squads)"
           :img_src="jeec_brain_url + squad.image"
           :members="squad.members.data"
+          :total = "other_squads.length"
+          :index="index"
         />
-        <Rank
-          v-for="(squad, index) in daily_squads"
-          v-show="button === 'daily'"
-          :key="'daily' + squad.name"
-          :name="squad.name"
-          :cry="squad.cry"
-          :index="rank(index, squads)"
-          :img_src="jeec_brain_url + squad.image"
-          :members="squad.members.data"
-        />
-      </div>
-
-      <div class="big-rank-wrapper">
-        <div v-if="button == 'personal'">
-          <Rank
-            class="rank"
-            v-for="(student, index) in students"
-            v-show="index < 10"
-            :key="student.ist_id"
-            :name="student.name"
-            :index="rank(index, students)"
-            :level="student.level.data.value"
-            :img_src="student.photo"
-          />
-        </div>
-        <div v-if="button == 'personal'">
-          <Rank
-            class="rank"
-            v-for="(student, index) in students"
-            v-show="index >= 10"
-            :key="student.ist_id"
-            :name="student.name"
-            :index="rank(index, students)"
-            :level="student.level.data.value"
-            :img_src="student.photo"
-          />
-        </div>
-        <div v-if="button == 'squads'">
-          <p class="rank-title">Daily</p>
-          <Rank
-            class="rank -squads"
-            v-for="(squad, index) in daily_squads"
-            :key="'daily' + squad.name"
-            :name="squad.name"
-            :cry="squad.cry"
-            :index="rank(index, squads)"
-            :img_src="jeec_brain_url + squad.image"
-            :members="squad.members.data"
-          />
-        </div>
-        <div v-if="button == 'squads'">
-          <p class="rank-title">Weekly</p>
-          <Rank
-            class="rank -squads"
-            v-for="(squad, index) in squads"
-            :key="squad.name"
-            :name="squad.name"
-            :cry="squad.cry"
-            :index="rank(index, squads)"
-            :img_src="jeec_brain_url + squad.image"
-            :members="squad.members.data"
-          />
-        </div>
       </div>
     </div>
     <div v-else class="loading">
@@ -124,7 +115,6 @@
 </template>
 
 <script>
-import Buttons from "@/components/Buttons.vue";
 import Rank from "@/components/Rank.vue";
 import UserService from "../services/user.service";
 
@@ -132,7 +122,6 @@ export default {
   name: "Rankings",
   components: {
     Rank,
-    Buttons,
   },
   data: function () {
     return {
@@ -144,6 +133,11 @@ export default {
       loading_students: true,
       loading_squads: true,
       loading_daily: true,
+      personal:true,
+      squad:false,
+      other_students:[],
+      other_squads:[],
+      names:[],
     };
   },
   computed: {
@@ -152,6 +146,27 @@ export default {
     },
   },
   methods: {
+    nameArray() {
+      this.names=[]
+      for(let i=0;i<this.students.length;i++){
+        var names = this.students[i].name.split(" ");
+        if(names.length>1){
+          this.names.push(names[0]+' '+names[names.length-1])
+        }
+        else{
+          this.names.push(names[0])
+        }
+      }
+      
+    },
+    Personal(){
+      this.personal=true
+      this.squad=false
+    },
+    Squad(){
+      this.personal=false
+      this.squad=true
+    },
     click(name) {
       if (name !== this.button) {
         this.button = name;
@@ -182,6 +197,11 @@ export default {
         this.students = response.data.data;
         if (!Array.isArray(this.students)) this.students = [this.students];
         this.loading_students = false;
+        this.other_students = []
+        for(let i=3;i<this.students.length;i++){
+          this.other_students.push(this.students[i])
+        }
+        this.nameArray()
       },
       (error) => {
         console.log(error);
@@ -194,6 +214,10 @@ export default {
         this.squads = response.data.data;
         if (!Array.isArray(this.squads)) this.squads = [this.squads];
         this.loading_squads = false;
+        this.other_squads = []
+        for(let i=3;i<this.squads.length;i++){
+          this.other_squads.push(this.squads[i])
+        }
       },
       (error) => {
         console.log(error);
@@ -217,8 +241,119 @@ export default {
 </script>
 
 <style scoped>
+
+.super{
+  font-size:30px;
+  vertical-align: super;
+}
+
+.podium{
+  width:90vw;
+  margin-left:5vw;
+  display:flex;
+  justify-content: space-around;
+  align-items: end;
+}
+
+.pilar{
+  text-align: center;
+  color:white;
+  vertical-align: middle;
+  display: table-cell;
+  width:30vw;
+  font-family: Montserrat;
+  font-size: 64px;
+  font-weight: 700;
+  border-top-right-radius: 5vw;
+  border-top-left-radius: 5vw;
+}
+
+
+
+.podium-text{
+  text-align:center;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+
+}
+
+.podium-img{
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+  display:block;
+  width: 12vh;
+  height: 12vh;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.first{
+  border-color:#CEBD25;
+  background-color:#D9D004
+}
+
+.first.pilar{
+  height:20vh;
+}
+
+.second{
+  border-color:#1A9CD8;
+  background-color:#1A9CD8
+}
+
+.second.pilar{
+  height:15vh;
+}
+
+.third{
+  border-color:#D93046;
+  background-color:#D93046
+}
+
+.third.pilar{
+  height:10vh;
+}
+
+.stand{
+  width:30vw;
+}
+
+.selected{
+  background-color: #03618C !important;
+}
+
+.btns{
+  margin-left:25vw;
+}
+
+.personal-btn{
+  background-color: #1A9CD8;
+  color:white;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 20px;
+  margin-right:5px;
+  width:25vw;
+  height:30px;
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+}
+.squad-btn{
+  background-color: #1A9CD8;
+  color:white;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 20px;
+  width:25vw;
+  height:30px;
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
 .rankings {
-  background-color: #e6e6e6;
+  background-color: #FFFCF8;
 }
 
 .rank-wrapper {
@@ -241,53 +376,5 @@ export default {
 .loading {
   text-align: center;
   margin-top: 35vh;
-}
-
-@media screen and (max-width: 1100px) {
-  .big-rank-wrapper,
-  .big-title,
-  .-big-buttons {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  .-buttons,
-  .rank-title {
-    display: none;
-  }
-
-  .rankings {
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .rank-wrapper {
-    display: none;
-  }
-
-  .big-rank-wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .big-rank-wrapper > div {
-    width: calc(50% - 5px);
-  }
-
-  .rank {
-    width: 100%;
-  }
-
-  .rank-title {
-    text-align: center;
-    font-size: 6vh;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .-squads {
-    cursor: pointer;
-  }
 }
 </style>

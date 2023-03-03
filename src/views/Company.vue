@@ -220,56 +220,9 @@ export default {
   margin-top: 35vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .chat-room {
-    display: none;
-  }
+.chat-room {
+  display: none;
 }
 
-@media screen and (min-width: 1100px) {
-  .company {
-    height: 100vh;
-    overflow-y: hidden;
-  }
 
-  .button {
-    width: 17vw;
-    margin-left: 8vw;
-    margin-right: 8vw;
-  }
-
-  .partner-info-wrapper {
-    width: 37.3vw;
-  }
-
-  .sponsors:first-of-type {
-    padding-top: 3vh;
-  }
-
-  .sponsors:last-of-type {
-    padding-bottom: 3vh;
-  }
-
-  .partner-wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .chat-room p {
-    height: 7.5vh;
-    margin: 0;
-    margin-bottom: 0.5vh;
-    background-color: #2d333a;
-    color: white;
-    font-size: 3vh;
-    font-weight: 600;
-    text-align: center;
-    line-height: 7.5vh;
-  }
-
-  .chat-frame {
-    width: 37.3vw;
-    height: 84vh;
-  }
-}
 </style>

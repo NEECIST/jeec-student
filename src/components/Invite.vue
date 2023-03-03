@@ -9,20 +9,14 @@
       <div class="squad-data">
         <p class="squad-name">{{ invite.squad_name }}</p>
         <p class="squad-cry">{{ invite.squad_cry }}</p>
-        <p class="squad-rank">Rank {{ invite.squad_rank }}</p>
+        
       </div>
-    </div>
-    <div class="from">
-      <v-icon style="color: yellow">mdi-star</v-icon>
-      <a class="sender-name"
-        >{{ nameArray[0] }} {{ nameArray[nameArray.length - 1] }}</a
-      >
+      <p class="squad-rank">By {{ nameArray[0] }} {{ nameArray[nameArray.length-1] }}</p>
     </div>
 
-    <center>
       <div class="buttons" v-if="!loading">
-        <button @click.stop="accept" class="button green">Accept</button>
-        <button @click.stop="reject" class="button red">Reject</button>
+        <button @click.stop="accept" class="plus-symbol">⊕</button>
+        <button @click.stop="reject" class="minus-symbol">⊖</button>
       </div>
 
       <v-progress-circular
@@ -34,7 +28,6 @@
         :width="6"
         class="loading-bar"
       ></v-progress-circular>
-    </center>
   </div>
 </template>
 
@@ -66,10 +59,12 @@ export default {
     accept() {
       this.loading = true;
       this.$emit("accept", this.invite.external_id);
+      this.$router.go()
     },
     reject() {
       this.loading = true;
       this.$emit("reject", this.invite.external_id);
+      this.$router.go()
     },
   },
 };
@@ -80,26 +75,28 @@ export default {
   margin-bottom: 1vh;
   padding-left: 5vw;
   padding-right: 5vw;
-  padding-top: 2vh;
+  padding-top: 5vh;
   padding-bottom: 2vh;
-  background-color: #f1f1f1;
 }
 
 .squad-info-top {
   display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
 .squad-image {
   height: 13vh;
   width: 13vh;
   border-radius: 50%;
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.1vh #27ade4;
+  border: 3px solid #03618C;
+  margin-left:5vw;
+  margin-right:5vw;
 }
 
 .squad-data {
-  margin-left: 5vw;
   align-self: center;
+  margin-right:5vw;
 }
 
 .squad-name {
@@ -108,14 +105,11 @@ export default {
   margin-bottom: -0.9vh;
   font-size: 3.7vh;
   font-weight: 600;
-  color: #848484;
 }
 
 .squad-cry {
-  color: #848484;
   margin: 0;
   font-size: 2.5vh;
-  font-style: italic;
   font-weight: 500;
 }
 
@@ -133,22 +127,20 @@ export default {
 
 .buttons {
   display: flex;
-  padding-top: 2vh;
-  padding-bottom: 1vh;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  justify-content: space-evenly;
+  align-items: start;
 }
 
-.button {
-  border-radius: 3vh;
-  font-size: 2.5vh;
-  font-weight: 500;
-  color: white;
-  width: 43vw;
-  height: auto;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  margin-left: 2vw;
-  margin-right: 2vw;
+
+.plus-symbol{
+  color: #03618C;
+  font-weight:10;
+  font-size:60px;
+}
+
+.minus-symbol{
+  color:  #D93046;
+  font-weight:10;
+  font-size:60px;
 }
 </style>

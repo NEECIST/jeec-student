@@ -138,9 +138,5 @@ export default {
   margin-left: auto;
 }
 
-@media screen and (min-width: 1100px) {
-  .profile-info {
-    margin-left: 1vw;
-  }
-}
+
 </style>

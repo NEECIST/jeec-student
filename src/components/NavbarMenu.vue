@@ -1,5 +1,6 @@
 <template>
   <div class="menu">
+    <img class="background-gradient"/>
     <div class="menu-top">
       <img
         alt="profile photo"
@@ -13,22 +14,33 @@
         </div>
         <div class="level">
           <p>
-            <b>level {{ currentUser.level.data.value }}</b>
+            <b>Level {{ currentUser.level.data.value }}</b>
           </p>
         </div>
       </div>
     </div>
-    <div class="big-jeec">
-      <center>
-        <img
-          @click="page !== 'Home' ? $router.push('/home') : ''"
-          alt="jeec logo"
-          src="../assets/jeec_white.svg"
-        />
-      </center>
-    </div>
     <div class="menu-middle">
-      <table class="menu-items">
+      <div 
+          v-for="item in menu_items"
+          :key="item.name"
+          class="nav-row"
+          v-bind:class="
+            (
+              page === 'Company' || page === 'Chat'
+                ? item.page === 'Companies'
+                : page === item.page
+            )
+              ? 'active-item'
+              : 'inactive-item'
+          "
+          @click.stop="redirect(item.page)"
+      >
+        <div class="menu-items" style="display: flex; flex-direction: row; align-items: center;">
+          <img style="width: 22vw; padding-left: 2vw;" :src="item.src" />
+          <p class="menu-names">{{ item.name }}</p>
+        </div>
+      </div>
+      <!-- <table class="menu-items">
         <tr
           v-for="item in menu_items"
           :key="item.name"
@@ -49,12 +61,11 @@
           </td>
           <td class="menu-names">{{ item.name }}</td>
         </tr>
-      </table>
+      </table> -->
     </div>
-    <div class="menu-bottom">
-      <center>
-        <img alt="IST logo" src="../assets/tecnico.svg" style="height: 6vh" />
-      </center>
+    <div width="100vw" @click.stop="logout" class="menu-bottom">
+      <p class="logout">Log Out</p>
+      <img width="30vw" src="../assets/icons/logout.svg" style="margin-right: 5vw;"/>
     </div>
   </div>
 </template>
@@ -67,70 +78,31 @@ export default {
       page: this.$route.name,
       display_menu: false,
       menu_items: [
-        {
-          name: "Home",
-          src: require("../assets/icons/placeholder.svg"),
-          page: "Home",
-        },
-        {
-          name: "Redeem Code",
-          src: require("../assets/icons/barcode.svg"),
-          page: "Code",
-        },
-        {
-          name: "QR Code",
-          src: require("../assets/icons/qrcode.png"),
-          page: "QRCode",
-        },
-        {
-          name: "My Profile",
-          src: require("../assets/icons/user.svg"),
-          page: "Profile",
-        },
-        {
-          name: "My Squad",
-          src: require("../assets/icons/squad.svg"),
-          page: "Squad",
-        },
-        {
-          name: "Activities",
-          src: require("../assets/icons/calendar.svg"),
-          page: "Activities",
-        },
-        {
-          name: "Chat & Partners",
-          src: require("../assets/icons/chat.svg"),
-          page: "Companies",
-        },
-        {
-          name: "Quests",
-          src: require("../assets/icons/sword.svg"),
-          page: "Quests",
-        },
-        {
-          name: "Rewards",
-          src: require("../assets/icons/trophy.svg"),
-          page: "Rewards",
-        },
+        // {
+        //   name: "Prizes",
+        //   src: require("../assets/icons/prize.svg"),
+        //   page: "Prizes",
+        // },
         {
           name: "Rankings",
-          src: require("../assets/icons/rank.svg"),
+          src: require("../assets/icons/rankings.svg"),
           page: "Rankings",
         },
         {
           name: "Rules & Info",
-          src: require("../assets/icons/warning.svg"),
+          src: require("../assets/icons/new_warning.svg"),
           page: "Rules",
         },
       ],
     };
   },
   methods: {
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/");
+    },
     redirect(target) {
       if (target !== this.page) this.$router.push({ name: target });
-    },
-    resize() {
-      this.width = window.innerWidth;
     },
   },
   watch: {
@@ -138,12 +110,6 @@ export default {
     $route(to) {
       this.page = to.name;
     },
-  },
-  created() {
-    window.addEventListener("resize", this.resize);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.resize);
   },
   computed: {
     currentUser() {
@@ -163,6 +129,20 @@ export default {
 .menu {
   position: relative;
   height: 100%;
+  z-index:5;
+}
+
+.background-gradient{
+  position: absolute;
+  z-index: -5;
+  width: 70vw;
+  height: 60vh;
+  top: -30vh;
+  left:-20vw;
+  border-radius: 90% 70% / 60% 90%;
+
+  background: linear-gradient(128.55deg, rgba(26, 156, 216, 0.65) -0.1%, rgba(217, 208, 4, 0.65) 88.02%);
+  transform: rotate(-87.05deg);
 }
 
 .menu-top {
@@ -175,11 +155,13 @@ export default {
 
 .menu-top img {
   align-self: center;
+  border: solid #FFFCF8;
 }
 
 .profile-info {
   align-self: center;
-  padding-left: 2vw;
+  align-items: center;
+  padding-left: 10vw;
 }
 
 .name,
@@ -190,41 +172,48 @@ export default {
 .name p {
   margin: 0;
   padding: 0;
-  line-height: 3vh;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
   font-size: 3vh;
-  font-weight: 400;
+  line-height: 3vh;
+  color: #03618C;
 }
 
 .level p {
   padding-top: 0.5vh;
   margin: 0;
-  font-size: 2vh;
+  font-size: 3vh;
   font-weight: 700;
-  color: #ffffff79;
+  color: #FFFCF8;
 }
 
 .menu-middle {
   padding-left: 5vw;
   padding-right: 1vw;
   color: black;
-  max-height: 70vh;
+  height: 70vh;
   overflow-y: auto;
   overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .menu-middle img {
-  width: 2.6vw;
+  width: 15vh;
   vertical-align: middle;
 }
 
 .nav-row {
-  height: 6.5vh;
+  height: 10vh;
 }
 
 .menu-items {
   cursor: pointer;
-  font-size: 1.8vw;
-  font-weight: 700;
+  
 }
 
 .active-item > * {
@@ -238,6 +227,11 @@ export default {
 
 .menu-names {
   padding-left: 4vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5vh;
+  line-height: 6vh;
 }
 
 .menu-bottom {
@@ -245,25 +239,25 @@ export default {
   width: 100%;
   bottom: 0;
   padding-bottom: 2vh;
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-end;
 }
 
-::-webkit-scrollbar {
-  width: 22px;
+.logout{
+  padding-right: 3vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3vh;
+  line-height: 3vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
-::-webkit-scrollbar-track {
-  background-color: #50575c;
-}
 
-::-webkit-scrollbar-thumb {
-  border: 6px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  border-radius: 11px;
-  background-color: #3f4449;
-}
-
-@media screen and (max-width: 1100px) {
   .big-jeec {
     display: none;
   }
@@ -279,39 +273,5 @@ export default {
   .menu-middle img {
     width: 8vw;
   }
-}
 
-@media screen and (min-width: 1100px) {
-  /* .menu-items {
-    font-size: 3.2vh;
-  } */
-
-  .menu-names {
-    padding-left: 2vw;
-  }
-
-  .menu-middle,
-  .menu-top {
-    padding-left: 3vw;
-    max-height: 73vh;
-  }
-
-  .menu-top {
-    display: none;
-  }
-
-  .big-jeec {
-    width: 100%;
-    padding-top: 2vh;
-    margin-bottom: 2vh;
-  }
-
-  .big-jeec img {
-    width: 60%;
-  }
-
-  .nav-row {
-    height: 7vh;
-  }
-}
 </style>

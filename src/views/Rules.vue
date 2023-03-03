@@ -1,5 +1,6 @@
 <template>
   <div class="rules-page">
+    <div style="margin-top: -5vh;">
     <Buttons
       @_click="click"
       :names="{
@@ -8,6 +9,7 @@
         Activities: button === 'Activities',
       }"
     />
+  </div>
     <div v-if="!loading_event">
       <GeneralRules v-if="button === 'Rules'" :event_info="event_info" />
 
@@ -84,7 +86,8 @@ export default {
 
 <style scoped>
 .rules-page {
-  background-color: #e6e6e6;
+  background-color: #FFFCF8;
+  padding-bottom:20vh;
 }
 
 .loading {
@@ -92,16 +95,8 @@ export default {
   margin-top: 35vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .rules-page {
-    overflow-y: auto;
-  }
+.rules-page {
+  overflow-y: auto;
 }
 
-@media screen and (min-width: 1100px) {
-  .rules-page {
-    height: 100vh;
-    overflow-y: auto;
-  }
-}
 </style>

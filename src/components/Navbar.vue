@@ -1,37 +1,39 @@
 <template>
   <div class="navbar" v-if="page !== 'Login'">
     <div class="top">
+      <img
+        @click="page !== 'Home' ? $router.push('/home') : ''"
+        alt="jeec logo"
+        src="../assets/jeec_logo_mobile.svg"
+        class="top-image"
+        width="20vw"
+        style="width: auto; height: 7.5vh; position: absolute;"
+      />
+      <div class="top-name" style="width: 50vw;">
+        <p>{{ $route.name }}</p>
+      </div>
       <button>
         <img
           @click.stop="display_menu = !display_menu"
           alt="menu icon"
-          src="../assets/icons/menu.svg"
+          src="../assets/icons/menu_azul.svg"
           class="top-start"
-          style="width: auto; height: 7vh"
         />
       </button>
-      <img
-        @click="page !== 'Home' ? $router.push('/home') : ''"
-        alt="jeec logo"
-        src="../assets/jeec_white.svg"
-        class="top-center"
-        style="width: auto; height: 6vh"
-      />
     </div>
     <v-navigation-drawer
-      style="height: 100vh"
+      style="height: 100vh; width:70vw"
       v-model="display_menu"
       fixed
       dark
-      color="primary"
-      left
+      color="#C5E4F0"
+      right
       temporary
       :width="width * 0.82"
-      v-if="width < 1100"
+  
     >
       <NavbarMenu />
     </v-navigation-drawer>
-    <NavbarMenu v-else class="navbar-menu" />
   </div>
 </template>
 
@@ -69,12 +71,6 @@ export default {
       this.page = to.name;
     },
   },
-  created() {
-    window.addEventListener("resize", this.resize);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.resize);
-  },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
@@ -91,18 +87,32 @@ export default {
 
 <style scoped>
 .navbar {
-  color: white;
+  color: #FFFCF8;
+  padding-bottom:5vh;
 }
 
 .top {
   width: 100vw;
-  background-color: #27ade4;
+  background-color: #FFFCF8;
   height: 10vh;
   position: fixed;
-  z-index: 1;
+  z-index: 3;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .top-start {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  height: 10vh;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.top-image {
   position: absolute;
   left: 5%;
   top: 50%;
@@ -110,26 +120,19 @@ export default {
   transform: translateY(-50%);
 }
 
-.top-center {
+.top-name{
   position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-}
+  left: calc(50vw - 25vw);
+  top: calc(5vh - 17px);
+  text-align: center;
+  text-transform: uppercase;
 
-@media screen and (max-width: 1100px) {
-}
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
 
-@media screen and (min-width: 1100px) {
-  .navbar-menu {
-    height: 100vh !important;
-    background-color: #50575c;
-  }
-
-  .top {
-    display: none;
-  }
+  color: #D93046;
 }
 </style>

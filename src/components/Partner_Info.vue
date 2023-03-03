@@ -223,43 +223,10 @@ export default {
   margin-right: 1vw;
 }
 
-@media screen and (max-width: 1100px) {
-  .name {
-    font-size: 4.5vh;
-  }
+
+.name {
+  font-size: 4.5vh;
 }
 
-@media screen and (min-width: 1100px) {
-  .buttons {
-    padding-left: 1vw;
-    padding-right: 1vw;
-  }
 
-  .button {
-    width: 15vw;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-  }
-
-  .info-top,
-  .team {
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
-
-  .partner-img {
-    height: 17vh;
-    width: 17vh;
-    margin-right: 2vw;
-  }
-
-  .name {
-    font-size: 5.5vh;
-  }
-
-  .team {
-    height: 41vh;
-    overflow-y: auto;
-  }
-}
 </style>

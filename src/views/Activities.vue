@@ -45,6 +45,7 @@
               <v-sheet color="#e6e6e6" tile>
                 <v-row class="day-wrapper" align="center" justify="center">
                   <div class="day">{{ weekdays[day.getDay()] }}</div>
+                  <div>{{ day.getDay() }}</div>
                 </v-row>
               </v-sheet>
             </v-carousel-item>
@@ -99,13 +100,13 @@ export default {
       event_dates: [],
       activities: [],
       weekdays: [
+        "Thursday",
+        "Friday",
+        "Saturday",
         "Sunday",
         "Monday",
         "Tuesday",
         "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
       ],
       loading_activities: true,
     };
@@ -137,12 +138,13 @@ export default {
       return this.$store.state.auth.user;
     },
   },
-  async created() {
+  mounted() {
+    console.log('estou vivo')
     if (!this.currentUser) {
       this.$router.push("/");
     }
 
-    await UserService.getEventDates().then(
+    UserService.getEventDates().then(
       (response) => {
         this.event_dates = response.data;
       },
@@ -169,11 +171,11 @@ export default {
 
     for (var i = 0; i < this.event_dates.length; i++) {
       UserService.getActivities(
-        this.event_dates[(this.model + i) % this.event_dates.length]
       ).then(
         (response) => {
           this.activities = this.activities.concat(response.data.data);
           this.loading_activities = false;
+          console.log(this.activities)
         },
         (error) => {
           console.log(error);
@@ -238,13 +240,4 @@ export default {
   margin-top: 35vh;
 }
 
-@media screen and (min-width: 1100px) {
-  .mobile {
-    display: none;
-  }
-
-  .day {
-    font-size: 7vh;
-  }
-}
 </style>

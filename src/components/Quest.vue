@@ -84,47 +84,5 @@ export default {
   font-weight: 600;
 }
 
-@media screen and (min-width: 1100px) {
-  .quest {
-    width: calc(25vw - 10px);
-    height: 45vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 5px;
-    margin-bottom: 0;
-  }
 
-  .quest-img {
-    margin: 0;
-  }
-
-  .quest-img img {
-    margin: auto;
-    height: 11vh;
-    width: 11vh;
-  }
-
-  .description {
-    font-size: 4vh;
-    line-height: normal;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 2vh;
-  }
-
-  .quest-info {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .xp-value {
-    font-size: 6vh;
-  }
-
-  .xp {
-    font-size: 3vh;
-  }
-}
 </style>

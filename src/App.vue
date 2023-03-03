@@ -9,6 +9,7 @@
           :class="$route.name === 'Login' ? 'login-page' : ''"
           @notification="notification"
         />
+        <BottomBar v-show="$route.name != 'Login'"></BottomBar>
       </div>
 
       <Notification
@@ -28,6 +29,7 @@ import UserService from "./services/user.service";
 import VueTitle from "@/components/VueTitle.vue";
 import Navbar from "@/components/Navbar.vue";
 import Notification from "@/components/Notification.vue";
+import BottomBar from "@/components/BottomBar.vue";
 
 export default {
   data: function () {
@@ -39,6 +41,7 @@ export default {
     VueTitle,
     Navbar,
     Notification,
+    BottomBar,
   },
   computed: {
     currentUser() {
@@ -169,6 +172,10 @@ export default {
   font-weight: 400;
 }
 
+#app{
+  background-color: #FFFCF8;
+}
+
 #app .v-dialog {
   overflow-x: hidden;
 }
@@ -193,11 +200,7 @@ export default {
   text-decoration: none;
 }
 
-.v-window__prev,
-.v-window__next {
-  background-color: #ffffff00 !important;
-  height: 1px;
-}
+
 
 .v-carousel__item {
   height: 100% !important;
@@ -213,7 +216,7 @@ export default {
   transform: translateY(0) !important;
 }
 
-@media screen and (max-width: 1100px) {
+
   .app-wrapper {
     height: 100vh;
   }
@@ -227,20 +230,5 @@ export default {
   .login-page {
     transform: translateY(-10vh) !important;
   }
-}
 
-@media screen and (min-width: 1100px) {
-  .app-wrapper {
-    width: 100vw;
-    display: flex;
-  }
-
-  .navbar-wrapper {
-    width: 25vw;
-  }
-
-  .page-wrapper {
-    width: 75vw;
-  }
-}
 </style>

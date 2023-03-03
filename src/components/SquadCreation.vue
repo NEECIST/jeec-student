@@ -1,23 +1,30 @@
 <template>
   <div class="squad-creation">
-    <div class="n-squad-header">
-      <img
-        v-show="locked"
-        src="../assets/icons/lock.svg"
-        style="padding-right: 2vw"
-        alt="lock"
-      />
-      <p>You don't have a squad</p>
-    </div>
     <div class="squad-create">
-      <p>Squad Creation</p>
-      <center>
+      <div>
+        <input
+        type="text"
+        placeholder="New Squad"
+        v-model="name"
+        class="squad-input"
+        :class="{ input_exists: name.length }"
+      />
+      <br>
+      <input
+        type="text"
+        placeholder="Motto"
+        v-model="cry"
+        class="squad-input"
+        :class="{ input_exists: cry.length }"
+      />
+      </div>
+     
         <div
           v-show="!image_uploaded"
           class="image-input disabled"
           @click.stop="input_click"
         >
-          <p>Upload<br />Image</p>
+          <p>Add<br />Photo</p>
         </div>
         <input
           type="file"
@@ -34,26 +41,16 @@
           alt="uploaded-image"
           ref="uploaded_image"
         />
-      </center>
-      <input
-        type="text"
-        placeholder="Name"
-        v-model="name"
-        class="squad-input"
-        :class="{ input_exists: name.length }"
-      />
-      <input
-        type="text"
-        placeholder="Battle Cry!"
-        v-model="cry"
-        class="squad-input"
-        :class="{ input_exists: cry.length }"
-      />
+     
+     
 
-      <center>
+      
+    </div>
+   
         <button @click.stop="create_squad" class="button" v-if="!loading">
-          Create!
+          <span class="plus-symbol">⊕</span> Create squad
         </button>
+        
         <v-progress-circular
           v-else
           style="margin-top: 3vh"
@@ -63,10 +60,9 @@
           :width="8"
           class="loading-bar"
         ></v-progress-circular>
-      </center>
+     
 
       <p class="error-msg">{{ error }}</p>
-    </div>
   </div>
 </template>
 
@@ -113,7 +109,10 @@ export default {
       }
     },
     create_squad() {
-      if (!this.locked) return;
+      if (!this.locked){
+        this.error = "Invalid information for new squad"
+        return;
+      } 
       this.loading = true;
       var image = this.$refs.image_input;
 
@@ -140,8 +139,14 @@ export default {
 
 } */
 
+.squad-creation-title{
+  text-align:center;
+  font-size:8vw;
+  font-weight: 600;
+}
+
 .n-squad-header {
-  background-color: #f1f1f1;
+  background-color: #FFFCF8;
   padding: 2vh;
   text-align: center;
   font-size: 2.5vh;
@@ -159,23 +164,19 @@ export default {
 }
 
 .squad-create {
-  background-color: #f1f1f1;
   padding-top: 2vh;
   padding-bottom: 2vh;
   padding-left: 5vw;
   padding-right: 5vw;
-}
-
-.squad-create p {
-  font-size: 2.5vh;
-  font-weight: 600;
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .image-input {
   background-color: white;
   border-radius: 50%;
-  border: 0.5vh solid #707070;
-  box-shadow: 0 0 2.5vh 0.1vh #707070;
+  border: 5px solid #03618C;
   height: 13vh;
   width: 13vh;
   position: relative;
@@ -192,28 +193,29 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 2.5vh;
   font-weight: 600;
-  color: #707070;
 }
 
 .squad-image {
   height: 13vh;
   width: 13vh;
   border-radius: 50%;
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.1vh #27ade4;
+  border: 5px solid #03618C;
   cursor: pointer;
 }
 
 .squad-input {
   font-size: 2.5vh;
   font-weight: 600;
-  background-color: white;
-  margin-top: 3vh;
+  margin-top:2vh;
+  margin-bottom:2vh;
   padding-left: 2vw;
-  width: 100%;
+  width: 30vw;
+  min-width:200px;
   height: 6vh;
-  border: 0.1vh solid #707070;
-  box-shadow: 0 0.3vh 1.5vh 0.1vh #707070;
+  background: rgba(26, 156, 216, 0.15);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  border-left: 13px solid #1A9CD8
 }
 
 .input_exists {
@@ -222,18 +224,20 @@ export default {
 }
 
 .button {
-  background-color: #27ade4;
-  border-radius: 3vh;
-  font-size: 3vh;
-  font-weight: 500;
-  color: white;
-  width: 43vw;
+  font-size: 4vh;
+  font-weight: 600;
+  width: auto;
   height: auto;
   padding-top: 1vh;
   padding-bottom: 1vh;
-  margin-left: 1vw;
+  margin-left: 10vw;
   margin-right: 1vw;
   margin-top: 4vh;
+}
+
+.plus-symbol{
+  color:  #03618C;
+
 }
 
 .error-msg {
@@ -242,21 +246,5 @@ export default {
   font-weight: 700;
   color: red;
   margin-top: 2vh;
-}
-
-@media screen and (min-width: 1100px) {
-  .button {
-    width: 20vw;
-  }
-
-  p {
-    font-size: 3vh !important;
-  }
-
-  .squad-image,
-  .image-input {
-    height: 20vh;
-    width: 20vh;
-  }
 }
 </style>

@@ -235,9 +235,4 @@ export default {
   }
 }
 
-@media screen and (min-width: 1100px) {
-  .login {
-    transform: translateY(0vh);
-  }
-}
 </style>

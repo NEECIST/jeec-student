@@ -172,16 +172,4 @@ export default {
   margin-top: 35vh;
 }
 
-@media screen and (min-width: 1100px) {
-  .special {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    height: 92vh;
-  }
-
-  .daily {
-    height: 92vh;
-  }
-}
 </style>

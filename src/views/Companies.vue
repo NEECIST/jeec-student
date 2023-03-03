@@ -168,33 +168,14 @@ export default {
   color: black
 }
 
-@media screen and (max-width: 1100px) {
-  .sponsors-page {
-    height: 82vh;
-    overflow-y: auto;
-  }
 
-  .msg {
-    height: 72vh;
-  }
+.sponsors-page {
+  height: 82vh;
+  overflow-y: auto;
 }
 
-@media screen and (min-width: 1100px) {
-  .companies {
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .partner-info {
-    width: 50vw;
-  }
-
-  .sponsors:first-of-type {
-    padding-top: 3vh;
-  }
-
-  .sponsors:last-of-type {
-    padding-bottom: 3vh;
-  }
+.msg {
+  height: 72vh;
 }
+
 </style>

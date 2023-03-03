@@ -94,45 +94,18 @@ export default {
   margin: 0;
 }
 
-@media screen and (max-width: 1100px) {
-  .browser {
-    display: none;
-  }
-
-  .partner-img {
-    margin-left: 2vw;
-    margin-right: 2vw;
-  }
-
-  .partner-info {
-    width: calc(96vw - 18vh);
-  }
+.browser {
+  display: none;
 }
 
-@media screen and (min-width: 1100px) {
-  .mobile {
-    display: none;
-  }
-
-  .browser {
-    width: 100%;
-  }
-
-  .name {
-    font-size: 2vw;
-    margin-top: 2.5vh;
-    margin-bottom: 2.5vh
-  }
-
-  .partner {
-    width: 24vw;
-    margin-bottom: 0.5vh;
-    margin-left: 0.2vw;
-    margin-right: 0.2vw;
-  }
-
-  .learn {
-    width: 15vw;
-  }
+.partner-img {
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
+
+.partner-info {
+  width: calc(96vw - 18vh);
+}
+
+
 </style>

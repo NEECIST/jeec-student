@@ -1,281 +1,80 @@
 <template>
   <div class="jeecpot-rewards" v-if="jeecpot_rewards">
-    <center class="rewards-wrapper">
-      <div class="top-rewards-wrapper">
-        <div>
-          <div class="_title">Top 3 Players of the week</div>
-          <div class="top_rewards">
-            <div class="second-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.second_student_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.second_student_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/silver_crown.svg"
-                alt=""
-                class="crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.second_student_reward.name }}<br />(2nd
-                place)
-              </div>
-            </div>
-
-            <div class="first-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.first_student_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.first_student_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown first-top-crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.first_student_reward.name }}<br />(1st place)
-              </div>
-            </div>
-
-            <div class="third-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.third_student_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.third_student_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/bronze_crown.svg"
-                alt=""
-                class="crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.third_student_reward.name }}<br />(3rd place)
-              </div>
-            </div>
+    <div class="title-container">
+      <div class="individual-title" style="margin-left: -5vw;">Individual</div>
+      <div class="squads-title" style="margin-right: -2vw;">Squad</div>
+    </div>
+    <div class="winner-container">
+      <div class="winner-box" style="background: rgba(217, 208, 4, 0.2)">
+        <div style="margin-left: -10vw;">
+          <img style="border: 3px solid #D9D004;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.first_student_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.first_student_reward.image"
+          />
+          <div class="reward-info" style="text-align: center;">
+            {{ jeecpot_rewards.first_student_reward.name }}<br/>
           </div>
         </div>
-        <div>
-          <div class="_title">Top 3 Squads of the week</div>
-          <div class="top_rewards">
-            <div class="second-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.second_squad_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.second_squad_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/silver_crown.svg"
-                alt=""
-                class="crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.second_squad_reward.name }}<br />(2nd place)
-              </div>
-            </div>
-
-            <div class="first-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.first_squad_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.first_squad_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown first-top-crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.first_squad_reward.name }}<br />(1st place)
-              </div>
-            </div>
-
-            <div class="third-top-reward">
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.third_squad_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.third_squad_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/bronze_crown.svg"
-                alt=""
-                class="crown"
-              />
-              <div class="reward-info">
-                {{ jeecpot_rewards.third_squad_reward.name }}<br />(3rd place)
-              </div>
-            </div>
+        <div class="placements" style="color: #CEBD25;">1<sup><small><small>st</small></small></sup></div>
+        <div style="margin-right: -10vw;">
+          <img style="border: 3px solid #D9D004;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.first_squad_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.first_squad_reward.image"
+          />
+          <div class="reward-info" style="text-align: center;">
+            {{ jeecpot_rewards.first_squad_reward.name }}<br/>
           </div>
+        </div>
+    </div>
+    <div class="winner-box" style="background: rgba(26, 156, 216, 0.15)">
+      <div style="margin-left: -10vw;">
+        <img style="border: 3px solid #1A9CD8;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.second_student_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.second_student_reward.image"
+          />
+        <div class="reward-info" style="text-align: center;">
+          {{ jeecpot_rewards.second_student_reward.name }}<br/>
         </div>
       </div>
-
-      <div>
-        <div class="king-rewards">
-          <div class="king-reward">
-            <div>
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.king_job_fair_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.king_job_fair_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown king-crown"
-              />
-            </div>
-            <div class="reward-info">
-              <p>King of Job Fair</p>
-              <p>{{ jeecpot_rewards.king_job_fair_reward.name }}</p>
-            </div>
-          </div>
-
-          <div class="king-reward">
-            <div class="reward-info">
-              <p>King of Knowledge</p>
-              <p>{{ jeecpot_rewards.king_knowledge_reward.name }}</p>
-            </div>
-
-            <div>
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.king_knowledge_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.king_knowledge_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown king-crown"
-              />
-            </div>
-          </div>
-
-          <div class="king-reward">
-            <div>
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.king_hacking_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.king_hacking_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown king-crown"
-              />
-            </div>
-            <div class="reward-info">
-              <p>King of Hacking</p>
-              <p>{{ jeecpot_rewards.king_hacking_reward.name }}</p>
-            </div>
-          </div>
-
-          <div class="king-reward">
-            <div class="reward-info">
-              <p>King of Networking</p>
-              <p>{{ jeecpot_rewards.king_networking_reward.name }}</p>
-            </div>
-
-            <div>
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.king_networking_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.king_networking_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown king-crown"
-              />
-            </div>
-          </div>
-
-          <div class="king-reward">
-            <div>
-              <div
-                class="image"
-                :class="{ winner: jeecpot_rewards.cv_platform_raffle_winner }"
-                :style="
-                  'background-image:' +
-                  'url(' +
-                  jeec_brain_url +
-                  jeecpot_rewards.cv_platform_raffle_reward.image +
-                  ')'
-                "
-              ></div>
-              <img
-                src="../assets/icons/gold_crown.svg"
-                alt=""
-                class="crown king-crown"
-              />
-            </div>
-            <div class="reward-info">
-              <p>CV Platform Raffle</p>
-              <p>{{ jeecpot_rewards.cv_platform_raffle_reward.name }}</p>
-            </div>
-          </div>
+      <div class="placements" style="color: #1A9CD8;">2<sup><small><small>nd</small></small></sup></div>
+      <div style="margin-right: -10vw;">
+        <img style="border: 3px solid #1A9CD8;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.second_squad_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.second_squad_reward.image"
+          />
+        <div class="reward-info" style="text-align: center;">
+          {{ jeecpot_rewards.second_squad_reward.name }}<br/>
         </div>
       </div>
-    </center>
+    </div>
+    <div class="winner-box" style="background: rgba(217, 48, 70, 0.2); margin-bottom: 40px;">
+      <div style="margin-left: -10vw;">
+        <img style="border: 3px solid #D93046;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.third_student_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.third_student_reward.image"
+          />
+        <div class="reward-info" style="text-align: center;">
+          {{ jeecpot_rewards.first_student_reward.name }}<br/>
+        </div>
+      </div>
+      <div class="placements" style="color: #D93046;">3<sup><small><small>rd</small></small></sup></div>
+      <div style="margin-right: -10vw;">
+        <img style="border: 3px solid #D93046;"
+            class="image"
+            :class="{ winner: jeecpot_rewards.third_squad_winner }"
+            :src="jeec_brain_url + jeecpot_rewards.third_squad_reward.image"
+          />
+        <div class="reward-info" style="text-align: center;">
+          {{ jeecpot_rewards.first_squad_reward.name }}<br/>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -298,178 +97,100 @@ export default {
 .jeecpot-rewards {
   font-weight: 600;
   height: 90vh;
-  overflow-y: auto;
+  width: 100vw;
 }
-
-.rewards-wrapper > div > div {
-  background-color: #f1f1f1;
-  padding-top: 1vh;
-}
-
-.rewards-wrapper > div:not(:first-of-type) {
-  margin-top: 1vh;
-}
-
-._title {
-  font-size: 2.7vh;
-  margin-bottom: 2vh;
-}
-
-.image {
+.title-container{
   position: relative;
-  width: 28vw;
-  height: 28vw;
-  border-radius: 50%;
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.7vh #27ade4;
-  margin-top: 4vh;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  background-color: white;
-  background-size: 105%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.winner {
-  border: 0.5vh solid #27e453 !important;
-  box-shadow: 0 0 2.5vh 0.7vh #27e453 !important;
-}
-
-.crown {
-  position: absolute;
-  width: 8vh;
-  top: 0;
-  margin-top: 0vh;
-  margin-left: -3.8vh;
-}
-
-.student-crown {
-  margin-top: -5.5vh;
-}
-
-.first-top-crown {
-  margin-top: -1.5vh;
-}
-
-.reward-info {
-  font-size: 2.2vh;
-  line-height: 2.2vh;
-  margin-top: 1.5vh;
-  margin-bottom: 2vh;
-}
-
-.top_rewards {
+  top: 2vh;
   display: flex;
-  overflow-x: auto;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.individual-title{
+  width: 146px;
+  height: 34px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+
+  color: #03618C;
 }
 
-.student-reward,
-.first-top-reward,
-.second-top-reward,
-.third-top-reward {
-  position: relative;
+.squads-title{
+  width: 94px;
+  height: 34px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+
+  color: #03618C;
 }
 
-.second-top-reward,
-.third-top-reward {
-  margin-top: 12vh;
-}
-
-.student-reward {
-  margin-top: 6vh;
-}
-
-.king-rewards {
-  padding-bottom: 3vh;
-}
-
-.king-reward {
-  position: relative;
+.winner-container{
+  height: 85vh;
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.winner-box{
+  position: relative;
+  align-self: center;
+  width: 90vw;
+  height: 20vh;
+  border-radius: 35px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
-  margin-top: 1vh;
 }
 
-.king-reward p {
-  margin: 0;
-  margin-top: 3vh;
+.reward-info{
+  position: relative;
+  margin-top: 3vw;
+  width: 80px;
+  height: 24px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #000000;
 }
 
-.king-reward:nth-of-type(odd) > div:last-of-type > p:first-of-type,
-.king-reward:nth-of-type(even) > div:first-of-type > p:first-of-type {
-  font-size: 3vh;
-  margin-bottom: -1vh;
+.image{
+  border-radius: 50%;
+
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.king-reward:nth-of-type(odd) > div:last-of-type > p:last-of-type,
-.king-reward:nth-of-type(even) > div:first-of-type > p:last-of-type {
-  font-size: 2.5vh;
+.placements{
+  position: relative;
+  margin-left: -5vw;
+  width: 19px;
+  height: 59px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 59px;
+  /* identical to box height */
+
+  letter-spacing: 0.01em;
 }
 
-.king-reward:nth-of-type(odd) {
-  justify-content: left;
-  padding-left: 5vw;
-  padding-right: 0;
-}
-
-.king-reward:nth-of-type(odd) > div:last-of-type p {
-  text-align: left;
-  margin-left: 2vw;
-  margin-right: 0;
-}
-
-.king-reward:nth-of-type(even) > div:first-of-type p {
-  text-align: right;
-  margin-left: 0;
-  margin-right: 2vw;
-}
-
-.king-reward:nth-of-type(even) {
-  justify-content: flex-end;
-  padding-left: 0;
-  padding-right: 5vw;
-}
-
-.king-crown {
-  margin-top: -1.5vh;
-}
-
-@media screen and (max-width: 1100px) {
-  .jeecpot-rewards {
-    height: 82vh;
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  ._title {
-    font-size: 3.5vh;
-  }
-
-  .image {
-    width: 9vw;
-    height: 9vw;
-  }
-
-  .king-reward:nth-of-type(odd) > div:last-of-type > p:first-of-type,
-  .king-reward:nth-of-type(even) > div:first-of-type > p:first-of-type {
-    font-size: 4vh;
-  }
-
-  .king-reward:nth-of-type(odd) > div:last-of-type > p:last-of-type,
-  .king-reward:nth-of-type(even) > div:first-of-type > p:last-of-type {
-    font-size: 3vh;
-  }
-
-  .top-rewards-wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .top-rewards-wrapper > div {
-    width: 36.7vw;
-  }
-}
 </style>

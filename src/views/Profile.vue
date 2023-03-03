@@ -1,13 +1,12 @@
 <template>
   <div class="profile">
-    <div class="top">
+    <div class="top" style="margin-top:50px">
       <img alt="profile photo" :src="currentUser.photo" class="profile-img" />
       <div class="profile-info">
         <div class="name">
-          <p>{{ nameArray[0] }}</p>
-          <p class="second-name">{{ nameArray[nameArray.length - 1] }}</p>
+          <p>{{ nameArray[0] }} {{ nameArray[nameArray.length - 1] }}</p>
         </div>
-        <p class="level">level {{ currentUser.level.data.value }}</p>
+        <p class="level">Level {{ currentUser.level.data.value }}</p>
         <Expbar
           :xp="currentUser.total_points - currentUser.level.data.start_points"
           :progress="progress"
@@ -19,20 +18,14 @@
     </div>
 
     <div class="middle">
-      <div class="cv-wrapper">
-        <img src="../assets/icons/cv.svg" alt="cv" />
-        <div
-          class="add-cv"
-          v-if="currentUser.uploaded_cv === false"
-          @click.stop="cv_click"
-          style="background-color: #70c3e4"
-        >
-          <p>Add CV</p>
-          <p><v-icon large style="color: white">mdi-plus</v-icon></p>
-        </div>
+      <div class="button">
+        
+        <img :src="cv_img"  v-if="currentUser.uploaded_cv === false"
+        @click.stop="cv_click">
+      
         <div class="added-cv" v-else-if="!loading_cv">
           <div>
-            <p>Added</p>
+            <p>Added CV</p>
             <v-icon large style="color: white">mdi-check</v-icon>
           </div>
           <p
@@ -69,16 +62,11 @@
           @change="add_cv"
         />
       </div>
-      <div class="linkedin-wrapper">
-        <img src="../assets/icons/linkedin.svg" alt="linkedin" />
-        <div
-          class="add-linkedin"
-          v-if="currentUser.linkedin_url === null"
-          @click.stop="dialog = true"
-        >
-          <p>Add LinkedIn</p>
-          <p><v-icon large style="color: white">mdi-plus</v-icon></p>
-        </div>
+      <div class="button">
+        
+        <img src="../assets/linkedin.png" alt="linkedin" v-if="currentUser.linkedin_url === null"
+          @click.stop="dialog = true"/>
+        
         <div class="added-linkedin" v-else-if="!loading_linkedin">
           <div>
             <p>Added</p>
@@ -100,19 +88,75 @@
       </div>
     </div>
 
+    <div class="redeem-code">
+      <p class="redeem-text">Redeem Code:</p>
+   
+      <input
+        type="text"
+        class="input-code"
+        placeholder="xxxx-xxxx-xxxx-xxxx"
+        v-model="code"
+        autofocus
+      />
+      <v-btn
+          v-if="!loading_redeem"
+          depressed
+          @click.stop="redeem"
+          class="white--text"
+          id="redeem-btn"
+          color="secundary"
+          >Redeem</v-btn
+        >
+        <v-progress-circular
+          v-else
+          style="margin-top: 1.9vh"
+          indeterminate
+          color="#27ade4"
+          :size="60"
+          :width="6"
+          class="loading-bar"
+        ></v-progress-circular>
+    </div>
+  
+
+      <p class="error-msg">{{ error }}</p>
+
+      <div class="your-code">
+      <p>Your referral code:</p>
+        <input ref="referral" type="text" :value="referral_code" readonly style="color:#757575" />
+        <v-btn
+          depressed
+          color="secundary"
+          class="white--text"
+          id="copy"
+          @click.stop="clipboard"
+          ><v-icon
+            >mdi-content-copy</v-icon
+          ></v-btn
+        >
+      </div>
+ 
+      <p class="code-warning" style="font-weight: 800; color: red; margin: 1vw; text-align: center">
+        ATTENTION: You will only grant points to the person whose code you
+        redeemed if you participate in an activity.
+      </p>
+      <br>
+
+
+
     <div class="bottom" v-if="!loading_companies && !loading_tags">
-      <center>
-        <p class="interests">Your Interests</p>
-      </center>
-      <p class="interest-title">Themes:</p>
+      <div class="bottom-container">
+       <br>
+      
+      <p class="interest-title">Themes</p>
       <div class="tags">
         <p
           v-for="tag in tags"
           :key="tag"
           @click.stop="tag_click(tag)"
-          class="tag"
+          class="interest-tag"
           :style="
-            currentUser.tags.includes(tag) ? 'background-color:#26A2D5' : ''
+            currentUser.tags.includes(tag) ? 'background-color:#D93046' : ''
           "
         >
           {{ tag }}
@@ -130,7 +174,10 @@
           }}</v-icon>
         </p>
       </div>
-      <p class="interest-title">Partners:</p>
+    </div>
+    <div class="bottom-container">
+      <br>
+      <p class="interest-title">Partners</p>
       <div class="tags">
         <p
           v-for="company in companies"
@@ -159,6 +206,7 @@
         </p>
       </div>
     </div>
+    </div>
     <div v-else class="loading">
       <v-progress-circular
         indeterminate
@@ -167,30 +215,6 @@
         :width="10"
         class="loading-bar"
       ></v-progress-circular>
-    </div>
-
-    <div class="footer">
-      <table>
-        <!-- <tr>
-          <td>
-            <v-switch
-              class="notifications-switch"
-              v-model="color"
-              color="grey"
-              value="grey"
-              hide-details
-            ></v-switch>
-          </td>
-          <td class="notifications">Notifications</td>
-        </tr>
-        <tr class="spacer"></tr> -->
-        <tr @click.stop="logout">
-          <td class="logout-img">
-            <img src="../assets/icons/logout.svg" alt="logout" />
-          </td>
-          <td class="logout">LogOut</td>
-        </tr>
-      </table>
     </div>
 
     <v-dialog v-model="dialog" :width="dialog_width">
@@ -240,12 +264,63 @@ export default {
       loading_companies: true,
       loading_cv: false,
       loading_linkedin: false,
+      cv_img:require("../assets/cv_2.png"),
+      code: "",
+      prev_length: 0,
+      points: 0,
+      squad: null,
+      error: "",
+      loading_redeem: false,
+      loading_squad: true,
     };
   },
   methods: {
-    logout() {
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/");
+    redeem() {
+      if (this.code.replaceAll("-", "").length == 16) {
+        this.loading_redeem = true;
+        UserService.redeemCode(this.code).then(
+          (response) => {
+            this.points =
+              response.data.data.total_points - this.currentUser.total_points;
+            this.$store.dispatch("auth/userUpdate", response.data.data);
+
+            UserService.getUserSquad().then(
+              (response) => {
+                this.squad = response.data.data;
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+
+            this.dialog = true;
+            this.error = "";
+
+            this.$emit(
+              "notification",
+              "Code redeemed successfully +" + this.points + "pts",
+              "success"
+            );
+            this.loading_redeem = false;
+          },
+          (error) => {
+            this.error = "Invalid Code";
+            console.log(error);
+            this.$emit(
+              "notification",
+              error.response ? error.response.data.error : "Invalid code",
+              "error"
+            );
+            this.loading_redeem = false;
+          }
+        );
+      } else {
+        this.$emit("notification", "Incomplete code", "error");
+      }
+    },
+    clipboard() {
+      this.$refs.referral.select();
+      document.execCommand("copy");
     },
     add_linkedin(e) {
       e.preventDefault();
@@ -411,23 +486,10 @@ export default {
       );
     },
     resize() {
-      if (window.innerWidth < 1100) {
-        this.xpbar_width = "62vw";
-        this.dialog_width = "";
-      } else {
-        this.xpbar_width = "47vw";
-        this.dialog_width = "40vw";
-      }
-
-      if (window.innerWidth < 600) {
-        this.height = 25;
-      } else if (window.innerWidth < 1100) {
-        this.height = 35;
-      } else if (window.innerWidth < 1500) {
-        this.height = 45;
-      } else {
-        this.height = 60;
-      }
+      
+      this.xpbar_width = "62vw";
+      this.dialog_width = "";
+      
     },
   },
   computed: {
@@ -446,6 +508,18 @@ export default {
       var end_points = this.$store.state.auth.user.level.data.end_points;
 
       return ((xp - start_points) / (end_points - start_points)) * 100;
+    },
+    referral_code() {
+      var code = this.$store.state.auth.user.referral_code;
+      return (
+        code.substring(0, 4) +
+        "-" +
+        code.substring(4, 8) +
+        "-" +
+        code.substring(8, 12) +
+        "-" +
+        code.substring(12, 16)
+      );
     },
   },
   destroyed() {
@@ -482,33 +556,91 @@ export default {
       }
     );
   },
+  watch: {
+    code(val) {
+      if (
+        val.replaceAll("-", "").length % 4 === 0 &&
+        val[val.length - 1] !== "-" &&
+        val.replaceAll("-", "").length < 16 &&
+        val.length > 0 &&
+        val.length > this.prev_length
+      ) {
+        this.code = this.code + "-";
+      }
+
+      if (val.replaceAll("-", "").length > 16 || val.length > 19) {
+        this.code = this.code.substring(0, 19);
+      }
+
+      if (this.prev_length == 0) {
+        for (var i = 0; i < this.code.length; i++) {
+          if ((i == 4 || i == 9 || i == 14) && this.code[i] !== "-") {
+            this.code =
+              this.code.substring(0, i) + "-" + this.code.substring(i);
+            i--;
+          }
+        }
+      }
+
+      this.prev_length = val.length;
+    },
+  },
+  mounted() {
+    if (!this.currentUser) {
+      this.$router.push("/");
+    }
+
+    UserService.getUserSquad().then(
+      (response) => {
+        this.squad = response.data.data;
+        this.loading_squad = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading_squad = false;
+      }
+    );
+  },
 };
 </script>
 
 <style scoped>
+
 .profile {
-  background-color: #e6e6e6;
+  background-color: #FFFCF8;
+  height:auto;
 }
 
-.top,
-.middle,
-.bottom,
-.footer {
-  background-color: #f1f1f1;
+.top{
+  background-color: #FFFCF8;
   margin-bottom: 0.5vh;
   padding-top: 2.5vh;
   padding-bottom: 2.5vh;
   padding-left: 5vw;
   padding-right: 5vw;
 }
+.middle{
+  background-color: #FFFCF8;
+  margin-bottom: 0.5vh;
+  padding-top: 2.5vh;
+  padding-bottom: 2.5vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  display:flex;
+  justify-content:space-evenly;
+}
 
 .bottom {
-  height: 37vh;
-  width: 100vw;
-  overflow-y: scroll;
-  padding: 0;
-  padding-bottom: 1vh;
-  padding-left: 5vw;
+  width:95vw;
+  margin-bottom:20vh
+}
+
+.bottom-container{
+  background-color: #DDEEF3;
+  border-radius:30px;
+  margin-left:2.5vw;
+  padding-bottom: 2vh;
+  margin-bottom: 5vh;
 }
 
 ::-webkit-scrollbar {
@@ -549,7 +681,6 @@ export default {
   margin-bottom: 0.5vh;
   font-size: 2.1vh;
   font-weight: 600;
-  color: #707070;
 }
 
 .cv-wrapper,
@@ -567,13 +698,9 @@ export default {
 
 .add-cv,
 .add-linkedin {
-  width: calc(85vw - 7.5vh);
   font-size: 3.5vh;
   font-weight: 500;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #27ade4;
   border-radius: 2vh;
   padding: 0.5vh;
   padding-left: 3vw;
@@ -623,22 +750,24 @@ export default {
 }
 
 .interests {
-  font-size: 4vh;
+  font-size: 3.5vh;
   font-weight: 500;
   margin: 0;
   margin-bottom: 1vh;
 }
 
 .interest-title {
-  font-size: 2.3vh;
+  font-size: 4vw;
   font-weight: 600;
-  margin: 0;
+  position:relative;
+  margin-left:5vw;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   min-height: 5vh;
+  margin-left:3vw;
 }
 
 .tag {
@@ -655,6 +784,27 @@ export default {
   margin-bottom: 1vh;
   cursor: pointer;
   display: flex;
+}
+
+.interest-tag{
+  margin: 0;
+  line-height: 4vh;
+  font-size: 2vh;
+  color: white;
+  height: 4vh;
+  background-color:  #EB8F9B;
+  border-radius: 3vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  margin-right: 1vw;
+  margin-bottom: 1vh;
+  cursor: pointer;
+  display: flex;
+  font-size: 3.5vw;
+  font-weight: 600;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  height: 5vh;
 }
 
 .add-tag {
@@ -727,105 +877,190 @@ export default {
   margin-top: 10vh;
 }
 
-@media screen and (max-width: 1100px) {
-  .cv-wrapper {
-    margin-bottom: 2.5vh;
-  }
+.top {
+  justify-content: center;
+  align-items: center;
 }
 
-@media screen and (min-width: 1100px) {
-  .top {
-    justify-content: center;
-    align-items: center;
-  }
-
-  .name {
-    display: flex;
-  }
-
-  .name p {
-    font-size: 4vh;
-  }
-
-  .level {
-    font-size: 2.7vh;
-  }
-
-  .second-name {
-    margin-left: 0.5vw !important;
-  }
-
-  .middle {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 3vw;
-    padding-right: 3vw;
-    padding-top: 4vh;
-    padding-bottom: 4vh;
-  }
-
-  .cv-wrapper,
-  .linkedin-wrapper {
-    width: 30vw;
-  }
-
-  .cv-wrapper img,
-  .linkedin-wrapper img {
-    margin-right: 2vw;
-  }
-
-  .add-cv,
-  .add-linkedin {
-    width: 23vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-  }
-
-  .added-linkedin > p:last-of-type {
-    margin-right: 0;
-  }
-
-  .profile-img {
-    height: 19vh;
-    width: 19vh;
-  }
-
-  .bottom {
-    width: 75vw;
-    height: 49vh;
-  }
-
-  .interest-title {
-    font-size: 3.5vh;
-  }
-
-  .tags {
-    margin-bottom: 2vh;
-  }
-
-  .tag {
-    font-size: 2.8vh;
-    font-weight: 600;
-    padding-top: 0.5vh;
-    padding-bottom: 0.5vh;
-    height: 5vh;
-  }
-
-  ::-webkit-scrollbar {
-    width: 2vw;
-  }
-
-  .footer {
-    margin-left: 0.1vw;
-  }
-
-  .footer table {
-    width: 20vw;
-    margin-left: 22vw;
-  }
-
-  tr {
-    cursor: pointer;
-  }
+.name {
+  display: flex;
 }
+
+.name p {
+  font-size: 4vh;
+}
+
+.level {
+  font-size: 2.7vh;
+}
+
+.second-name {
+  margin-left: 0.5vw !important;
+}
+
+.middle {
+  display: flex;
+  justify-content: space-evenly;
+  align-items:center;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+}
+
+.cv-wrapper,
+.linkedin-wrapper {
+  width: 30vw;
+}
+
+.cv-wrapper img,
+.linkedin-wrapper img {
+  margin-right: 2vw;
+}
+
+.add-cv,
+.add-linkedin {
+  width: 23vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.added-linkedin > p:last-of-type {
+  margin-right: 0;
+}
+
+.profile-img {
+  height: 19vh;
+  width: 19vh;
+}
+
+
+
+
+.tags {
+  margin-bottom: 2vh;
+}
+
+.tag {
+  font-size: 3.5vw;
+  font-weight: 600;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  height: 5vh;
+}
+
+::-webkit-scrollbar {
+  width: 2vw;
+}
+
+.footer {
+  margin-left: 0.1vw;
+}
+
+.footer table {
+  width: 20vw;
+  margin-left: 22vw;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.button img{
+  width:15vw;
+  border-radius:100%;
+}
+
+.redeem-code{
+  margin-left:5vw;
+  display:flex;
+  font-size:25px;
+  font-weight:600;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.redeem-text{
+  margin-bottom:0px;
+  color:#03618C;
+}
+
+.input-code{
+  font-size:25px;
+  margin-left:2vw;
+  text-align: center;
+}
+
+@media screen and (max-width: 500px)  {
+  .input-code{
+  font-size:15px;
+}
+.redeem-code{
+  font-size:15px; 
+}
+.your-code{
+  font-size:15px !important
+}
+#redeem-btn{
+  font-size:10px !important;
+  height:20px !important;
+  width:40px !important;
+}
+}
+@media screen and (min-width: 1000px)  {
+  .input-code{
+  font-size:35px;
+}
+.redeem-code{
+  font-size:35px !important;
+}
+.your-code{
+  font-size:35px !important
+}
+#redeem-btn{
+  font-size:20px !important;
+  height:40px !important;
+  width:120px !important;
+}
+}
+
+.your-code{
+  margin-left:5vw;
+  font-size:25px;
+  display:flex;
+  font-weight:600;
+  align-items: center;
+  flex-wrap: wrap;
+  color:#03618C;
+}
+
+.your-code p{
+  margin-bottom:0;
+  margin-right:2vw;
+}
+
+#copy{
+  border-radius:20px;
+  width:40px;
+  height:40px;
+  min-width: 0;
+  margin-left:5vw;
+}
+
+#redeem-btn{
+  border-radius:4vw;
+  font-size:15px;
+  height:30px;
+  width:90px;
+  margin-left:5vw;
+}
+
+.code-warning{
+  padding-left:5vw;
+  padding-right: 5vw;
+}
+
+
+
 </style>

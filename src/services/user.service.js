@@ -47,7 +47,14 @@ class UserService {
   }
 
   getCV() {
-    return axios.get(jeec_brain_url + "/student/cv", { headers: authHeader() });
+    axios.get(jeec_brain_url + "/student/cv", { headers: authHeader() }).then(response=>{
+      if(response.data=="No CV uploaded"){
+        return null;
+      }
+      else{
+        return response.data;
+      }
+    })
   }
 
   getUserSquad() {
@@ -140,6 +147,12 @@ class UserService {
     return axios.get(jeec_brain_url + "/student/activities?date=" + date, {
       headers: authHeader()
     });
+  }
+
+  getNextActivity(){
+    return  axios.get(jeec_brain_url + "/student/next_activity",{
+      headers: authHeader()
+    })
   }
 
   getQuests() {
@@ -277,6 +290,12 @@ class UserService {
 
   async getEventDates() {
     return axios.get(jeec_brain_url + "/student/event-dates", {
+      headers: authHeader()
+    });
+  }
+
+  getQuestProgress(){
+    return axios.get(jeec_brain_url + "/student/quest", {
       headers: authHeader()
     });
   }

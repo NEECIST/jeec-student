@@ -128,7 +128,7 @@ export default {
 
 <style scoped>
 .card {
-  background-color: #f1f1f1;
+  background-color: #FFFCF8;
   margin-bottom: 0.5vh;
   padding-top: 2.5vh;
   padding-bottom: 2.5vh;

@@ -1,228 +1,143 @@
 <template>
   <div class="home">
     <div class="top">
-      <router-link to="/profile" tag="button" class="plus">+</router-link>
-      <div class="user-wrapper">
-        <img alt="profile photo" :src="currentUser.photo" class="user-photo" />
-        <div>
-          <p class="main-title">
-            {{ nameArray[0] }} {{ nameArray[nameArray.length - 1] }}
+      
+      <div v-if="next_activity!=null" class="main-title">
+          <h1 >
+              UP NEXT
+          </h1>
+          <br>
+          <br>
+          <div class="top-container">
+          
+          <div>
+          <p>
+            {{ next_activity.name }}
           </p>
-          <p class="sub-sub-title">lvl. {{ currentUser.level.data.value }}</p>
-          <center class="expbar">
-            <Expbar
-              :xp="currentUser.total_points - currentUser.level.data.start_points"
-              :progress="progress"
-              :end_points="currentUser.level.data.end_points - currentUser.level.data.start_points"
-              :width="xpbar_width"
-              :height="height"
-            />
-          </center>
-          <div class="redirect-buttons upper">
-            <router-link to="/code" tag="button">Redeem Codes</router-link>
-            <router-link to="/quests" tag="button">Daily Quests</router-link>
+          <p>
+            {{ next_activity.start_time }} - {{ next_activity.end_time }}
+          </p>
+          <br>
+          <p>
+            {{ next_activity.activity_type }}
+          </p>
+        </div>
+        <div v-for="image in next_activity.images" :key="image" >
+            <img :src="jeec_brain_url + image" class="activity-img">
           </div>
         </div>
-      </div>
+        </div>
 
-      <div
-        class="next-reward"
-        v-if="
-          reward_level && currentUser.total_points < reward_level.end_points
-        "
-      >
-        <div
+        <p v-else class="no-more-activities">
+          There are no more activities scheduled
+        </p>
+      
+    </div>
+    <div class="middle">
+      <div class="mid-component">
+          <h1>NEXT REWARD</h1>
+          <div
           class="reward-img"
           :style="'background-image:' + 'url(' + _reward_level + ')'"
         ></div>
-        <div class="next-reward-info">
-          <p class="n-reward-top">Next Reward:</p>
-          <p class="n-reward-middle">
-            {{ reward_level ? reward_level.reward.name : "No Reward Found" }}
-          </p>
-          <p class="n-reward-bottom" v-if="reward_level">
-            Missing
-            {{
-              (reward_level ? reward_level.end_points : 0) -
-              currentUser.total_points
-            }}
-            xp
-          </p>
-        </div>
+        <p>
+          {{(reward_level ? reward_level.end_points : 0) -
+              currentUser.total_points}}XP to go</p>
       </div>
-    </div>
 
-    <div
-      class="middle"
-      v-if="!loading_squad && !loading_level && !loading_reward"
-    >
-      <router-link to="/squad" tag="button" class="plus">+</router-link>
-      <div class="middle-wrapper">
-        <div class="big-squad-wrapper">
-          <div class="squad-wrapper">
-            <img
-              v-if="squad"
-              class="squad-image"
-              :src="squad ? jeec_brain_url + squad.image : ''"
-              alt="squad-image"
-            />
-            <div>
-              <p class="main-title" :class="!squad ? 'no-squad-title' : ''">
-                {{ squad ? squad.name : "You currently have no squad" }}
-              </p>
-              <p v-if="squad" class="sub-title">
-                {{ squad ? squad.cry : "No squad" }}
-              </p>
-              <p v-if="squad" class="sub-sub-title">
-                rank {{ squad ? squad.rank : "" }}
-              </p>
-              <div v-else class="redirect-buttons see-more create-squad">
-                <router-link to="/squad" tag="button">Create Squad</router-link>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="middle-info"
-            :style="!squad ? 'justify-content:center  !important' : ''"
-          >
-            <div v-if="squad" class="xp-wrapper">
-              <div class="daily-xp">
-                <p class="xp-top">Daily:</p>
-                <span class="xp-value">{{
-                  squad ? squad.daily_points : ""
-                }}</span>
-                <span class="xp">xp</span>
-              </div>
-              <div>
-                <p class="xp-top">Total:</p>
-                <span class="xp-value">{{
-                  squad ? squad.total_points : ""
-                }}</span>
-                <span class="xp">xp</span>
-              </div>
-            </div>
-
-            <div class="today-reward">
-              <p class="t-reward-top">Today's Reward:</p>
-              <center>
-                <div
-                  class="reward-img"
-                  :style="'background-image:' + 'url(' + _today_reward + ')'"
-                ></div>
-              </center>
-              <p class="t-reward-bottom">
-                {{
-                  today_reward && today_reward.image
-                    ? today_reward.name
-                    : "No Reward Found"
-                }}
-              </p>
-            </div>
-          </div>
-
-          <div class="members" v-if="squad">
-            <Member
-              v-for="member in squad.members.data"
-              :key="member.ist_id"
-              :member="member"
-              :captain_ist_id="squad.captain_ist_id"
-            />
-          </div>
-        </div>
-
-        <div class="big-rewards">
-          <p class="big-rewards-title">Next Rewards:</p>
-          <div class="big-reward">
+        <div class="mid-component">
+          <h1>TODAY'S PRIZE</h1>
+          
             <div
-              class="big-reward-img"
+              class="reward-img"
               :style="'background-image:' + 'url(' + _today_reward + ')'"
             ></div>
-            <div class="big-reward-info">
-              <p class="big-reward-name">
-                {{
-                  today_reward && today_reward.image
-                    ? today_reward.name
-                    : "No Reward Found"
-                }}
-              </p>
-              <p class="big-reward-description">Today's Top Team</p>
+            <div v-if="squad_ranking!=null">
+              <p v-if="squad_ranking==1">
+            1st place
+          </p>
+          <p v-else-if="squad_ranking==2">
+            2nd place
+          </p>
+          <p v-else-if="squad_ranking==3">
+            3rd place
+          </p>
+          <p v-else>
+            {{squad_ranking}}th place
+          </p>
+          <p v-if="xp_to_first!=0"> {{ xp_to_first }} points to reach first!</p>
             </div>
-          </div>
-
-          <div
-            class="big-reward"
-            v-if="
-              reward_level && currentUser.total_points < reward_level.end_points
-            "
-          >
-            <div
-              class="big-reward-img"
-              :style="'background-image:' + 'url(' + _reward_level + ')'"
-            ></div>
-            <div class="big-reward-info">
-              <p class="big-reward-name">
-                {{
-                  reward_level ? reward_level.reward.name : "No Reward Found"
-                }}
-              </p>
-              <p class="big-reward-description" v-if="reward_level">
-                Next Personal Reward<br />Missing
-                {{
-                  (reward_level ? reward_level.end_points : 0) -
-                  currentUser.total_points
-                }}
-                xp
-              </p>
+            <p v-else>
+              You haven't joined a squad yet!
+            </p>
+          
+          
             </div>
-          </div>
+    
+      </div>
 
-          <div class="redirect-buttons see-more">
-            <router-link to="/rewards" tag="button">See More</router-link>
+      <div v-if="!has_cv" class="bottom">
+        <div class="cv-text">
+          <p> Still didn’t add your CV?
+            Do it and pass by our check in to win a surprise reward  </p>
+        </div>
+        <img :src="cv_logo" class="cv-img">
+      </div>
+      <div v-if="has_cv && quest.error==''" class="bottom">
+        <div class="quest-text">
+          <h1>Daily quest:</h1>
+          <div class="quest-info">
+            <div>
+              <h2>
+                Reward:
+              </h2>
+              <br>
+            <img class="quest-img" :src="jeec_brain_url + quest.image">
+            </div>
+            
+            <div>
+              <h2>{{ quest.name }}</h2>
+              <p>{{ quest.description }}</p>
+              <h3>Progress: {{ quest.progress }}/{{ quest.total }}</h3>
+            </div>
           </div>
         </div>
+        
       </div>
-    </div>
-    <div class="loading" v-else>
-      <v-progress-circular
-        indeterminate
-        color="#27ade4"
-        :size="100"
-        :width="10"
-        class="loading-bar"
-      ></v-progress-circular>
-    </div>
-    <div class="redirect-buttons bottom">
-      <router-link to="/code" tag="button">Redeem Codes</router-link>
-      <router-link to="/quests" tag="button">Daily Quests</router-link>
-    </div>
   </div>
 </template>
 
 <script>
-import Expbar from "@/components/Expbar.vue";
 import UserService from "../services/user.service";
-import Member from "@/components/Member.vue";
+import axios from "axios";
+import authHeader from "../services/auth-header";
 
 export default {
   name: "Home",
   components: {
-    Expbar,
-    Member,
   },
   data: function () {
     return {
+      cv_logo:require("../assets/cv_b-11 1.png"),
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
       default_image: require("../assets/jeec_colour_no_edition_transparent.svg"),
       squad: null,
       levels: null,
-      today_reward: {},
+      today_reward: {image:null},
       xpbar_width: "92vw",
       height: 30,
       loading_squad: true,
       loading_level: true,
       loading_reward: true,
+      has_cv: true,
+      squad_ranking:null,
+      xp_to_first:null,
+      next_activity:null,
+      quest:null,
     };
+  },
+  mounted(){
+
   },
   computed: {
     _today_reward() {
@@ -264,31 +179,63 @@ export default {
   },
   methods: {
     resize() {
-      if (window.innerWidth < 1100) {
-        this.xpbar_width = "92vw";
-      } else {
-        this.xpbar_width = "47vw";
-      }
-
-      if (window.innerWidth < 600) {
-        this.height = 30;
-      } else if (window.innerWidth < 1100) {
-        this.height = 45;
-      } else {
-        this.height = 60;
-      }
+      
+      this.xpbar_width = "92vw";
+      
     },
   },
   destroyed() {
     window.removeEventListener("resize", this.resize);
   },
-  created() {
+  async created() {
     window.addEventListener("resize", this.resize);
     this.resize();
 
     if (!this.currentUser) {
       this.$router.push("/");
     }
+
+    axios.get(this.jeec_brain_url + "/student/cv", { headers: authHeader() }).then(response=>{
+      if(response.data=="No CV uploaded"){
+        this.has_cv=false;
+      }
+      else{
+        this.has_cv=true;
+      }
+    })
+      
+    UserService.getNextActivity().then(
+      (response) => {
+    
+        this.next_activity = response.data.activity
+      },
+    );
+    let user_squad=null
+    await UserService.getUserSquad().then(
+      (response) => {
+        user_squad = response.data
+        console.log(user_squad)
+      },
+    );
+    let daily_squads_rank = null
+    UserService.getDailySquadsRanking().then(
+      (response) => {
+        daily_squads_rank = response.data
+        this.xp_to_first = daily_squads_rank.data[0].daily_points-user_squad.data.daily_points;
+        for(let i=1;i<=daily_squads_rank.length;i++){
+          if(daily_squads_rank[i-1].name == user_squad.name){
+            this.squad_ranking=i;
+          }
+        }
+      },
+    );
+
+    UserService.getQuestProgress().then(
+      (response) => {
+        this.quest = response.data
+      },
+    );
+    
 
     UserService.getUserSquad().then(
       (response) => {
@@ -328,440 +275,206 @@ export default {
 
 <style scoped>
 .home {
-  background-color: #e6e6e6;
+  background-color: #FFFCF8;
+  display:flex;
+  flex-direction: column;
+  justify-content:space-around;
+  position:absolute;
+  height:auto;
+  padding-bottom:20vh;
 }
 
-.top,
-.middle {
+.top{
   position: relative;
   margin-top: 1vh;
-  background-color: #f1f1f1;
+  margin-bottom:8vh;
+  background-color: #1A9CD8;
   padding-top: 1vh;
   padding-bottom: 4vh;
   padding-left: 4vw;
   padding-right: 4vw;
+  width:80vw;
+  height:35vh;
+  margin-left:10vw;
+  margin-right:10vw;
+  border-radius:35px;
+  align-items:center;
+}
+.middle {
+  position: relative;
+  margin-top: 1vh;
+  margin-bottom:8vh;
+  background-color: rgba(26, 156, 216, 0.15);
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+  padding-left: 4vw;
+  padding-right: 4vw;
+  display:flex;
+  justify-content: space-evenly;
+  width:80vw;
+  height:auto;
+  margin-left:10vw;
+  margin-right:10vw;
+  border-radius:35px;
+  align-items:start;
 }
 
-.plus {
-  position: absolute;
-  font-size: 5vh;
-  font-weight: 500;
-  color: #848484;
-  right: 4%;
-  top: -1%;
+.main-title h1 {
+  font-family: Montserrat;
+  font-weight:1000;
+  font-size: 40px;
+  line-height: 34px;
+  line-height: 100%;
+  text-align: Center;
+  color:white;
 }
 
-.main-title {
-  font-size: 3.8vh;
-  font-weight: 500;
-  color: #848484;
-  margin-bottom: -1vh;
+.top-container{
+  display:flex;
+  justify-content: space-around;
+}
+.main-title p{
+  font-family: Montserrat;
+  font-weight:600;
+  font-size: 24px;
+  text-align: left;
+  color:white;
+  margin-bottom:-5px;
 }
 
-.no-squad-title {
-  width: 90vw;
+.no-more-activities{
+  font-family: Montserrat;
+  font-weight:800;
+  font-size: 35px;
   text-align: center;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  vertical-align: middle;
+  color:white;
 }
 
-.sub-title {
-  font-size: 2.6vh;
-  font-weight: 500;
-  color: #848484;
-  font-style: italic;
-  margin-bottom: 0;
-  text-align: left;
+.mid-component h1{
+  color:#03618C;
+  font-family: Montserrat;
+  font-weight:bold;
+  font-size: 24px;
+  line-height: 34px;
+  line-height: 100%;
+  text-align: Center;
+  margin-bottom:10px;
 }
 
-.sub-sub-title {
-  font-size: 2.5vh;
-  font-weight: 700;
-  margin-bottom: 0;
-  text-align: left;
+.mid-component p{
+  color:#03618C;
+  font-family: Montserrat;
+  font-weight:bold;
+  font-size: 18px;
+  line-height: 34px;
+  line-height: 100%;
+  text-align: Center;
+  margin-top:10px;
+  width:30vw;
 }
 
-.expbar {
-  margin-top: 0.8vh;
-  margin-bottom: 1.6vh;
-}
 
-.next-reward {
-  display: flex;
-}
+
 
 .reward-img {
   align-self: center;
   position: relative;
   height: 13vh;
   width: 13vh;
-  border: 0.1vh solid #707070;
+  border: 0.1vh solid white;
   border-radius: 50%;
   background-color: white;
   background-size: 105%;
   background-repeat: no-repeat;
   background-position: center;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-.next-reward-info {
-  align-self: center;
-  margin-left: 2vw;
-}
-
-.next-reward-info p {
-  margin: 0;
-  font-weight: 600;
-}
-
-.n-reward-top {
-  font-size: 2.5vh;
-  color: #848484;
-  margin-bottom: -1vh !important;
-}
-
-.n-reward-middle {
-  font-size: 3.5vh;
-}
-
-.n-reward-bottom {
-  font-size: 1.7vh;
-  font-weight: 700 !important;
-  margin-top: -0.5vh !important;
-}
-
-.middle {
-  min-height: 37vh;
-}
-
-.middle-info {
-  display: flex;
-  padding-top: 2vh;
-  scroll-padding-bottom: 2vh;
-  justify-content: space-between;
-}
-
-.xp-wrapper {
-  align-self: center;
-}
-
-.xp-top {
-  font-size: 1.8vh;
-  font-weight: 700;
-  margin: 0;
-  margin-bottom: -1.5vh;
-}
-
-.xp-value {
-  font-size: 6vh;
-  font-weight: 600;
-  margin: 0;
-  color: #26a2d5;
-}
-
-.xp {
-  font-size: 2vh;
-  font-weight: 700;
-}
-
-.t-reward-top {
-  font-size: 2.5vh;
-  font-weight: 500;
-  color: #848484;
-  margin: 0;
-}
-
-.t-reward-bottom {
-  font-size: 2.5vh;
-  font-weight: 600;
-  margin: 0;
-  text-align: center;
-}
-
-.bottom {
-  padding-top: 3vh;
-  padding-bottom: 3vh;
-  padding-left: 4vw;
-  padding-right: 4vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.redirect-buttons {
-  display: flex;
-  align-items: center;
-}
-
-.redirect-buttons button {
-  background-color: #27ade4;
-  border-radius: 3vh;
-  font-size: 4vh;
-  font-weight: 600;
-  color: white;
-  width: 43vw;
-  height: auto;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  min-height: 12vh;
-  line-height: 4.7vh;
-}
-
-.user-wrapper {
-  display: flex;
-}
-
-.user-photo {
-  width: 18vh;
-  height: 18vh;
+.quest-img {
+  position: relative;
+  top:-2.5vh;
+  height: 13vh;
+  width: 13vh;
+  border: 0.1vh solid white;
   border-radius: 50%;
+  object-fit: cover;
 }
 
-.squad-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.squad-image {
-  height: 15vh;
-  width: 15vh;
+.activity-img {
+  align-self: right;
+  position: relative;
+  height: 13vh;
+  width: 13vh;
+  border: 0.1vh solid white;
   border-radius: 50%;
-  border: 0.5vh solid #27ade4;
-  box-shadow: 0 0 2.5vh 0.1vh #27ade4;
+  background-color: white;
+  background-size: 105%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left:auto;
+  margin-right:auto;
+  object-fit: contain;
 }
 
-.loading {
-  text-align: center;
-  margin-top: 15%;
-  min-height: 30vh;
+.cv-img{
+  align-self: center;
+  position: relative;
+  height: 13vh;
+  width: 13vh;
+  border: 0.1vh solid rgba(0, 0, 0, 0);;
+  border-radius: 50%;
+  background-color: white;
+  background-size: 105%;
+  background-repeat: no-repeat;
+  background-position: center;
+  object-fit: contain;
 }
 
-@media screen and (max-width: 1100px) {
-  .user-photo {
-    display: none;
+.cv-text{
+    text-align:center;
+    width:30vw;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 16px;
+    color:#03618C;
+  }
+  .quest-text{
+    text-align:center;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 16px;
+    color:#03618C;
   }
 
-  .upper {
-    display: none;
+  .quest-text h3{
+    position:relative;
+    top: 5vh;
   }
 
-  .squad-image {
-    display: none;
+  .quest-info{
+    display:flex;
+    justify-content: space-evenly;
+    width:80vw;
   }
 
-  .big-rewards {
-    display: none;
-  }
-
-  .sub-title {
-    display: none;
-  }
-
-  .members {
-    display: none;
-  }
-
-  .create-squad {
-    display: none;
-  }
-
-  .next-reward-info {
-    width: calc(90vw - 13vh);
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  .home {
-    height: 100vh;
-    overflow-y: hidden;
-  }
-
-  .top {
-    margin-top: 0;
-    padding-left: 4vw;
-    padding-top: 4vh;
-    background-color: #e6e6e6;
-  }
-
-  .no-squad-title {
-    width: 100%;
-    padding: 0;
-  }
-
-  .middle {
-    width: 100%;
-    height: 66vh;
-    background-color: #e6e6e6;
-    margin: 0;
-    padding: 0;
-  }
-
-  .middle-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 75vw;
-  }
-
-  .big-squad-wrapper,
-  .big-rewards {
-    background-color: #f1f1f1;
-    width: 37.2vw;
-    padding-top: 2vh;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    height: 66vh;
-  }
-
-  .big-rewards-title {
-    line-height: 5vh;
-    text-align: center;
-    font-size: 5vh;
-    font-weight: 500;
-    margin: 0;
-  }
-
-  .big-reward {
-    display: flex;
-    align-items: center;
-    margin-top: 3vh;
-  }
-
-  .big-reward-img {
-    align-self: center;
+  .bottom{
     position: relative;
-    height: 15vh;
-    width: 15vh;
-    border: 0.3vh solid #707070;
-    border-radius: 50%;
-    background-color: white;
-    background-size: 105%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  .big-reward-info {
-    width: calc(33vw - 19vh);
-    padding-left: 2vw;
-  }
-
-  .big-reward-name {
-    font-size: 3.5vh;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .big-reward-description {
-    font-size: 2vh;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .squad-wrapper {
-    justify-content: center;
-  }
-
-  .plus {
-    display: none;
-  }
-
-  .bottom {
-    display: none;
-  }
-
-  .redirect-buttons button {
-    width: 15.8vw;
-    margin: 0;
-    margin-right: 2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    font-size: 3vh;
-    line-height: 4vh;
-    min-height: 0;
-    height: 8vh;
-  }
-
-  .see-more {
-    margin-top: 3vh;
-    margin-left: calc(50% - 6.5vw);
-  }
-
-  .create-squad {
-    margin-top: 5vh;
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .create-squad button {
-    margin: 0;
-  }
-
-  .user-wrapper {
-    align-items: center;
-  }
-
-  .user-photo {
-    width: 14vw;
-    height: 14vw;
-    margin-right: 3vw;
-  }
-
-  .squad-image {
-    margin-right: 2vw;
-  }
-
-  .next-reward {
-    display: none;
-  }
-
-  .xp-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .today-reward {
-    display: none;
-  }
-
-  .daily-xp {
-    margin-right: 4vw;
-  }
-
-  .xp-top {
-    font-size: 3vh;
-    font-weight: 700;
-    margin: 0;
-    margin-bottom: -1.5vh;
-  }
-
-  .xp-value {
-    font-size: 3.5vw;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .xp {
-    font-size: 4vh;
-    font-weight: 700;
-  }
-
-  .members {
-    width: 100%;
-    max-height: 32vh;
     margin-top: 1vh;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    overflow-y: auto;
+    background-color: rgba(26, 156, 216, 0.15);
+    padding-top: 1vh;
+    padding-bottom: 4vh;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    display:flex;
+    justify-content: space-around;
+    height:auto;
+    width:80vw;
+    margin-left:10vw;
+    margin-right:10vw;
+    border-radius:35px;
+    padding:10px;
+    align-items:center;
   }
-
-  .members > div {
-    min-width: 50%;
-  }
-}
 </style>

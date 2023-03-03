@@ -1,19 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Code from "../views/Code.vue";
+// import Code from "../views/Code.vue";
 import Activities from "../views/Activities.vue";
 import Profile from "../views/Profile.vue";
-import Quests from "../views/Quests.vue";
+// import Quests from "../views/Quests.vue";
 import Squad from "../views/Squad.vue";
 import Login from "../views/Login.vue";
 import Rankings from "../views/Rankings.vue";
-import Rewards from "../views/Rewards.vue";
-import Chat from "../views/Chat.vue";
-import Company from "../views/Company.vue";
-import Companies from "../views/Companies.vue";
+// import Rewards from "../views/Rewards.vue";
+// import Chat from "../views/Chat.vue";
+// import Company from "../views/Company.vue";
+// import Companies from "../views/Companies.vue";
 import Rules from "../views/Rules.vue";
 import QRCode from "../views/QRCode.vue";
+import Schedule from "../views/Schedule.vue";
 import qs from "qs";
 
 Vue.use(VueRouter);
@@ -29,10 +30,15 @@ const routes = [
     name: "Login",
     component: Login
   },
+  // {
+  //   path: "/code",
+  //   name: "Code",
+  //   component: Code
+  // },
   {
-    path: "/code",
-    name: "Code",
-    component: Code
+    path: "/schedule",
+    name: "Schedule",
+    component: Schedule
   },
   {
     path: "/qrcode",
@@ -49,11 +55,11 @@ const routes = [
     name: "Profile",
     component: Profile
   },
-  {
-    path: "/quests",
-    name: "Quests",
-    component: Quests
-  },
+  // {
+  //   path: "/quests",
+  //   name: "Quests",
+  //   component: Quests
+  // },
   {
     path: "/squad",
     name: "Squad",
@@ -64,26 +70,26 @@ const routes = [
     name: "Rankings",
     component: Rankings
   },
-  {
-    path: "/rewards",
-    name: "Rewards",
-    component: Rewards
-  },
-  {
-    path: "/chat",
-    name: "Chat",
-    component: Chat
-  },
-  {
-    path: "/company/:name",
-    name: "Company",
-    component: Company
-  },
-  {
-    path: "/companies",
-    name: "Companies",
-    component: Companies
-  },
+  // {
+  //   path: "/rewards",
+  //   name: "Prizes",
+  //   component: Rewards
+  // },
+  // {
+  //   path: "/chat",
+  //   name: "Chat",
+  //   component: Chat
+  // },
+  // {
+  //   path: "/company/:name",
+  //   name: "Company",
+  //   component: Company
+  // },
+  // {
+  //   path: "/companies",
+  //   name: "Companies",
+  //   component: Companies
+  // },
   {
     path: "/rules",
     name: "Rules",
