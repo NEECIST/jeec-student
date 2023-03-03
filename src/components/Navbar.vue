@@ -22,14 +22,13 @@
       </button>
     </div>
     <v-navigation-drawer
-      style="height: 100vh; width:70vw"
       v-model="display_menu"
       fixed
       dark
       color="#C5E4F0"
       right
       temporary
-      :width="width * 0.82"
+      :width="resize()"
   
     >
       <NavbarMenu />
@@ -58,7 +57,16 @@ export default {
       if (target !== this.page) this.$router.push({ name: target });
     },
     resize() {
+      let NavBarWidth = 0;
       this.width = window.innerWidth;
+      if(parseInt(this.width, 10) < 600){
+        NavBarWidth = this.width*0.85;
+      }
+      else{
+        NavBarWidth = this.width*0.3;
+      }
+      console.log(NavBarWidth)
+      return NavBarWidth
     },
   },
   watch: {
@@ -134,4 +142,5 @@ export default {
 
   color: #D93046;
 }
+
 </style>

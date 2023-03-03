@@ -315,6 +315,7 @@ import UserService from "../services/user.service";
   margin-left:auto;
   margin-right:auto;
   color: black;
+  font-size:50px;
 }
 
 .buttons-container{
@@ -425,5 +426,26 @@ import UserService from "../services/user.service";
 }
 }
 }
+@media screen and (max-width: 700px) and (min-width: 360px){
+  .weekday-text{
+    font-size:20px !important; 
+}
+#arrow-left{
+    left:-30px;
+    font-size:45px;
+  }
+  #arrow-right{
+    right:-30px;
+    font-size:45px;
+  }
+}
+
+.loading-bar{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:10vh;
+}
+
 </style>
   

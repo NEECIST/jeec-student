@@ -35,8 +35,8 @@
           "
           @click.stop="redirect(item.page)"
       >
-        <div class="menu-items" style="display: flex; flex-direction: row; align-items: center;">
-          <img style="width: 22vw; padding-left: 2vw;" :src="item.src" />
+        <div class="menu-items" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
+          <img style="width: 12.5vh; padding-left: 0vw;" :src="item.src" />
           <p class="menu-names">{{ item.name }}</p>
         </div>
       </div>
@@ -63,7 +63,7 @@
         </tr>
       </table> -->
     </div>
-    <div width="100vw" @click.stop="logout" class="menu-bottom">
+    <div width="auto" @click.stop="logout" class="menu-bottom">
       <p class="logout">Log Out</p>
       <img width="30vw" src="../assets/icons/logout.svg" style="margin-right: 5vw;"/>
     </div>
@@ -129,16 +129,16 @@ export default {
 .menu {
   position: relative;
   height: 100%;
-  z-index:5;
+  z-index: 5;
 }
 
 .background-gradient{
   position: absolute;
   z-index: -5;
-  width: 70vw;
+  width: 55vh;
   height: 60vh;
   top: -30vh;
-  left:-20vw;
+  left: -20vh;
   border-radius: 90% 70% / 60% 90%;
 
   background: linear-gradient(128.55deg, rgba(26, 156, 216, 0.65) -0.1%, rgba(217, 208, 4, 0.65) 88.02%);
@@ -147,6 +147,7 @@ export default {
 
 .menu-top {
   display: flex;
+  flex-direction: row;
   padding-left: 5vw;
   padding-right: 5vw;
   padding-top: 3vh;
@@ -161,7 +162,7 @@ export default {
 .profile-info {
   align-self: center;
   align-items: center;
-  padding-left: 10vw;
+  padding-left: 5vh;
 }
 
 .name,
@@ -189,8 +190,8 @@ export default {
 }
 
 .menu-middle {
-  padding-left: 5vw;
-  padding-right: 1vw;
+  padding-left: 2vh;
+  padding-right: 2vh;
   color: black;
   height: 70vh;
   overflow-y: auto;
@@ -198,22 +199,12 @@ export default {
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: space-evenly;
 }
 
-.menu-middle img {
-  width: 15vh;
-  vertical-align: middle;
-}
-
 .nav-row {
-  height: 10vh;
-}
-
-.menu-items {
-  cursor: pointer;
-  
+  height: 12.5vh;
 }
 
 .active-item > * {
@@ -230,7 +221,7 @@ export default {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 600;
-  font-size: 5vh;
+  font-size: 4vh;
   line-height: 6vh;
 }
 
@@ -256,22 +247,5 @@ export default {
   align-items: center;
   text-align: center;
 }
-
-
-  .big-jeec {
-    display: none;
-  }
-
-  .menu-items {
-    font-size: 6vw;
-  }
-
-  .menu-names {
-    width: 60vw;
-  }
-
-  .menu-middle img {
-    width: 8vw;
-  }
 
 </style>

@@ -19,11 +19,10 @@
 
     <div class="middle">
       <div class="button">
-        
         <img :src="cv_img"  v-if="currentUser.uploaded_cv === false"
         @click.stop="cv_click">
       
-        <div class="added-cv" v-else-if="!loading_cv">
+        <div class="added-cv" v-else-if="!loading_cv" style="padding-top: 2vh;">
           <div>
             <p>Added CV</p>
             <v-icon large style="color: white">mdi-check</v-icon>
@@ -67,7 +66,7 @@
         <img src="../assets/linkedin.png" alt="linkedin" v-if="currentUser.linkedin_url === null"
           @click.stop="dialog = true"/>
         
-        <div class="added-linkedin" v-else-if="!loading_linkedin">
+        <div class="added-linkedin" v-else-if="!loading_linkedin" style="padding-top: 2vh;">
           <div>
             <p>Added</p>
             <v-icon large style="color: white">mdi-check</v-icon>
@@ -627,6 +626,7 @@ export default {
   padding-left: 5vw;
   padding-right: 5vw;
   display:flex;
+  flex-wrap: wrap;
   justify-content:space-evenly;
 }
 
@@ -716,7 +716,7 @@ export default {
 
 .added-cv,
 .added-linkedin {
-  width: calc(85vw - 7.5vh);
+  width: calc(40vh - 7.5vh);
   font-size: 3.5vh;
   font-weight: 500;
   display: flex;
@@ -757,10 +757,10 @@ export default {
 }
 
 .interest-title {
-  font-size: 4vw;
+  font-size: 4vh;
   font-weight: 600;
   position:relative;
-  margin-left:5vw;
+  margin-left:2vh;
 }
 
 .tags {
@@ -772,39 +772,37 @@ export default {
 
 .tag {
   margin: 0;
-  line-height: 4vh;
-  font-size: 2vh;
+  line-height: 2.5vh;
+  font-size: 2.5vh;
+  font-weight: 700;
+  text-align: center;
   color: white;
   height: 4vh;
   background-color: #70c3e4;
   border-radius: 3vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  margin-right: 1vw;
+  padding: 2vh;
+  margin-right: 1vh;
   margin-bottom: 1vh;
   cursor: pointer;
   display: flex;
+  align-items: center;
 }
 
 .interest-tag{
   margin: 0;
-  line-height: 4vh;
-  font-size: 2vh;
+  line-height: 2.5vh;
+  font-size: 2.5vh;
+  font-weight: 700;
   color: white;
   height: 4vh;
   background-color:  #EB8F9B;
   border-radius: 3vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  margin-right: 1vw;
+  padding: 2vh;
+  margin-right: 1vh;
   margin-bottom: 1vh;
   cursor: pointer;
   display: flex;
-  font-size: 3.5vw;
-  font-weight: 600;
-  padding-top: 0.5vh;
-  padding-bottom: 0.5vh;
-  height: 5vh;
+  align-items: center;
 }
 
 .add-tag {
@@ -934,19 +932,8 @@ export default {
   width: 19vh;
 }
 
-
-
-
 .tags {
   margin-bottom: 2vh;
-}
-
-.tag {
-  font-size: 3.5vw;
-  font-weight: 600;
-  padding-top: 0.5vh;
-  padding-bottom: 0.5vh;
-  height: 5vh;
 }
 
 ::-webkit-scrollbar {

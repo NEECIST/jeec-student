@@ -51,7 +51,7 @@
             </v-carousel-item>
           </v-carousel>
         </div>
-
+        
         <div class="activities-wrapper">
           <Activity
             v-for="activity in activities"
@@ -139,7 +139,7 @@ export default {
     },
   },
   mounted() {
-    console.log('estou vivo')
+    // console.log('estou vivo')
     if (!this.currentUser) {
       this.$router.push("/");
     }
