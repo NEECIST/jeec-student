@@ -222,9 +222,9 @@ export default {
   }
 
   .page-wrapper {
-    height: 90vh;
-    overflow-y: hidden;
     margin-top: 10vh;
+    margin-top: 10vh;
+    padding-bottom: 10vh;
   }
 
   .login-page {

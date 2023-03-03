@@ -645,7 +645,6 @@ export default {
     margin-top: 2vh;
     margin-bottom: 4vh;
     text-align: left;
-    line-height: 3vh;
 }
 
 .companies,
