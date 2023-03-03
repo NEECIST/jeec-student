@@ -104,12 +104,11 @@ export default {
 }
 
 .top-start {
-  position: absolute;
-  right: 5px;
-  top: 50%;
+  position: relative;
+  left: 49vw;
+  top: 5.5vh;
   height: 10vh;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
 }
 
 .top-image {
