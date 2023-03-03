@@ -314,6 +314,7 @@ import UserService from "../services/user.service";
   text-align:center;
   margin-left:auto;
   margin-right:auto;
+  color: black;
 }
 
 .buttons-container{
