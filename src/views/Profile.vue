@@ -10,7 +10,7 @@
         <Expbar
           :xp="currentUser.total_points - currentUser.level.data.start_points"
           :progress="progress"
-          :end_points="currentUser.level.data.end_points - currentUser.level.data.start_points -1"
+          :end_points="currentUser.level.data.end_points - currentUser.level.data.start_points"
           :width="xpbar_width"
           :height="height"
         />
