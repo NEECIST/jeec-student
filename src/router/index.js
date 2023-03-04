@@ -8,7 +8,7 @@ import Profile from "../views/Profile.vue";
 import Squad from "../views/Squad.vue";
 import Login from "../views/Login.vue";
 import Rankings from "../views/Rankings.vue";
-// import Rewards from "../views/Rewards.vue";
+import Rewards from "../views/Rewards.vue";
 // import Chat from "../views/Chat.vue";
 // import Company from "../views/Company.vue";
 // import Companies from "../views/Companies.vue";
@@ -70,11 +70,11 @@ const routes = [
     name: "Rankings",
     component: Rankings
   },
-  // {
-  //   path: "/rewards",
-  //   name: "Prizes",
-  //   component: Rewards
-  // },
+  {
+    path: "/rewards",
+    name: "Prizes",
+    component: Rewards
+  },
   // {
   //   path: "/chat",
   //   name: "Chat",

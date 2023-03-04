@@ -1,6 +1,6 @@
 <template>
   <!-- Property of Duarte Santos -->
-  <div class="squads-rewards" v-if="squads_rewards" style="overflow: scroll; height:  auto;">
+  <div class="squads-rewards" v-if="squads_rewards" style="height:  auto;">
     <div class="day-box" v-if="now.getDay() == 1 && squads_rewards[0]">
       <div class="today-name">Today</div>
       <div class="today-prize">

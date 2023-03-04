@@ -1,64 +1,63 @@
 <template>
   <!-- Property of Duarte Santos -->
   <div class="personal-reward" >
-    <div style="overflow: scroll; height:  auto;">
-      <img src="../assets/roadmap.svg" style="width: 85vw; display: block; position: relative; left: 5vw; padding-top: 8vh; padding-bottom: 8vh;"/>
-      <div class="prizes" style="position: absolute; top: 9%; left: 8%" v-if="levels[0]">
+    <button class="prize-btn" @click="prevPrize">left</button><button class="prize-btn" @click="nextPrize">right</button>
+      <!-- <img src="../assets/roadmap.svg" style="width: 300px; display: block; margin-left:auto; margin-right:auto; padding-top: 80px; padding-bottom: 8vh;"/> -->
+      <div class="prizes" v-if="levels[0]" v-show="prize==0">
         <img  :class="[{current_prize_img: currentLevel(1)}, {prize_img: !currentLevel(1)}]" 
               :src="jeec_brain_url + levels[0].reward.image"/>
         <div class="prize-name-box">
           <p :class="[{current_prize_name: currentLevel(1)}, {prize_name: !currentLevel(1)}]">{{ '1. ' + levels[0].reward.name }}</p>
         </div>
       </div>
-      <div class="prizes" style="position: absolute; top: 17%; left: 58%" v-if="levels[1]">
+      <div class="prizes" v-if="levels[1]" v-show="prize==1">
         <img :class="[{current_prize_img: currentLevel(2)}, {prize_img: !currentLevel(2)}]" 
              :src="jeec_brain_url + levels[1].reward.image"/>
         <div class="prize-name-box">
           <p :class="[{current_prize_name: currentLevel(2)}, {prize_name: !currentLevel(2)}]">{{ '2. ' + levels[1].reward.name }}</p>
         </div>
       </div>
-      <div class="prizes" style="position: absolute; top: 24%; left: 15%" v-if="levels[2]">
+      <div class="prizes" v-if="levels[2]" v-show="prize==2">
         <img :class="[{current_prize_img: currentLevel(3)}, {prize_img: !currentLevel(3)}]"
              :src="jeec_brain_url + levels[2].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(3)}, {prize_name: !currentLevel(3)}]">{{ '3. ' + levels[2].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 32%; left: 52%" v-if="levels[3]">
+      <div class="prizes" v-if="levels[3]" v-show="prize==3">
         <img :class="[{current_prize_img: currentLevel(4)}, {prize_img: !currentLevel(4)}]"
              :src="jeec_brain_url + levels[3].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(4)}, {prize_name: !currentLevel(4)}]">{{ '4. ' + levels[3].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 47%; left: 59%" v-if="levels[4]">
+      <div class="prizes" v-if="levels[4]" v-show="prize==4">
         <img :class="[{current_prize_img: currentLevel(5)}, {prize_img: !currentLevel(5)}]"
              :src="jeec_brain_url + levels[4].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(5)}, {prize_name: !currentLevel(5)}]">{{ '5. ' + levels[4].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 48%; left: 10%" v-if="levels[5]">
+      <div class="prizes" v-if="levels[5]" v-show="prize==5">
         <img :class="[{current_prize_img: currentLevel(6)}, {prize_img: !currentLevel(6)}]"
              :src="jeec_brain_url + levels[5].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(6)}, {prize_name: !currentLevel(6)}]">{{ '6. ' + levels[5].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 60%; left: 40%" v-if="levels[6]">
+      <div class="prizes" v-if="levels[6]" v-show="prize==6">
         <img :class="[{current_prize_img: currentLevel(7)}, {prize_img: !currentLevel(7)}]"
              :src="jeec_brain_url + levels[6].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(7)}, {prize_name: !currentLevel(7)}]">{{ '7. ' + levels[6].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 73%; left: 59%" v-if="levels[7]">
+      <div class="prizes" v-if="levels[7]" v-show="prize==7">
         <img :class="[{current_prize_img: currentLevel(8)}, {prize_img: !currentLevel(8)}]"
              :src="jeec_brain_url + levels[7].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(8)}, {prize_name: !currentLevel(8)}]">{{ '8. ' + levels[7].reward.name }}</p>
       </div>
-      <div class="prizes" style="position: absolute; top: 75%; left: 10%" v-if="levels[8]">
+      <div class="prizes" v-if="levels[8]" v-show="prize==8">
         <img :class="[{current_prize_img: currentLevel(9)}, {prize_img: !currentLevel(9)}]"
              :src="jeec_brain_url + levels[8].reward.image"/>
         <p :class="[{current_prize_name: currentLevel(9)}, {prize_name: !currentLevel(9)}]">{{ '9. ' + levels[8].reward.name }}</p>
       </div>
-      <div class="prizes" style="flex-direction: row; align-items: center; position: absolute; top: 87%; left: 34%" v-if="levels[9]">
+      <div class="prizes" v-if="levels[9]" v-show="prize==9">
         <img :class="[{current_prize_img: currentLevel(10)}, {prize_img: !currentLevel(10)}]"
              :src="jeec_brain_url + levels[9].reward.image" style="width: 15vh; height: 15vh;"/>
         <p :class="[{current_prize_name: currentLevel(10)}, {prize_name: !currentLevel(10)}]">{{ '10. ' + levels[9].reward.name }}</p>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -79,6 +78,7 @@ export default {
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
       xpbar_width: "65vw",
       height: 30,
+      prize:0
     };
   },
   methods: {
@@ -87,6 +87,20 @@ export default {
         return true;
       }
       return false;
+    },
+    nextPrize(){
+      this.prize++;
+      if(this.prize==this.levels.length){
+        this.prize=0
+      }
+      console.log(this.prize)
+    },
+    prevPrize(){
+      this.prize--;
+      if(this.prize==-1){
+        this.prize=this.levels.length-1
+      }
+      console.log(this.prize)
     },
     image_index(i) {
       return (i + this.levels.length) % this.levels.length;
@@ -132,6 +146,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position:relative;
+  margin-left:auto; 
+  margin-right:auto;
+  width:10vh;
 }
 
 .prize_img{
@@ -139,8 +157,8 @@ export default {
   border-radius: 50%;
 
   position: relative;
-  width: 10vh;
-  height: 10vh;
+  width: 100px;
+  height: 100px;
 
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -152,8 +170,8 @@ export default {
   border-radius: 50%;
 
   position: relative;
-  width: 10vh;
-  height: 10vh;
+  width: 100px;
+  height: 100px;
 
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -196,6 +214,10 @@ export default {
   border: 3px solid #D9D004;
   border-radius: 35px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.prize-btn{
+  position:relative
 }
 
 @media screen and (max-width: 1100px) {

@@ -78,11 +78,11 @@ export default {
       page: this.$route.name,
       display_menu: false,
       menu_items: [
-        // {
-        //   name: "Prizes",
-        //   src: require("../assets/icons/prize.svg"),
-        //   page: "Prizes",
-        // },
+        {
+          name: "Prizes",
+          src: require("../assets/icons/prize.svg"),
+          page: "Prizes",
+        },
         {
           name: "Rankings",
           src: require("../assets/icons/rankings.svg"),
