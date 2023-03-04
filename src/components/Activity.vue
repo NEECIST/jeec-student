@@ -453,17 +453,19 @@ export default {
       );
       var end_date = new Date(
         this.activity.day.substring(0, 11) +
-          " " +
-          this.activity.end_time +
-          ":00"
+        " " +
+        this.activity.end_time +
+        ":00"
       );
 
       start_date =
         start_date.getFullYear().toString() +
-        (start_date.getMonth() + 1 < 10
-          ? "0" + (start_date.getMonth() + 1).toString()
-          : (start_date.getMonth() + 1).toString()) +
-        start_date.getDate().toString() +
+        (start_date.getDate() < 10
+          ? "0" + (start_date.getDate()).toString()
+          : (start_date.getDate()).toString()) +
+        (start_date.getMonth()+1 < 10
+          ? "0" + (start_date.getMonth()+1).toString()
+          : (start_date.getMonth()+1).toString()) +
         "T" +
         (start_date.getHours() < 10
           ? "0" + start_date.getHours()
@@ -475,10 +477,12 @@ export default {
 
       end_date =
         end_date.getFullYear().toString() +
-        (end_date.getMonth() + 1 < 10
-          ? "0" + (end_date.getMonth() + 1).toString()
-          : (end_date.getMonth() + 1).toString()) +
-        end_date.getDate().toString() +
+        (end_date.getDate() < 10
+          ? "0" + (end_date.getDate()).toString()
+          : (end_date.getDate()).toString()) +
+        (end_date.getMonth()+1 < 10
+          ? "0" + (end_date.getMonth()+1).toString()
+          : (end_date.getMonth()+1).toString()) +
         "T" +
         (end_date.getHours() < 10
           ? "0" + end_date.getHours()
@@ -598,13 +602,6 @@ export default {
   font-size:8vw;
   position:relative;
   top:-3.5vw;
-}
-.participated {
-  background-color: #c0ffbc;
-}
-
-.quest {
-  background-color: #ffbcbc;
 }
 
 

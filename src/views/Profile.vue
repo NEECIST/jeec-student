@@ -116,9 +116,6 @@
           class="loading-bar"
         ></v-progress-circular>
     </div>
-  
-
-      <p class="error-msg">{{ error }}</p>
 
       <div class="your-code">
       <p>Your referral code:</p>
@@ -134,11 +131,6 @@
           ></v-btn
         >
       </div>
- 
-      <p class="code-warning" style="font-weight: 800; color: red; margin: 1vw; text-align: center">
-        ATTENTION: You will only grant points to the person whose code you
-        redeemed if you participate in an activity.
-      </p>
       <br>
 
 

@@ -133,7 +133,7 @@ export default {
       squad_ranking:null,
       xp_to_first:null,
       next_activity:null,
-      quest:null,
+      quest:{error:'No quest'},
     };
   },
   mounted(){
