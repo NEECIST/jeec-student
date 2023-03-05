@@ -579,6 +579,8 @@ export default {
   top:1.25vw;
   min-width:20px;
   min-height:20px;
+  max-width: 37px;
+  max-height: 37px;
 }
 
 .schedule-whitespace{
@@ -590,15 +592,19 @@ export default {
   min-height:30px;
   position: relative;
   left: 2.5vw;
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .schedule-btn{
   width:7.5vw;
   height:7.5vw;
-  position:relative;
-  left:20vw;
+  position:absolute;
+  right:6vw;
   min-width:30px;
   min-height:30px;
+  max-width:60px;
+  max-height:60px;
 }
 
 .top-btn{
@@ -878,6 +884,13 @@ export default {
   border-bottom-right-radius: 20px;
 }
 }
+
+@media screen and (min-width:700px){
+  .schedule-icon{
+  top:7px;
+}
+}
+
 @media screen and (max-width:700px){
   .type{
     font-size: 6vw;
