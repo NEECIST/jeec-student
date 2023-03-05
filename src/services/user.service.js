@@ -149,6 +149,12 @@ class UserService {
     });
   }
 
+  async getPastActivities(date){
+    return axios.get(jeec_brain_url + "/student/past-activities?date=" + date, {
+      headers: authHeader()
+    });
+  }
+
   getNextActivity(){
     return  axios.get(jeec_brain_url + "/student/next_activity",{
       headers: authHeader()

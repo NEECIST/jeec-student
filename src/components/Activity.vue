@@ -1,9 +1,11 @@
 <template>
   <div
-    class="activity"
+  class="activity"
     :class="{
       participated: activity.participated,
       quest: !activity.participated && activity.quest,
+      past: past,
+      first: has_first && index==0
     }"
   >
     
@@ -17,7 +19,7 @@
       </div>
       <div>
 
-        <div class="right-side">
+        <div class="right-side" v-if="!past">
           <button class="schedule-btn" v-show="activity.registration_open"
           >
           <a :href="activity.registration_link"> 
@@ -38,7 +40,7 @@
           >
         
             <a ref="calendar" :href="calendar()" target="_blank" class="add-to-calendar-btn">
-            <p class="calendar-txt">Add to Calendar</p>
+            <p class="calendar-txt" :class="{whitetext: has_first && index==0}">Add to Calendar</p>
             <div style="height:9vw">
               <div class="top-btn">
 
@@ -275,6 +277,9 @@ export default {
   },
   props: {
     activity: Object,
+    past: Boolean,
+    has_first:Boolean,
+    index:Number,
   },
   computed: {
     currentUser() {
@@ -526,27 +531,44 @@ export default {
 <style scoped>
 
 .activity {
-  margin-bottom: 0.5vh;
-  background-color: #1A9CD8;
-  color:white;
+  background-color: #1A9CD826;
+  color: #03618C;
   padding-top: 2vh;
   padding-bottom: 2vh;
   padding-left: 4vw;
   padding-right: 4vw;
   position: relative;
-  width:90vw;
-  border-radius:30px;
-  margin-left:5vw;
-  display:flex;
+  width: 90vw;
+  max-width: 800px;
+  border-radius: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  margin-bottom: 10vh;
   justify-content: space-between;
+}
+
+.past{
+  background-color: #D9D9D9CC;
+  color: #888A8C;
+}
+
+.first{
+  background-color: #1A9CD8;
+  color: white;
 }
 
 .add-to-calendar-btn{
   display:flex;
   flex-wrap: nowrap;
   width:30vw;
+  max-width: 260px;
   justify-content: space-between;
   align-items: center;
+}
+
+.whitetext{
+  color:white !important;
 }
 
 
@@ -584,6 +606,8 @@ export default {
   background-color: #D93046;
   height:2vw;
   width:9vw;
+  max-width:100px;
+  max-height:20px;
   display:block;
   border-top-left-radius: 3vw;
   border-top-right-radius: 3vw;
@@ -592,6 +616,8 @@ export default {
 .bottom-btn{
   background-color: #DE5F70;
   height:5vw;
+  max-width:100px;
+  max-height:54px;
   width:9vw;
   border-bottom-left-radius: 2vw;
   border-bottom-right-radius: 2vw;
@@ -605,15 +631,6 @@ export default {
 }
 
 
-.activity-info {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex: 1 1 100%;
-  margin-bottom: 1.5vh;
-}
-
 .activity-text {
   max-width: 65vw;
 }
@@ -621,27 +638,26 @@ export default {
 .hours {
   position: relative;
     right: -2.5vw;
-    font-size: 3.5vw;
+    font-size: 30px;
     font-weight: 800;
     text-align: center;
     margin-top: 5vh;
 }
 
 .name {
-  font-size: 3.5vw;
+  font-size: 32px;
     line-height: 3vh;
     font-weight: 700;
     margin-bottom: 2vh;
-    color: white;
     text-align: left;
 }
 
 .type {
-    font-size: 4.5vw;
+    font-size: 40px;
     font-weight: 600;
     margin-top: 2vh;
-    margin-bottom: 4vh;
     text-align: left;
+    margin-bottom:0px;
 }
 
 .companies,
@@ -649,82 +665,12 @@ export default {
   margin: 0;
     margin-bottom: -0.5vh;
     text-align: left;
-    font-size: 3.0vw;
+    font-size: 30px;
     font-weight: 700;
 }
 
-.description {
-  font-size: 2vh;
-  font-weight: 500;
-  text-align: left;
-  text-align: justify;
-  margin-bottom: 1.5vh;
-  max-height: 8vh;
-  overflow-y: auto;
-  padding-right: 1vw;
-}
 
-.description::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 2vw;
-  background-color: #70707077;
-}
 
-.description::-webkit-scrollbar-thumb {
-  border-radius: 1vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-}
-
-.buttons {
-  display: flex;
-  width: 66vw;
-  justify-content: flex-end;
-  margin-right: 20vw;
-}
-
-.buttons button {
-  background-color: #27ade4;
-  border-radius: 3vh;
-  font-size: 1.5vh;
-  font-weight: 600;
-  color: white;
-  padding: 0.5vh;
-  width: 20vw;
-  line-height: 1.7vh;
-  min-height: 4vh;
-  margin-left: 1vw;
-  margin-right: 1vw;
-}
-
-.buttons a {
-  color: white;
-}
-
-.xp-wrapper {
-  position: absolute;
-  right: 0;
-  margin-right: 4vw;
-}
-
-.quest2 {
-  color: #ff0000;
-}
-
-.xp-value {
-  font-size: 3.5vh;
-  font-weight: 600;
-}
-
-.quest3 {
-  font-size: 4.5vh;
-  font-weight: 700;
-}
-
-.xp {
-  font-size: 1.6vh;
-  font-weight: 600;
-}
 
 .close-dialog {
   position: absolute;
@@ -903,39 +849,54 @@ export default {
   font-weight: 800;
 }
 
-.dialog-location {
-  font-size: 2.5vh;
-  font-weight: 800;
-  text-align: center;
-  margin: 0;
-}
 
-.dialog-title {
-  margin: 0;
-  text-align: center;
-  font-size: 3vh;
-  font-weight: 600;
-  margin-top: 1.5vh;
-}
 
-.calendar-img{
-  width:10vw;
-}
+
 
 .calendar-txt{
   text-align: center;
-    font-size: 2.5vw;
-    line-height: 3vh;
+    font-size: 25px;
     font-weight: 700;
     margin: 0;
-    color: white;
-
+    color: #03618C;
+    margin-top: -1vw;
 }
 
 .inner-description{
-  font-size: 3.0vw;
-    font-weight: 600;
-    margin-top: 5vh;
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 5vh;
+}
+
+@media screen and (min-width:1100px){
+  .btn-text{
+  font-size:90px;
+  top:-40px;
+}
+.bottom-btn{
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+}
+@media screen and (max-width:700px){
+  .type{
+    font-size: 6vw;
+  }
+  .name{
+    font-size: 5vw;
+  }
+  .companies, .speakers{
+    font-size: 4.5vw; 
+  }
+  .inner-description{
+    font-size:3vw;
+  }
+  .hours{
+    font-size:4.5vw;
+  }
+  .calendar-txt{
+    font-size: 3vw
+  }
 }
 
 

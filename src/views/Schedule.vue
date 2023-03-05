@@ -94,11 +94,22 @@
     <div style="margin-top: 8vh" v-if="!loading_activities">
        
         <div class="activities-wrapper">
+          
           <Activity
-            v-for="activity in activities[day]"
+            v-for="(activity,index) in next_activities[day]"
             :key="activity.name + activity.type + Math.floor(Math.random() * 10000)"
             v-show="show_activity(activity)"
             :activity="activity"
+            :past="!past"
+            :has_first="day==0||past_activities[day]||(!next_activities[day-1])"
+            :index = index
+          />
+          <Activity
+            v-for="activity in past_activities[day]"
+            :key="activity.name + activity.type + Math.floor(Math.random() * 10000)"
+            v-show="show_activity(activity)"
+            :activity="activity"
+            :past="past"
           />
           <div class="mobile" style="height: 10vh"></div>
         </div>
@@ -142,6 +153,7 @@ import UserService from "../services/user.service";
       return {
         eventss:{},
         error:'',
+        past:true,
         day:0,
         all:true,
         list:true,
@@ -162,6 +174,8 @@ import UserService from "../services/user.service";
         "Wednesday",
       ],
       loading_activities: true,
+      past_activities:[],
+      next_activities:[],
       };
     },
     methods: {
@@ -235,64 +249,105 @@ import UserService from "../services/user.service";
         console.log(error);
       }
     )
-
-
-    for (var i = 0; i < this.event_dates.length; i++) {
-      this.activities.concat({})
+    for(let i=0;i<5;i++){
+      this.next_activities.concat({})
+      this.past_activities.concat({})
     }
     await UserService.getActivities(
         this.event_dates[0]
       ).then(
         (response) => {
-          this.activities[0] = response.data.data;
-
+          this.next_activities[0] =response.data.data;
         },
         (error) => {
           console.log(error);
-          this.loading_activities = false;
+        }
+      )
+      await UserService.getPastActivities(
+        this.event_dates[0]
+      ).then(
+        (response) => {
+          this.past_activities[0] = response.data.data;
+        },
+        (error) => {
+          console.log(error);
         }
       )
     await UserService.getActivities(
         this.event_dates[1]
       ).then(
         (response) => {
-          this.activities[1] = response.data.data;
- 
+          this.next_activities[1] = response.data.data;
         },
         (error) => {
           console.log(error);
-          this.loading_activities = false;
+        }
+      )
+      await UserService.getPastActivities(
+        this.event_dates[1]
+      ).then(
+        (response) => {
+          this.past_activities[1] = response.data.data;
+        },
+        (error) => {
+          console.log(error);
         }
       )
     await UserService.getActivities(
         this.event_dates[2]
       ).then(
         (response) => {
-          this.activities[2] = response.data.data;
+          this.next_activities[2] = response.data.data;
         },
         (error) => {
           console.log(error);
-          this.loading_activities = false;
+        }
+      )
+      await UserService.getPastActivities(
+        this.event_dates[2]
+      ).then(
+        (response) => {
+          this.past_activities[2] = response.data.data;
+        },
+        (error) => {
+          console.log(error);
         }
       )
     await UserService.getActivities(
         this.event_dates[3]
       ).then(
         (response) => {
-          this.activities[3] = response.data.data;
-  
+          this.next_activities[3] = response.data.data;
         },
         (error) => {
           console.log(error);
-          this.loading_activities = false;
+        }
+      )
+      await UserService.getPastActivities(
+        this.event_dates[3]
+      ).then(
+        (response) => {
+          this.past_activities[3] = response.data.data;
+        },
+        (error) => {
+          console.log(error);
         }
       )
     await UserService.getActivities(
         this.event_dates[4]
       ).then(
         (response) => {
-          this.activities[4] = response.data.data;
-    
+          this.next_activities[4] = response.data.data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+      await UserService.getPastActivities(
+        this.event_dates[4]
+      ).then(
+        (response) => {
+          this.past_activities[4] = response.data.data;
           this.loading_activities = false;
         },
         (error) => {
@@ -300,7 +355,6 @@ import UserService from "../services/user.service";
           this.loading_activities = false;
         }
       )
-      console.log(this.activities)
   },
   };
   </script>
