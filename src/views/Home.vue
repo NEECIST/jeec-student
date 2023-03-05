@@ -214,19 +214,37 @@ export default {
     await UserService.getUserSquad().then(
       (response) => {
         user_squad = response.data
-        console.log(user_squad)
       },
+      (error)=>{
+        console.log(error)
+      }
     );
     let daily_squads_rank = null
     UserService.getDailySquadsRanking().then(
       (response) => {
+        
+        let top_daily_points=0
         daily_squads_rank = response.data
-        this.xp_to_first = daily_squads_rank.data[0].daily_points-user_squad.data.daily_points;
-        for(let i=1;i<=daily_squads_rank.length;i++){
-          if(daily_squads_rank[i-1].name == user_squad.name){
-            this.squad_ranking=i;
+        if(daily_squads_rank.data.length>1){
+          
+          top_daily_points = daily_squads_rank.data[0].daily_points
+        }
+        else{
+        
+          top_daily_points = daily_squads_rank.data.daily_points
+        }
+        this.xp_to_first = top_daily_points-user_squad.data.daily_points;
+        if(Array.isArray(daily_squads_rank.data)){
+          for(let i=1;i<=daily_squads_rank.data.length;i++){
+            if(daily_squads_rank.data[i-1].name == user_squad.data.name){
+              this.squad_ranking=i;
+            }
           }
         }
+        else{
+          this.squad_ranking=1
+        }
+        
       },
     );
 

@@ -9,16 +9,40 @@
         kings: button === 'kings',
       }"
     /> -->
-    
-        
-        <div class="arrow-buttons">
-          <button @click="lessDay"><v-icon class="arrow" color="blue">mdi-chevron-left</v-icon
-            ></button>
-            <button @click="moreDay"><v-icon class="arrow" color="blue"
+    <div v-if="!loading_jeecpot_rewards && !loading_levels && !loading_squad && !loading_squad_rewards">
+      <v-carousel
+            style="height: auto; background-color: #FFFCF8"
+            hide-delimiter-background
+            hide-delimiters
+            v-model="model"
+        >
+        <template v-slot:prev="{ on, attrs }">
+          <v-btn
+            depressed
+            class="arrow-btn"
+            v-bind="attrs"
+            v-on="on"
+            style="background-color: rgba(255,252,248, 0)"
+            ><v-icon class="arrow" color="blue"
+              >mdi-chevron-left</v-icon
+            ></v-btn
+          >
+        </template>
+        <template v-slot:next="{ on, attrs }">
+          <v-btn
+            depressed
+            class="arrow-btn"
+            v-bind="attrs"
+            v-on="on"
+            style="right: 0vw; background-color: rgba(255,252,248, 0)"
+            ><v-icon class="arrow" color="blue"
               >mdi-chevron-right</v-icon
-            ></button>
-        </div>
-            <!-- <div class="prize-wrapper" justify="center" v-show="page==1">
+            ></v-btn
+          >
+        </template>
+        <v-carousel-item>
+          <v-sheet color="#FFFCF8" tile>
+            <v-row class="prize-wrapper" justify="center">
               <p class="prize-type">Roadmap</p>
               <PersonalRewards
                 style="margin-top: 10vh;"
@@ -26,10 +50,12 @@
                 :user_points="currentUser.total_points"
                 :user_level="currentUser.level.data.value"
               />
-            </div> -->
-          
-          
-            <div class="prize-wrapper" justify="center" v-show="page==1">
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+        <v-carousel-item>
+          <v-sheet color="#FFFCF8" tile>
+            <v-row class="prize-wrapper" justify="center">
               <p class="prize-type">Daily Squad</p>
               <SquadRewards
                 style="margin-top: 10vh;"
@@ -37,23 +63,32 @@
                 :squads_rewards="squads_rewards"
                 :squad_points="squad ? squad.daily_points : 0"
               />
-            </div>
-        
-         
-            <div class="prize-wrapper" justify="center" v-show="page==2">
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+        <v-carousel-item>
+          <v-sheet color="#FFFCF8" tile>
+            <v-row class="prize-wrapper" justify="center">
               <p class="prize-type">Jeecpot</p>
               <JEECPOTRewards
                 style="margin-top: 8vh"
                 :jeecpot_rewards="jeecpot_rewards"
               />
-            </div>
-            <div class="prize-wrapper" justify="center" v-show="page==3">
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+        <v-carousel-item>
+          <v-sheet color="#FFFCF8" tile>
+            <v-row class="prize-wrapper" justify="center">
               <p class="prize-type">Kings</p>
               <KingsRewards
                 style="margin-top: 8vh"
                 :jeecpot_rewards="jeecpot_rewards"
               />
-            </div>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+       </v-carousel>
       <!-- <PersonalRewards
         style="margin-top: 15vh"
         v-if="button === 'personal'"
@@ -80,12 +115,22 @@
         v-if="button === 'kings'"
         :jeecpot_rewards="jeecpot_rewards"
       /> -->
+    </div>
+    <div v-else class="loading">
+      <v-progress-circular
+        indeterminate
+        color="#27ade4"
+        :size="100"
+        :width="10"
+        class="loading-bar"
+      ></v-progress-circular>
+    </div>
   </div>
 </template>
 
 <script>
 // import Buttons from "@/components/Buttons.vue";
-// import PersonalRewards from "@/components/PersonalRewards.vue";
+import PersonalRewards from "@/components/PersonalRewards.vue";
 import SquadRewards from "@/components/SquadRewards.vue";
 import JEECPOTRewards from "@/components/JEECPOTRewards.vue";
 import KingsRewards from "@/components/KingsRewards.vue";
@@ -94,7 +139,7 @@ import UserService from "../services/user.service";
 export default {
   name: "Rewards",
   components: {
-    // PersonalRewards,
+    PersonalRewards,
     SquadRewards,
     JEECPOTRewards,
     KingsRewards,
@@ -111,7 +156,7 @@ export default {
       loading_levels: true,
       loading_squad_rewards: true,
       loading_jeecpot_rewards: true,
-      page:1,
+
       types: [
         "Roadmap",
         "Daily Squad",
@@ -131,18 +176,6 @@ export default {
         this.button = name;
       }
     },
-    moreDay(){
-      this.page++;
-      if(this.page==4){
-        this.page=1
-      }
-    },
-    lessDay(){
-      this.page--;
-      if(this.page==0){
-        this.page=3
-      }
-    }
   },
   created() {
     if (!this.currentUser) {
@@ -197,24 +230,21 @@ export default {
 </script>
 
 <style scoped>
-
 .prize-wrapper{
-  position:relative;
-  top:-15vh;
+  height: auto;
+  overflow-y: visible;
 }
 .prize-type{
-  position: relative;
-  width: 100vw;
+  position: absolute;
+  width: 65vw;
   text-align: center;
-  top: 13vh;
-  padding-bottom:7vh;
+  top: 2vh;
   text-transform: uppercase;
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
   line-height: 39px;
-  padding-top: 2vh;
   /* identical to box height */
 
   letter-spacing: 0.01em;
@@ -222,30 +252,18 @@ export default {
   color: #000000;
 }
 
+.arrow-btn{
+  position: fixed;
+  top: 12%;
+}
 .rewards {
-  background-color: #FFFCF8;
+  background-color: #e6e6e6;
   height: auto;
-  margin-top:10vh;
 }
 
 .loading {
   text-align: center;
   margin-top: 35vh;
-}
-
-.arrow{
-  font-size:70px;
-  z-index:2;
-}
-
-.arrow-buttons{
-  display:flex;
-  position:absolute;
-  top:10vh;
-  width:100vw;
-  font-size:70px;
-  justify-content: space-between;
-  align-items: start;
 }
 
 @media screen and (min-width: 1100px) {
@@ -254,5 +272,4 @@ export default {
     justify-content: center;
   }
 }
-
 </style>

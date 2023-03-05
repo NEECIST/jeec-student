@@ -73,7 +73,7 @@
             <span>2</span><sup class="super">nd</sup>
           </div>
         </div>
-        <div class="stand">
+        <div class="stand" v-if="squads.length>0">
           <img :src="jeec_brain_url + squads[0].image" class="podium-img first">
           <p class="podium-text">{{squads[0].name}}</p>
           <div class="first pilar">

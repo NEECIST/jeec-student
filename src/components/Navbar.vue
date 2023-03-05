@@ -65,7 +65,6 @@ export default {
       else{
         NavBarWidth = this.width*0.3;
       }
-      console.log(NavBarWidth)
       return NavBarWidth
     },
   },
@@ -96,7 +95,6 @@ export default {
 <style scoped>
 .navbar {
   color: #FFFCF8;
-  padding-bottom:5vh;
 }
 
 .top {

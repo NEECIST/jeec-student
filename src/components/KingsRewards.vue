@@ -101,10 +101,10 @@
   .king-box{
     position: relative;
     width: 80vw;
-    height: 11vh;
+    height: 12.5vh;
 
     background: rgba(26, 156, 216, 0.2);
-    border-radius: 40px;
+    border-radius: 6.25vh;
 
     display:flex;
     flex-direction: row;
@@ -114,8 +114,8 @@
     border-radius: 50%;
 
     position: relative;
-    width: 11vh;
-    height: 11vh;
+    width: 12.5vh;
+    height: 12.5vh;
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

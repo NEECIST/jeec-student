@@ -223,7 +223,6 @@ export default {
 
   .page-wrapper {
     margin-top: 10vh;
-    margin-top: 10vh;
     padding-bottom: 10vh;
   }
 

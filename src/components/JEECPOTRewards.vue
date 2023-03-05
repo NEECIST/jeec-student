@@ -6,7 +6,7 @@
     </div>
     <div class="winner-container">
       <div class="winner-box" style="background: rgba(217, 208, 4, 0.2)">
-        <div style="margin-left: -10vw;">
+        <div class="prize" style="margin-left: -10vw;">
           <img style="border: 3px solid #D9D004;"
             class="image"
             :class="{ winner: jeecpot_rewards.first_student_winner }"
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="placements" style="color: #CEBD25;">1<sup><small><small>st</small></small></sup></div>
-        <div style="margin-right: -10vw;">
+        <div class="prize" style="margin-right: -10vw;">
           <img style="border: 3px solid #D9D004;"
             class="image"
             :class="{ winner: jeecpot_rewards.first_squad_winner }"
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="winner-box" style="background: rgba(26, 156, 216, 0.15)">
-      <div style="margin-left: -10vw;">
+      <div class="prize" style="margin-left: -10vw;">
         <img style="border: 3px solid #1A9CD8;"
             class="image"
             :class="{ winner: jeecpot_rewards.second_student_winner }"
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="placements" style="color: #1A9CD8;">2<sup><small><small>nd</small></small></sup></div>
-      <div style="margin-right: -10vw;">
+      <div class="prize" style="margin-right: -10vw;">
         <img style="border: 3px solid #1A9CD8;"
             class="image"
             :class="{ winner: jeecpot_rewards.second_squad_winner }"
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="winner-box" style="background: rgba(217, 48, 70, 0.2); margin-bottom: 40px;">
-      <div style="margin-left: -10vw;">
+      <div class="prize" style="margin-left: -10vw;">
         <img style="border: 3px solid #D93046;"
             class="image"
             :class="{ winner: jeecpot_rewards.third_student_winner }"
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="placements" style="color: #D93046;">3<sup><small><small>rd</small></small></sup></div>
-      <div style="margin-right: -10vw;">
+      <div class="prize" style="margin-right: -10vw;">
         <img style="border: 3px solid #D93046;"
             class="image"
             :class="{ winner: jeecpot_rewards.third_squad_winner }"
@@ -152,6 +152,13 @@ export default {
   align-items: center;
 }
 
+.prize{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .reward-info{
   position: relative;
   margin-top: 3vw;
@@ -171,8 +178,8 @@ export default {
   border-radius: 50%;
 
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 12.5vh;
+  height: 12.5vh;
   background-color: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
