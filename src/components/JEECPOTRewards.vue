@@ -59,7 +59,7 @@
             :src="jeec_brain_url + jeecpot_rewards.third_student_reward.image"
           />
         <div class="reward-info" style="text-align: center;">
-          {{ jeecpot_rewards.first_student_reward.name }}<br/>
+          {{ jeecpot_rewards.third_student_reward.name }}<br/>
         </div>
       </div>
       <div class="placements" style="color: #D93046;">3<sup><small><small>rd</small></small></sup></div>
@@ -70,7 +70,7 @@
             :src="jeec_brain_url + jeecpot_rewards.third_squad_reward.image"
           />
         <div class="reward-info" style="text-align: center;">
-          {{ jeecpot_rewards.first_squad_reward.name }}<br/>
+          {{ jeecpot_rewards.third_squad_reward.name }}<br/>
         </div>
       </div>
     </div>
