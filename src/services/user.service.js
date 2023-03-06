@@ -47,14 +47,7 @@ class UserService {
   }
 
   getCV() {
-    axios.get(jeec_brain_url + "/student/cv", { headers: authHeader() }).then(response=>{
-      if(response.data=="No CV uploaded"){
-        return null;
-      }
-      else{
-        return response.data;
-      }
-    })
+    return axios.get(jeec_brain_url + "/student/cv", { headers: authHeader() })
   }
 
   getUserSquad() {
