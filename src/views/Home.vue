@@ -10,7 +10,7 @@
           <br>
           <div class="top-container">
           
-          <div>
+          <div class="top-text">
           <p>
             {{ next_activity.name }}
           </p>
@@ -22,9 +22,12 @@
             {{ next_activity.activity_type }}
           </p>
         </div>
-        <div v-for="image in next_activity.images" :key="image" >
-            <img :src="jeec_brain_url + image" class="activity-img">
+        <div class="image-container">
+          <div v-for="image in next_activity.images" :key="image" >
+            <img :src="jeec_brain_url + image" class="activity-img" :class="{size2:next_activity.images.length==2,size3:next_activity.images.length==3,size4:next_activity.images.length>3}">
           </div>
+        </div>
+        
         </div>
         </div>
 
@@ -312,7 +315,6 @@ export default {
   padding-left: 4vw;
   padding-right: 4vw;
   width:80vw;
-  height:35vh;
   margin-left:10vw;
   margin-right:10vw;
   border-radius:35px;
@@ -350,6 +352,7 @@ export default {
 .top-container{
   display:flex;
   justify-content: space-around;
+  height:auto;
 }
 .main-title p{
   font-family: Montserrat;
@@ -434,6 +437,8 @@ export default {
   margin-left:auto;
   margin-right:auto;
   object-fit: contain;
+  margin-left:2vh;
+  margin-right:2vh;
 }
 
 .cv-img{
@@ -495,4 +500,23 @@ export default {
     padding:10px;
     align-items:center;
   }
+
+  .image-container{
+    display:flex;
+    flex-wrap: wrap;
+  }
+
+  .size2{
+    height: 9vh;
+    width: 9vh;
+  }
+  .size3{
+    height: 7vh;
+    width: 7vh;
+  }
+  .size4{
+    height: 5vh;
+    width: 5vh;
+  }
+
 </style>
