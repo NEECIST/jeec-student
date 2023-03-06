@@ -1,6 +1,6 @@
 <template>
   <div class="qrcode">
-    <h1 style="text-align: center; margin-bottom: 2vh; margin-top:-20vh">Show this code to companies in the Job Fair!</h1>
+    <h1 style="text-align: center; margin-bottom: 2vh; margin-top:-20vh">Show this code everywhere!</h1>
     <center>
       <qrcode-vue :size="qrcode_size" :value="external_id"></qrcode-vue>
     </center>
