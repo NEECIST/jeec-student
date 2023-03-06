@@ -17,7 +17,7 @@
         <p v-if="speakers" class="speakers">{{ speakers }}</p>
         <p class="inner-description">{{ activity.description }}</p>
       </div>
-      <div>
+
 
         <div class="right-side" v-if="!past">
           <button class="schedule-btn" v-show="activity.registration_open"
@@ -26,6 +26,7 @@
             <div class="schedule-whitespace"><img class="schedule-icon" src="../assets/icons/add_to_schedule_icon.svg"></div>
           </a>
           </button>
+
           <br>
           <br>
 
@@ -48,17 +49,17 @@
               <div class="bottom-btn">
                 <p class="btn-text">+</p>
               </div>
-              
                 
             </div>
           </a>
      
           
           </button>
+          <p class="xp-text">{{ activity.points }}xp</p>
         </div>
 
 
-    </div>
+
 
     <!-- <p v-if="currentPage !== 'Quests'" class="description">
       {{ activity.description }}
@@ -565,6 +566,7 @@ export default {
   max-width: 260px;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5vh;
 }
 
 .whitetext{
@@ -855,7 +857,14 @@ export default {
   font-weight: 800;
 }
 
-
+.xp-text{
+  font-size:2.5vw;
+  font-weight:600;
+  text-align:right;
+  position:absolute;
+  bottom:0;
+  right:5vw;
+}
 
 
 
@@ -875,6 +884,10 @@ export default {
 }
 
 @media screen and (min-width:1100px){
+
+  .xp-text{
+    font-size:26px;
+  }
   .btn-text{
   font-size:90px;
   top:-40px;
