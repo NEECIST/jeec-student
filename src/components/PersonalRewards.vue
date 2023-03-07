@@ -7,55 +7,55 @@
         <img  :class="[{current_prize_img: currentLevel(1)}, {prize_img: !currentLevel(1)}]" 
               :src="jeec_brain_url + levels[0].reward.image"/>
         <div class="prize-name-box">
-          <p :class="[{current_prize_name: currentLevel(1)}, {prize_name: !currentLevel(1)}]">{{ '1. ' + levels[0].reward.name }}</p>
+          <p :class="[{current_prize_name: currentLevel(1)}, {prize_name: !currentLevel(1)}]">{{ '1. ' + levels[0].reward.name }} <br>{{ levels[0].end_points }}XP</p>
         </div>
       </div>
       <div class="prizes" style="position: absolute; top: 12%; left: 64%" v-if="levels[1]">
         <img :class="[{current_prize_img: currentLevel(2)}, {prize_img: !currentLevel(2)}]" 
              :src="jeec_brain_url + levels[1].reward.image"/>
         <div class="prize-name-box">
-          <p :class="[{current_prize_name: currentLevel(2)}, {prize_name: !currentLevel(2)}]">{{ '2. ' + levels[1].reward.name }}</p>
+          <p :class="[{current_prize_name: currentLevel(2)}, {prize_name: !currentLevel(2)}]">{{ '2. ' + levels[1].reward.name }}<br>{{ levels[1].end_points }}XP</p>
         </div>
       </div>
       <div class="prizes" style="position: absolute; top: 24%; left: 15%" v-if="levels[2]">
         <img :class="[{current_prize_img: currentLevel(3)}, {prize_img: !currentLevel(3)}]"
              :src="jeec_brain_url + levels[2].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(3)}, {prize_name: !currentLevel(3)}]">{{ '3. ' + levels[2].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(3)}, {prize_name: !currentLevel(3)}]">{{ '3. ' + levels[2].reward.name }}<br>{{ levels[2].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 27%; left: 52%" v-if="levels[3]">
         <img :class="[{current_prize_img: currentLevel(4)}, {prize_img: !currentLevel(4)}]"
              :src="jeec_brain_url + levels[3].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(4)}, {prize_name: !currentLevel(4)}]">{{ '4. ' + levels[3].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(4)}, {prize_name: !currentLevel(4)}]">{{ '4. ' + levels[3].reward.name }}<br>{{ levels[3].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 40%; left: 59%" v-if="levels[4]">
         <img :class="[{current_prize_img: currentLevel(5)}, {prize_img: !currentLevel(5)}]"
              :src="jeec_brain_url + levels[4].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(5)}, {prize_name: !currentLevel(5)}]">{{ '5. ' + levels[4].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(5)}, {prize_name: !currentLevel(5)}]">{{ '5. ' + levels[4].reward.name }}<br>{{ levels[4].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 48%; left: 10%" v-if="levels[5]">
         <img :class="[{current_prize_img: currentLevel(6)}, {prize_img: !currentLevel(6)}]"
              :src="jeec_brain_url + levels[5].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(6)}, {prize_name: !currentLevel(6)}]">{{ '6. ' + levels[5].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(6)}, {prize_name: !currentLevel(6)}]">{{ '6. ' + levels[5].reward.name }}<br>{{ levels[5].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 54%; left: 40%" v-if="levels[6]">
         <img :class="[{current_prize_img: currentLevel(7)}, {prize_img: !currentLevel(7)}]"
              :src="jeec_brain_url + levels[6].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(7)}, {prize_name: !currentLevel(7)}]">{{ '7. ' + levels[6].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(7)}, {prize_name: !currentLevel(7)}]">{{ '7. ' + levels[6].reward.name }}<br>{{ levels[6].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 66%; left: 59%" v-if="levels[7]">
         <img :class="[{current_prize_img: currentLevel(8)}, {prize_img: !currentLevel(8)}]"
              :src="jeec_brain_url + levels[7].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(8)}, {prize_name: !currentLevel(8)}]">{{ '8. ' + levels[7].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(8)}, {prize_name: !currentLevel(8)}]">{{ '8. ' + levels[7].reward.name }}<br>{{ levels[7].end_points }}XP</p>
       </div>
       <div class="prizes" style="position: absolute; top: 71%; left: 8%" v-if="levels[8]">
         <img :class="[{current_prize_img: currentLevel(9)}, {prize_img: !currentLevel(9)}]"
              :src="jeec_brain_url + levels[8].reward.image"/>
-        <p :class="[{current_prize_name: currentLevel(9)}, {prize_name: !currentLevel(9)}]">{{ '9. ' + levels[8].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(9)}, {prize_name: !currentLevel(9)}]">{{ '9. ' + levels[8].reward.name }}<br>{{ levels[8].end_points }}XP</p>
       </div>
       <div class="prizes" style="flex-direction: row; align-items: center; position: absolute; top: 84%; left: 30%" v-if="levels[9]">
         <img :class="[{current_prize_img: currentLevel(10)}, {prize_img: !currentLevel(10)}]"
              :src="jeec_brain_url + levels[9].reward.image" style="width: calc(7.5vh + 20vw); height: calc(7.5vh + 20vw);"/>
-        <p :class="[{current_prize_name: currentLevel(10)}, {prize_name: !currentLevel(10)}]">{{ '10. ' + levels[9].reward.name }}</p>
+        <p :class="[{current_prize_name: currentLevel(10)}, {prize_name: !currentLevel(10)}]">{{ '10. ' + levels[9].reward.name }}<br>{{ levels[9].end_points }}XP</p>
       </div>
     </div>
   </div>
@@ -140,6 +140,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align:center;
 }
 
 .prize_img{

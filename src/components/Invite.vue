@@ -56,14 +56,14 @@ export default {
     },
   },
   methods: {
-    accept() {
+    async accept() {
       this.loading = true;
-      this.$emit("accept", this.invite.external_id);
+      await this.$emit("accept", this.invite.external_id);
       this.$router.go()
     },
-    reject() {
+    async reject() {
       this.loading = true;
-      this.$emit("reject", this.invite.external_id);
+      await this.$emit("reject", this.invite.external_id);
       this.$router.go()
     },
   },
