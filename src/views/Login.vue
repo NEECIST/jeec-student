@@ -18,6 +18,9 @@
           />
           Student Login
         </div>
+        <!-- Botão GOOGLE -->
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
         <div
           @click.stop="login_partner"
           class="button"
@@ -56,16 +59,21 @@
         <img alt="IST logo" src="../assets/tecnico_grey.svg" />
       </div>
     </div>
+    
   </div>
+  
 </template>
 
-<script>
+<script >
 import User from "../models/user";
+
 // import UserService from "../services/user.service";
 
 export default {
+
   name: "Login",
   data: function () {
+   
     return {
       user: new User(),
       message: "",
