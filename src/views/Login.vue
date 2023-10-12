@@ -19,8 +19,8 @@
           Student Login
         </div>
         <!-- Botão GOOGLE -->
-        <div class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div>
-
+        <div class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div> 
+        
         <div
           @click.stop="login_partner"
           class="button"
@@ -66,12 +66,14 @@
 
 <script >
 import User from "../models/user";
+import axios from 'axios';
 
 // import UserService from "../services/user.service";
 
 export default {
 
   name: "Login",
+  id_token: "",
   data: function () {
    
     return {
@@ -120,6 +122,20 @@ export default {
     },
     return_website() {
       window.location.replace("https://jeec.ist/");
+    },
+    onSignIn(googleUser) {
+      console.log("teste")
+      console.log(id_token)
+      var id_token = googleUser.getAuthResponse().id_token;
+     
+
+    
+      axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/login_google', 
+      {id_token: id_token})
+         .then((response) => {
+          console.log(response.data) // 
+        });       
+   
     },
   },
   created() {
