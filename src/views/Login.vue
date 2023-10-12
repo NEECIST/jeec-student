@@ -19,7 +19,7 @@
           Student Login
         </div>
         <!-- Botão GOOGLE -->
-        <div class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div> 
+        <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div> 
         
         <div
           @click.stop="login_partner"
