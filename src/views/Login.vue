@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div class="buttons-flex" v-if="!loading">
-        <div
+        <!-- <div
           @click.stop="login_student"
           class="button"
           style="background-color: #27ade4"
@@ -17,7 +17,7 @@
             style="margin-top: 0.5vw"
           />
           Student Login
-        </div>
+        </div> -->
         <!-- Botão GOOGLE -->
         <!-- <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div>  -->
         <!-- <div id="my-signin2"></div> -->
