@@ -19,15 +19,8 @@
           Student Login
         </div> -->
         <!-- Botão GOOGLE -->
-        <!-- <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div>  -->
-        <!-- <div id="my-signin2"></div> -->
-        <g-signin-button
-          :params="googleSignInParams"
-          @success="onSignInSuccess"
-          @error="onSignInError">
-          Sign in with Google
-        </g-signin-button>
-
+        <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div> 
+        
         <div
           @click.stop="login_partner"
           class="button"
@@ -73,8 +66,7 @@
 
 <script >
 import User from "../models/user";
-
-// import axios from 'axios';
+import axios from 'axios';
 
 // import UserService from "../services/user.service";
 
@@ -82,15 +74,9 @@ export default {
 
   name: "Login",
   id_token: "",
-  gapi:"",
-  onSuccess:"",
-  onFailure:"",
   data: function () {
    
     return {
-      googleSignInParams: {
-        client_id: '286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com'
-      },
       user: new User(),
       message: "",
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
@@ -137,47 +123,20 @@ export default {
     return_website() {
       window.location.replace("https://jeec.ist/");
     },
-    onSignInSuccess (googleUser) {
-      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-      // See https://developers.google.com/identity/sign-in/web/reference#users
-      const profile = googleUser.getBasicProfile() // etc etc
-      console.log(profile)
-    },
-    onSignInError (error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error)
-    },
-    
-    // onSignIn(googleUser) {
-    //   console.log("teste")
-    //   console.log(id_token)
-    //   var id_token = googleUser.getAuthResponse().id_token;
+    onSignIn(googleUser) {
+      console.log("teste")
+      console.log(id_token)
+      var id_token = googleUser.getAuthResponse().id_token;
      
-    //   axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/login_google', 
-    //   {id_token: id_token})
-    //      .then((response) => {
-    //       console.log(response.data) // 
-    //     });       
-   
-    // },
-    //  onSuccess(googleUser) {
-    //   console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-    // },
-    //  onFailure(error) {
-    //   console.log(error);
-    // },
-    //  renderButton() {
-    //   gapi.signin2.render('my-signin2', {
-    //     'scope': 'profile email',
-    //     'width': 240,
-    //     'height': 50,
-    //     'longtitle': true,
-    //     'theme': 'dark',
-    //     'onsuccess': onSuccess,
-    //     'onfailure': onFailure
-    //   });
-    // }
+
     
+      axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/login_google', 
+      {id_token: id_token})
+         .then((response) => {
+          console.log(response.data) // 
+        });       
+   
+    },
   },
   created() {
     if (this.$route.query.token) {
@@ -332,14 +291,5 @@ span.buttonText {
   font-weight: bold;
   /* Use the Roboto font that is loaded in the <head> */
   font-family: 'Roboto', sans-serif;
-}
-.g-signin-button {
-  /* This is where you control how the button looks. Be creative! */
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 3px;
-  background-color: #3c82f7;
-  color: #fff;
-  box-shadow: 0 3px 0 #0f69ff;
 }
 </style>
