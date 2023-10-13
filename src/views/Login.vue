@@ -25,7 +25,7 @@
           :params="googleSignInParams"
           @success="onSignInSuccess"
           @error="onSignInError">
-          Sign in with Google
+          Sign in now with Google
         </g-signin-button>
 
         <div
