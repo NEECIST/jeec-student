@@ -4,7 +4,11 @@
       <div class="loading-top">
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
+      <div>
+        V1.0
+      </div>
       <div class="buttons-flex" v-if="!loading">
+        
         <!-- <div
           @click.stop="login_student"
           class="button"
