@@ -28,7 +28,7 @@
           Sign in now with Google
         </g-signin-button> -->
         <!-- <GoogleLogin :params="params" :onSuccess="onSuccess" >NEW LOGIN TEXT</GoogleLogin> -->
-        <div ref="googleLoginBtn">merda</div>
+        <div ref="googleLoginBtn">That didn't work, soz</div>
 
         <div
           @click.stop="login_partner"
@@ -178,9 +178,20 @@ export default {
     },
     onSuccess(googleUser) {
             console.log(googleUser);
+            console.log("***************************************************+");
 
             // This only gets the user information: id, name, imageUrl and email
-            console.log(googleUser.getBasicProfile());
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
     },
     
     
