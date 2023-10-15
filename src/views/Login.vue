@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.0
+        V1.1
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -133,7 +133,9 @@ export default {
 
   methods: {
     async handleCredentialResponse(response) {
-         console.log(response.credential)
+        console.log(response) 
+        console.log("***********m*****e*******r******d*******a***************");
+        console.log(response.credential)
          // Put your backend code in here
       },
     decrypt(code) {
@@ -170,32 +172,32 @@ export default {
     return_website() {
       window.location.replace("https://jeec.ist/");
     },
-    onSignInSuccess (googleUser) {
-      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-      // See https://developers.google.com/identity/sign-in/web/reference#users
-      const profile = googleUser.getBasicProfile() // etc etc
-      console.log(profile)
-    },
+    // onSignInSuccess (googleUser) {
+    //   // `googleUser` is the GoogleUser object that represents the just-signed-in user.
+    //   // See https://developers.google.com/identity/sign-in/web/reference#users
+    //   const profile = googleUser.getBasicProfile() // etc etc
+    //   console.log(profile)
+    // },
     onSignInError (error) {
       // `error` contains any error occurred.
       console.log('OH NOES', error)
     },
     onSuccess(googleUser) {
-            console.log(googleUser);
-            console.log("***************************************************+");
+      console.log(googleUser);
+      console.log("***************************************************+");
 
-            // This only gets the user information: id, name, imageUrl and email
-            var profile = googleUser.getBasicProfile();
-            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
+      // This only gets the user information: id, name, imageUrl and email
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
 
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
+  // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
     },
     
     
