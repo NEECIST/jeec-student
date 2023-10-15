@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.0
+        V1.1
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -196,8 +196,8 @@ export default {
       console.log("Email: " + profile.getEmail());
 
   // The ID token you need to pass to your backend:
-  var id_token = googleUser.getAuthResponse().id_token;
-  console.log("ID Token: " + id_token);
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
     },
     
     
