@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.2
+        V1.3
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -80,6 +80,7 @@
 <script >
 import User from "../models/user";
 import GoogleLogin from 'vue-google-login';
+import * as parserJwt from '../assets/jwtparser.js';
 
 
 // import axios from 'axios';
@@ -114,6 +115,7 @@ export default {
     },
   },
   mounted(){
+    
     const gClientId = ["286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com"]
       window.google.accounts.id.initialize({
         client_id: gClientId,
@@ -132,19 +134,11 @@ export default {
   },
 
   methods: {
-    parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-  },
+   
     async handleCredentialResponse(response) {
         console.log(response) 
         console.log("***********m*****e*******r******d*******a***************");
-        console.log(parseJwt(response.credential))
+        console.log(parserJwt.parseJwt(response.credential))
          // Put your backend code in here
       },
     
