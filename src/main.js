@@ -5,10 +5,15 @@ import vuetify from './plugins/vuetify';
 import Vuex from 'vuex';
 import store from './store';
 import VueCryptojs from 'vue-cryptojs';
+import GoogleLogin from 'vue-google-login';
+import  LoaderPlugin  from 'vue-google-login';
 
- 
 Vue.use(VueCryptojs)
 Vue.config.productionTip = false
+Vue.use(LoaderPlugin, {
+  client_id: '286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com'
+});
+
 
 new Vue({
   router,
