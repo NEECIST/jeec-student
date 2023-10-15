@@ -21,12 +21,13 @@
         <!-- Botão GOOGLE -->
         <!-- <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div>  -->
         <!-- <div id="my-signin2"></div> -->
-        <g-signin-button
+        <!-- <g-signin-button
           :params="googleSignInParams"
           @success="onSignInSuccess"
           @error="onSignInError">
           Sign in now with Google
-        </g-signin-button>
+        </g-signin-button> -->
+        <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin>
 
         <div
           @click.stop="login_partner"
@@ -73,12 +74,16 @@
 
 <script >
 import User from "../models/user";
+import GoogleLogin from 'vue-google-login';
 
 // import axios from 'axios';
 
 // import UserService from "../services/user.service";
 
 export default {
+  components: {
+    GoogleLogin
+  },
 
   name: "Login",
   id_token: "",
@@ -88,7 +93,7 @@ export default {
   data: function () {
    
     return {
-      googleSignInParams: {
+      params: {
         client_id: '286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com'
       },
       user: new User(),
