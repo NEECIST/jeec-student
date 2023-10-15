@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.1
+        V1.2
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -132,12 +132,22 @@ export default {
   },
 
   methods: {
+    parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  },
     async handleCredentialResponse(response) {
         console.log(response) 
         console.log("***********m*****e*******r******d*******a***************");
-        console.log(response.credential)
+        console.log(parseJwt(response.credential))
          // Put your backend code in here
       },
+    
     decrypt(code) {
       var master_key = "12345678901234561234567890123456";
       var rawData = atob(code.split("_").join("+"));
@@ -171,16 +181,6 @@ export default {
     },
     return_website() {
       window.location.replace("https://jeec.ist/");
-    },
-    // onSignInSuccess (googleUser) {
-    //   // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-    //   // See https://developers.google.com/identity/sign-in/web/reference#users
-    //   const profile = googleUser.getBasicProfile() // etc etc
-    //   console.log(profile)
-    // },
-    onSignInError (error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error)
     },
     onSuccess(googleUser) {
       console.log(googleUser);
