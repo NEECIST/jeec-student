@@ -27,7 +27,7 @@
           @error="onSignInError">
           Sign in now with Google
         </g-signin-button> -->
-        <GoogleLogin :params="params" :onSuccess="onSuccess" >Login</GoogleLogin>
+        <GoogleLogin :params="params" :onSuccess="onSuccess" >NEW LOGIN TEXT</GoogleLogin>
 
         <div
           @click.stop="login_partner"
