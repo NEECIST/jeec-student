@@ -27,7 +27,8 @@
           @error="onSignInError">
           Sign in now with Google
         </g-signin-button> -->
-        <GoogleLogin :params="params" :onSuccess="onSuccess" >NEW LOGIN TEXT</GoogleLogin>
+        <!-- <GoogleLogin :params="params" :onSuccess="onSuccess" >NEW LOGIN TEXT</GoogleLogin> -->
+        <div ref="googleLoginBtn">merda</div>
 
         <div
           @click.stop="login_partner"
@@ -108,7 +109,29 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     },
   },
+  mounted(){
+    const gClientId = ["286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com"]
+      window.google.accounts.id.initialize({
+        client_id: gClientId,
+        callback: this.handleCredentialResponse,
+        auto_select: true
+      })
+      window.google.accounts.id.renderButton(
+        this.$refs.googleLoginBtn, {
+          text: 'Sign in with Google', // or 'signup_with' | 'continue_with' | 'signin'
+          size: 'large', // or 'small' | 'medium'
+          width: '366', // max width 400
+          theme: 'outline', // or 'filled_black' |  'filled_blue'
+          logo_alignment: 'left' // or 'center'
+        }
+      )
+  },
+
   methods: {
+    async handleCredentialResponse(response) {
+         console.log(response.credential)
+         // Put your backend code in here
+      },
     decrypt(code) {
       var master_key = "12345678901234561234567890123456";
       var rawData = atob(code.split("_").join("+"));
