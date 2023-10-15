@@ -27,7 +27,7 @@
           @error="onSignInError">
           Sign in now with Google
         </g-signin-button> -->
-        <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin>
+        <GoogleLogin :params="params" :onSuccess="onSuccess" >Login</GoogleLogin>
 
         <div
           @click.stop="login_partner"
@@ -75,6 +75,7 @@
 <script >
 import User from "../models/user";
 import GoogleLogin from 'vue-google-login';
+
 
 // import axios from 'axios';
 
@@ -152,6 +153,14 @@ export default {
       // `error` contains any error occurred.
       console.log('OH NOES', error)
     },
+    onSuccess(googleUser) {
+            console.log(googleUser);
+
+            // This only gets the user information: id, name, imageUrl and email
+            console.log(googleUser.getBasicProfile());
+    },
+    
+    
     
     // onSignIn(googleUser) {
     //   console.log("teste")
