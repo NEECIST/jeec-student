@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.3
+        V1.4
       </div>
       <div class="buttons-flex" v-if="!loading">
         
