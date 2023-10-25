@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.5
+        V1.6
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -137,8 +137,15 @@ export default {
         console.log("***********m*****e*******r******d*******a***************");
         console.log(parserJwt.parseJwt(response.credential))
         console.log(parserJwt.parseJwt(response.credential).given_name)
-         // Put your backend code in here
-         
+        // Put your backend code in here
+
+        const visitor = new FormData();
+        visitor.append('name', parserJwt.parseJwt(response.credential).name)
+        visitor.append('email', parserJwt.parseJwt(response.credential).email)
+        visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
+        visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
+        
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/redirect_uri_google",visitor).then(response => this.responsedata = response.data)
       },
     
     decrypt(code) {
