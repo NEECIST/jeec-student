@@ -146,10 +146,14 @@ export default {
         visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
         axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirect_uri_google",visitor,
-                  {auth: {
-                      username: process.env.VUE_APP_JEEC_WEBSITE_USERNAME, 
-                      password: process.env.VUE_APP_JEEC_WEBSITE_KEY
-                  }}).then(response => this.responsedata = response.data)
+          {auth: {
+            username: process.env.VUE_APP_JEEC_WEBSITE_USERNAME, 
+            password: process.env.VUE_APP_JEEC_WEBSITE_KEY
+          }}
+        ).then(response => {this.responsedata = response.data
+                            if ((parserJwt.parseJwt(response.credential).email_verified) == true){
+                              this.$router.push("/home");
+                            }})
       },
     
     decrypt(code) {
