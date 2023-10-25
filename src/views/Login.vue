@@ -81,9 +81,7 @@
 import User from "../models/user";
 import GoogleLogin from 'vue-google-login';
 import * as parserJwt from '../assets/jwtparser.js';
-
-
-// import axios from 'axios';
+import axios from 'axios';
 
 // import UserService from "../services/user.service";
 
@@ -114,8 +112,7 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     },
   },
-  mounted(){
-    
+  mounted(){    
     const gClientId = ["286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com"]
       window.google.accounts.id.initialize({
         client_id: gClientId,
@@ -139,7 +136,9 @@ export default {
         console.log(response) 
         console.log("***********m*****e*******r******d*******a***************");
         console.log(parserJwt.parseJwt(response.credential))
+        console.log(parserJwt.parseJwt(response.credential).given_name)
          // Put your backend code in here
+         
       },
     
     decrypt(code) {
