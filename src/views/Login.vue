@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.10
+        V1.11
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -145,7 +145,7 @@ export default {
         visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
         visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
-        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirect_uri_google",{name: parserJwt.parseJwt(response.credential).name},
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(response.credential).name},
           {auth: {
             username: process.env.VUE_APP_JEEC_WEBSITE_USERNAME, 
             password: process.env.VUE_APP_JEEC_WEBSITE_KEY
