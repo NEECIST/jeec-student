@@ -148,10 +148,12 @@ export default {
         
         axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(response.credential).name},
           { headers: authHeader() }
-        ).then(response => {if (parserJwt.parseJwt(response.credential).email_verified){
-                              window.location.replace(process.env.STUDENT_APP_URL + "?token=" + response.data);
-                            }
+        ).then(response => {
+                            console.log(response.data)
                             })
+                            // if (parserJwt.parseJwt(response.credential).email_verified){
+                            //   window.location.replace(process.env.STUDENT_APP_URL + "?token=" + response.data);
+                            // }
       },
     
     decrypt(code) {
