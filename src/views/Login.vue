@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.11
+        V1.12
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -146,7 +146,7 @@ export default {
         // visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
         // visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
-        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(resposta.credential).name},
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{infos: resposta.credential},
           { headers: authHeader() }
         ).then(response => {
                             console.log(response.data)
