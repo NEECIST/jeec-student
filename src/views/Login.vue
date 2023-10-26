@@ -146,7 +146,7 @@ export default {
         // visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
         // visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
-        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{infos: resposta.credential},
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{infos: parserJwt.parseJwt(resposta.credential)},
           { headers: authHeader() }
         ).then(response => {
                             console.log(response.data)
