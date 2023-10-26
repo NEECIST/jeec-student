@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.8
+        V1.9
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -150,10 +150,11 @@ export default {
             username: process.env.VUE_APP_JEEC_WEBSITE_USERNAME, 
             password: process.env.VUE_APP_JEEC_WEBSITE_KEY
           }}
-        ).then(response => {this.responsedata = response.data
+        ).then(response => {this.responsedata = response.data;
                             if ((parserJwt.parseJwt(response.credential).email_verified) == true){
-                              this.$router.push("/home");
-                            }})
+                              window.location.replace(process.env.STUDENT_APP_URL + "?token=" + this.responsedata);
+                            }
+                          })
       },
     
     decrypt(code) {
