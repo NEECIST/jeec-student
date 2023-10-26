@@ -82,6 +82,7 @@ import User from "../models/user";
 import GoogleLogin from 'vue-google-login';
 import * as parserJwt from '../assets/jwtparser.js';
 import axios from 'axios';
+import authHeader from "../services/auth-header";
 
 // import UserService from "../services/user.service";
 
@@ -139,22 +140,20 @@ export default {
         console.log(parserJwt.parseJwt(response.credential).given_name)
         // Put your backend code in here
 
-        const visitor = new FormData();
-        visitor.append('name', parserJwt.parseJwt(response.credential).name)
-        visitor.append('email', parserJwt.parseJwt(response.credential).email)
-        visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
-        visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
+        // const visitor = new FormData();
+        // visitor.append('name', parserJwt.parseJwt(response.credential).name)
+        // visitor.append('email', parserJwt.parseJwt(response.credential).email)
+        // visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
+        // visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
         axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(response.credential).name},
-          {auth: {
-            username: process.env.VUE_APP_JEEC_WEBSITE_USERNAME, 
-            password: process.env.VUE_APP_JEEC_WEBSITE_KEY
-          }}
-        ).then(response => {this.responsedata = response.data;
-                            if ((parserJwt.parseJwt(response.credential).email_verified) == true){
-                              window.location.replace(process.env.STUDENT_APP_URL + "?token=" + this.responsedata);
-                            }
-                          })
+          { headers: authHeader() }
+        ).then(response => {
+                            console.log(response.data)
+                            })
+                            // if (parserJwt.parseJwt(response.credential).email_verified){
+                            //   window.location.replace(process.env.STUDENT_APP_URL + "?token=" + response.data);
+                            // }
       },
     
     decrypt(code) {
