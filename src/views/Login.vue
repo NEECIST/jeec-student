@@ -133,11 +133,11 @@ export default {
 
   methods: {
    
-    async handleCredentialResponse(response) {
-        console.log(response) 
+    async handleCredentialResponse(resposta) {
+        console.log(resposta) 
         console.log("***********m*****e*******r******d*******a***************");
-        console.log(parserJwt.parseJwt(response.credential))
-        console.log(parserJwt.parseJwt(response.credential).given_name)
+        console.log(parserJwt.parseJwt(resposta.credential))
+        console.log(parserJwt.parseJwt(resposta.credential).given_name)
         // Put your backend code in here
 
         // const visitor = new FormData();
@@ -146,7 +146,7 @@ export default {
         // visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
         // visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
         
-        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(response.credential).name},
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle",{name: parserJwt.parseJwt(resposta.credential).name},
           { headers: authHeader() }
         ).then(response => {
                             console.log(response.data)
