@@ -5,7 +5,7 @@
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
       <div>
-        V1.15
+        V1.16
       </div>
       <div class="buttons-flex" v-if="!loading">
         
@@ -96,6 +96,7 @@ export default {
   gapi:"",
   onSuccess:"",
   onFailure:"",
+  backend_response: '',
   data: function () {
    
     return {
