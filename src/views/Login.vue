@@ -4,8 +4,12 @@
       <div class="loading-top">
         <img alt="JEEC logo" src="../assets/jeec_colour_no_edition.svg" />
       </div>
+      <div>
+        V1.18
+      </div>
       <div class="buttons-flex" v-if="!loading">
-        <div
+        
+        <!-- <div
           @click.stop="login_student"
           class="button"
           style="background-color: #27ade4"
@@ -17,7 +21,19 @@
             style="margin-top: 0.5vw"
           />
           Student Login
-        </div>
+        </div> -->
+        <!-- Botão GOOGLE -->
+        <!-- <div @click="onSignIn()" class="g-signin2" data-width="300" data-height="40" data-longtitle="true"></div>  -->
+        <!-- <div id="my-signin2"></div> -->
+        <!-- <g-signin-button
+          :params="googleSignInParams"
+          @success="onSignInSuccess"
+          @error="onSignInError">
+          Sign in now with Google
+        </g-signin-button> -->
+        <!-- <GoogleLogin :params="params" :onSuccess="onSuccess" >NEW LOGIN TEXT</GoogleLogin> -->
+        <div ref="googleLoginBtn">That didn't work, soz</div>
+
         <div
           @click.stop="login_partner"
           class="button"
@@ -56,17 +72,36 @@
         <img alt="IST logo" src="../assets/tecnico_grey.svg" />
       </div>
     </div>
+    
   </div>
+  
 </template>
 
-<script>
+<script >
 import User from "../models/user";
+import GoogleLogin from 'vue-google-login';
+import * as parserJwt from '../assets/jwtparser.js';
+import axios from 'axios';
+import authHeader from "../services/auth-header";
+
 // import UserService from "../services/user.service";
 
 export default {
+  components: {
+    GoogleLogin
+  },
+
   name: "Login",
+  id_token: "",
+  gapi:"",
+  onSuccess:"",
+  onFailure:"",
   data: function () {
+   
     return {
+      params: {
+        client_id: '286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com'
+      },
       user: new User(),
       message: "",
       jeec_brain_url: process.env.VUE_APP_JEEC_BRAIN_URL,
@@ -78,7 +113,53 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     },
   },
+  mounted(){    
+    const gClientId = ["286554998545-hsatr3tkmeskks4r3r4eb7vcfsbv25h7.apps.googleusercontent.com"]
+      window.google.accounts.id.initialize({
+        client_id: gClientId,
+        callback: this.handleCredentialResponse,
+        auto_select: true
+      })
+      window.google.accounts.id.renderButton(
+        this.$refs.googleLoginBtn, {
+          text: 'Sign in with Google', // or 'signup_with' | 'continue_with' | 'signin'
+          size: 'large', // or 'small' | 'medium'
+          width: '366', // max width 400
+          theme: 'outline', // or 'filled_black' |  'filled_blue'
+          logo_alignment: 'left' // or 'center'
+        }
+      )
+  },
+
   methods: {
+   
+    async handleCredentialResponse(resposta) {
+        console.log(resposta) 
+        console.log("***********m*****e*******r******d*******a***************");
+        console.log(parserJwt.parseJwt(resposta.credential))
+        console.log(parserJwt.parseJwt(resposta.credential).given_name)
+        // Put your backend code in here
+
+        // const visitor = new FormData();
+        // visitor.append('name', parserJwt.parseJwt(response.credential).name)
+        // visitor.append('email', parserJwt.parseJwt(response.credential).email)
+        // visitor.append('email_validation', parserJwt.parseJwt(response.credential).email_verified)
+        // visitor.append('picture', parserJwt.parseJwt(response.credential).picture)
+        
+        axios.post(process.env.VUE_APP_JEEC_BRAIN_URL+"/student/redirecturigoogle", parserJwt.parseJwt(resposta.credential),
+          { headers: authHeader() }
+        ).then(response => {
+                            if (response.data != ''){
+                              window.location.replace(process.env.STUDENT_APP_URL + "?token=" + response.data);
+                              console.log('merda boa')
+                            }else{
+                              window.location.replace(process.env.STUDENT_APP_URL)
+                              console.log('merda má')
+                            }
+                            })
+                            
+      },
+    
     decrypt(code) {
       var master_key = "12345678901234561234567890123456";
       var rawData = atob(code.split("_").join("+"));
@@ -113,6 +194,56 @@ export default {
     return_website() {
       window.location.replace("https://jeec.ist/");
     },
+    onSuccess(googleUser) {
+      console.log(googleUser);
+      console.log("***************************************************+");
+
+      // This only gets the user information: id, name, imageUrl and email
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+  // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+    },
+    
+    
+    
+    // onSignIn(googleUser) {
+    //   console.log("teste")
+    //   console.log(id_token)
+    //   var id_token = googleUser.getAuthResponse().id_token;
+     
+    //   axios.post(process.env.VUE_APP_JEEC_BRAIN_URL + '/student/login_google', 
+    //   {id_token: id_token})
+    //      .then((response) => {
+    //       console.log(response.data) // 
+    //     });       
+   
+    // },
+    //  onSuccess(googleUser) {
+    //   console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    // },
+    //  onFailure(error) {
+    //   console.log(error);
+    // },
+    //  renderButton() {
+    //   gapi.signin2.render('my-signin2', {
+    //     'scope': 'profile email',
+    //     'width': 240,
+    //     'height': 50,
+    //     'longtitle': true,
+    //     'theme': 'dark',
+    //     'onsuccess': onSuccess,
+    //     'onfailure': onFailure
+    //   });
+    // }
+    
   },
   created() {
     if (this.$route.query.token) {
@@ -234,5 +365,47 @@ export default {
     width: 24vh;
   }
 }
-
+#customBtn {
+  display: inline-block;
+  background: white;
+  color: #444;
+  width: 190px;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+}
+#customBtn:hover {
+  cursor: pointer;
+}
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 42px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
+}
+.g-signin-button {
+  /* This is where you control how the button looks. Be creative! */
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background-color: #3c82f7;
+  color: #fff;
+  box-shadow: 0 3px 0 #0f69ff;
+}
 </style>
