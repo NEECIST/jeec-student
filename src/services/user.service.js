@@ -56,11 +56,7 @@ class UserService {
     });
   }
 
-  createSquad(image, name, cry) {
-    var formData = new FormData();
-    formData.append("file", image);
-    formData.append("name", name);
-    formData.append("cry", cry);
+  createSquad(formData) {
 
     return axios.post(jeec_brain_url + "/student/squad", formData, {
       headers: {
@@ -71,7 +67,7 @@ class UserService {
       }
     });
   }
-
+ 
   getStudents(search) {
     return axios.get(jeec_brain_url + "/student/students?search=" + search, {
       headers: authHeader()
@@ -212,6 +208,12 @@ class UserService {
 
   getSquadsRanking() {
     return axios.get(jeec_brain_url + "/student/squads-ranking", {
+      headers: authHeader()
+    });
+  }
+
+  getSquadsLength() {
+    return axios.get(jeec_brain_url + "/student/get_length_squads", {
       headers: authHeader()
     });
   }

@@ -3,66 +3,60 @@
     <div class="squad-create">
       <div>
         <input
-        type="text"
-        placeholder="New Squad"
-        v-model="name"
-        class="squad-input"
-        :class="{ input_exists: name.length }"
-      />
-      <br>
-      <input
-        type="text"
-        placeholder="Motto"
-        v-model="cry"
-        class="squad-input"
-        :class="{ input_exists: cry.length }"
-      />
+          type="text"
+          placeholder="New Squad"
+          v-model="name"
+          class="squad-input"
+          :class="{ input_exists: name.length }"
+          @input="validateInput"
+        />
+        <br>
+        <input
+          type="text"
+          placeholder="Motto"
+          v-model="cry"
+          class="squad-input"
+          :class="{ input_exists: cry.length }"
+          />
       </div>
      
-        <div
-          v-show="!image_uploaded"
-          class="image-input disabled"
-          @click.stop="input_click"
-        >
-          <p>Add<br />Photo</p>
-        </div>
-        <input
-          type="file"
-          accept="image/*"
-          ref="image_input"
-          @change="input_file"
-          style="display: none"
-        />
-        <img
-          v-show="image_uploaded"
-          @click.stop="input_click"
-          class="squad-image"
-          src=""
-          alt="uploaded-image"
-          ref="uploaded_image"
-        />
+      <!-- Image Section -->
+      <div v-if="!image_uploaded" class="image-input disabled" @click.stop="input_click">
+        <p>Add<br />Photo</p>
+      </div>
+      <input
+        type="file"
+        accept="image/*"
+        ref="image_input"
+        @change="input_file"
+        style="display: none"
+      />
+      <img
+        v-if="image_uploaded"
+        @click.stop="input_click"
+        class="squad-image"
+        :src="currentImage"  
+        alt="uploaded-image"
+        ref="uploaded_image"
+      />
      
-     
-
+      <!-- Other parts of your template remain unchanged -->
       
-    </div>
-   
         <button @click.stop="create_squad" class="button" v-if="!loading">
-          <span class="plus-symbol">⊕</span> Create squad
-        </button>
-        
-        <v-progress-circular
-          v-else
-          style="margin-top: 3vh"
-          indeterminate
-          color="#27ade4"
-          :size="80"
-          :width="8"
-          class="loading-bar"
-        ></v-progress-circular>
-     
-
+              <span class="plus-symbol">⊕</span> Create squad
+        </button> 
+      
+      <v-progress-circular
+        v-else
+        style="margin-top: 3vh"
+        indeterminate
+        color="#27ade4"
+        :size="80"
+        :width="8"
+        class="loading-bar"
+      ></v-progress-circular>
       <p class="error-msg">{{ error }}</p>
+    </div>
   </div>
 </template>
 
@@ -74,23 +68,19 @@ export default {
   data: function () {
     return {
       files: [],
-      image_uploaded: false,
+      image_uploaded: true,
+      currentImage: require('../assets/logo.png'),  // Default image
       name: "",
       cry: "",
       error: "",
       loading: false,
+      locked: true,
     };
   },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-    locked() {
-      return this.image_uploaded && this.name.length && this.cry.length;
-    },
-  },
+  // other computed properties...
   methods: {
     input_click() {
+      // Trigger the file input
       this.$refs.image_input.click();
     },
     input_file(event) {
@@ -98,46 +88,75 @@ export default {
 
       if (this.files.length == 1) {
         var reader = new FileReader();
-        var img = this.$refs.uploaded_image;
 
-        reader.onload = function (_event) {
-          img.src = _event.target.result;
+        reader.onload = (e) => {
+          this.currentImage = e.target.result; // File content will be used as an image source
+          this.image_uploaded = true;
         };
 
         reader.readAsDataURL(this.files[0]);
-        this.image_uploaded = true;
       }
     },
-    create_squad() {
-      if (!this.locked){
-        this.error = "Invalid information for new squad"
+    // Method to convert image URL to Blob
+    async getDefaultImageBlob() {
+      const response = await fetch(require('../assets/logo.png')); // path to your default image
+      const data = await response.blob(); // convert HTTP response to Blob
+      return new File([data], "default-image.png", { type: 'image/png' }); // return blob as File
+    },
+    
+    async create_squad() {
+      if (!this.nameExists){
+        this.error = "Invalid information for new squad - Name cannot be left blank";
         return;
-      } 
+      }
       this.loading = true;
-      var image = this.$refs.image_input;
 
-      UserService.createSquad(image.files[0], this.name, this.cry)
+      let imageData;
+      if (this.files.length > 0) {
+        // If user uploaded file, use it
+        imageData = this.files[0];
+      } else {
+        // Otherwise, use default image as Blob (treated as File)
+        imageData = await this.getDefaultImageBlob();
+      }
+
+      // Now, 'imageData' is a File object whether it's a user-uploaded file or the default image.
+
+      // Assuming 'UserService.createSquad' needs FormData, we can create it like this:
+      const formData = new FormData();
+      formData.append('file', imageData); // append the image file to the FormData
+      formData.append('name', this.name);
+      formData.append('cry', this.cry);
+
+      await UserService.createSquad(formData)
         .then((response) => {
+          // handle success
           this.$emit("create", response.data.data);
           this.error = "";
           this.$emit("notification", "Squad created successfully", "success");
           this.loading = false;
         })
         .catch((error) => {
+          // handle error
           this.error = error.response.data.error;
           console.log(error);
           this.$emit("notification", "Failed to create squad", "error");
           this.loading = false;
         });
+        this.$router.go()
     },
+  },
+  computed: {
+    nameExists() {
+      return this.name.trim().length > 0;
+    }
   },
 };
 </script>
 
-<style scoped>
-/* .squad-creation {
 
-} */
+<style scoped>
+
 
 .squad-creation-title{
   text-align:center;

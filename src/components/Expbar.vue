@@ -1,6 +1,6 @@
 <template>
   <div class="expbar" :style="'width:' + width">
-    <v-progress-linear
+    <v-progress-linear 
       class="bar"
       :value="progress"
       :height="height"
@@ -27,8 +27,16 @@ export default {
   data: function () {
     return {};
   },
-  mounted() {
+  beforeMount() {
+    if(this.xp > this.end_points) {
+      this.xp =  this.end_points
+    }
   },
+  updated() {
+    if(this.xp > this.end_points) {
+      this.xp =  this.end_points
+    }
+  }
 };
 </script>
 

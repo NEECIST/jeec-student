@@ -18,7 +18,6 @@
         @notification="notification"
       />
       <div v-else class="squad-info">
-
       
       <img
           class="squad-image"
@@ -35,39 +34,62 @@
       </div>
       </div>
 
-      <div v-if="squad!=null" class="squad-rank weekly">
+      
+      <div v-if="squad!=null && !champion_week" class="squad-rank weekly">
         <h1>
-          Weekly rank
+          Weekly rank 
         </h1>
         <h2>
           {{ weekly_max_points - squad.total_points }}xp to first! 
         </h2>
         
       </div>
-
-      <div v-if="squad!=null" class="squad-rank daily">
+      <div v-else-if="squad!=null && champion_week" class="squad-rank weekly">
         <h1>
-          Daily rank
+          Weekly rank
+        </h1>
+        <h2>
+          You are currently the week champ!!!
+        </h2>
+      </div>
+
+
+      <div v-if="squad!=null && !champion_daily"  class="squad-rank daily">
+        <h1>
+          Daily rank 
         </h1>
         <h2>
           {{ daily_max_points - squad.daily_points }}xp to first! 
         </h2>
       </div>
-      
+      <div v-else-if="squad!=null && champion_daily" class="squad-rank daily">
+        <h1>
+          Daily rank
+        </h1>
+        <h2>
+          You are currently the daily champ!!!
+        </h2>
+      </div>
+
+      <div v-if="squad!=null" class="squad-rank total">
+        <h1>
+          Total Squad Points
+        </h1>
+        <h2>
+          {{ squad.total_points }}
+        </h2>
+      </div>
       
       <div style="margin-top: 8vh" class="bottom-half" v-if="squad!=null || invites.length > 0">
         <div v-if="squad!=null" class="plus-members">
           <h1>Members ({{squad.members.data.length}}/4)</h1>
           <center class="bottom-buttons">
-      <button
-      class="plus-symbol"
-        @click.stop="add_members_dialog = true"
-        v-if="
-          squad.members.data.length + invites_sent.length < 4 && !loading_add
-        "
-      >
-      ⊕
-      </button>
+
+        <button class="plus-symbol" @click.stop="add_members_dialog = true"
+        v-if="squad.members.data.length < 4 && !loading_add">
+          ⊕
+        </button>
+
       <button
         v-if="!loading_delete"
         @click.stop="leave_squad"
@@ -89,7 +111,7 @@
     <v-dialog v-model="add_members_dialog" :width="width > 1100 ? '50vw' : ''">
       <v-card class="squad-dialog">
         <p class="dialog-title">Add Squadmates</p>
-        <v-autocomplete
+        <v-autocomplete 
           v-model="squadmates"
           :items="students"
           outlined
@@ -137,7 +159,7 @@
           <button @click.stop="invite" class="invite">Invite</button>
         </center>
       </v-card>
-    </v-dialog>
+    </v-dialog> 
         </div>  
         <div v-if="squad!=null">
           <Member
@@ -205,6 +227,13 @@ export default {
       width: window.innerWidth,
       loading_delete: false,
       loading_add: false,
+      squads_aux: null,
+      length: 0,
+      champion_week: false,
+      champion_daily: false,
+      hover: false,
+      members_with_squad: null,
+      invited_members: null
     };
   },
   methods: {
@@ -223,8 +252,8 @@ export default {
       this.$store.dispatch("auth/userUpdate", student);
       this.squad = null;
     },
-    accept_invite(invite_id) {
-      UserService.acceptInvitation(invite_id).then(
+    async accept_invite(invite_id) {
+      await UserService.acceptInvitation(invite_id).then(
         (response) => {
           this.$store.dispatch("auth/userUpdate", response.data.data);
 
@@ -259,15 +288,21 @@ export default {
             }
           );
           this.notification("Failed to join squad", "error");
+        },
+        (error) => {
+          this.$emit(
+            "notification",
+            "Squad is full",
+            "success"
+          );
+          console.log(error)
         }
       );
+      this.$router.go();
     },
     limitStudents() {
       if (
-        this.squad.members.data.length +
-          this.squadmates.length +
-          this.invites_sent.length >
-        4
+        this.squad.members.data.length >= 4
       ) {
         this.squadmates.pop();
       }
@@ -289,19 +324,17 @@ export default {
         this.squadmates.length + this.squad.members.data.length <= 4
       );
     },
-    invite() {
+    async invite() {
       if (this.squadmates.length > 0) {
         this.loading_add = true;
         this.add_members_dialog = false;
-        UserService.inviteSquad(this.squadmates).then(
-          () => {
+
+        await UserService.inviteSquad(this.squadmates).then(
+          (response) => {
             this.squadmates = [];
-            
-            this.$emit(
-              "notification",
-              "Invitation sent successfully",
-              "success"
-            );
+            const data = response.data;
+            this.members_with_squad = data.members_with_squad
+            this.invited_members = data.invited_members
 
             UserService.getSquadInvitationsSent().then(
               (response) => {
@@ -332,10 +365,62 @@ export default {
             this.loading_add = false;
           }
         );
+        
+        let string_notification_invites = ""
+        let string_notification_squads = ""
+
+        if (this.invited_members.length >= 1) {
+          string_notification_invites = "Invitation sent successfully to "
+          for(let j = 0; j < this.invited_members.length; j++) {
+            
+            if(j == (this.invited_members.length - 1)) {
+              string_notification_invites = string_notification_invites + " " + this.invited_members[j] 
+              string_notification_invites = string_notification_invites + " \n"
+            } else if(this.invited_members.length >= 2 && j == (this.invited_members.length - 2) ){
+              string_notification_invites = string_notification_invites + " " + this.invited_members[j] + " and"
+            } else {
+              string_notification_invites = string_notification_invites + " " + this.invited_members[j] + ","
+            }
+          } 
+        }
+        if (this.members_with_squad.length == 1) {
+          if (this.invited_members.length >= 1) {
+            string_notification_squads = string_notification_squads +  " but member "
+          } else {
+            string_notification_squads = string_notification_squads +  "Member "
+          }
+        } else if (this.members_with_squad.length > 1) {
+          if (this.invited_members.length >= 1) {
+            string_notification_squads = string_notification_squads +  "but members "
+          } else {
+            string_notification_squads = string_notification_squads +  "Members "
+          }
+          
+        }
+        for(let i = 0; i < this.members_with_squad.length; i++) {
+          if(i == (this.members_with_squad.length - 1)) {
+            string_notification_squads = string_notification_squads + " " + this.members_with_squad[i]
+            if(this.members_with_squad.length == 1) {
+              string_notification_squads = string_notification_squads + " already has a squad"
+            } else {
+              string_notification_squads = string_notification_squads + " already have a squad"
+            }
+          } else if(this.members_with_squad.length >= 2 && i == (this.members_with_squad.length - 2) ){
+            string_notification_squads = string_notification_squads + " " + this.members_with_squad[i] + " and"
+          } else {
+            string_notification_squads = string_notification_squads + " " + this.members_with_squad[i] + ","
+          }
+        }
+        this.$emit(
+          "notification",
+          string_notification_invites + "\n" + string_notification_squads,
+          "success"
+        );
+        
       }
     },
-    reject_invite(invite_id) {
-      UserService.rejectInvitation(invite_id).then(
+    async reject_invite(invite_id) {
+      await UserService.rejectInvitation(invite_id).then(
         () => {
           UserService.getSquadInvitationsReceived().then(
             (response) => {
@@ -358,6 +443,7 @@ export default {
           );
         }
       );
+      this.$router.go()
     },
     leave_squad() {
       if (!confirm("Are you sure you want to proceed?")) {
@@ -398,7 +484,7 @@ export default {
       return this.$store.state.auth.user;
     },
   },
-  created() {
+  async created() {
     if (!this.currentUser) {
       this.$router.push("/");
     }
@@ -433,19 +519,39 @@ export default {
       }
     );
 
-    UserService.getDailySquadsRanking().then(
-      (response) => {
-        let daily_squads = response.data.data;
-        if (!Array.isArray(this.daily_squads)) this.daily_squads = [this.daily_squads];
-        this.loading_daily = false;
-        this.daily_max_points = daily_squads[0].daily_points
-        this.weekly_max_points = daily_squads[0].total_points
-      },
-      (error) => {
-        console.log(error);
-        this.loading_daily = false;
+    await UserService.getSquadsLength().then((response) => {
+      const data = response.data; this.length = data.length; 
       }
     );
+    
+
+
+    if(this.length > 1) {
+        await UserService.getDailySquadsRanking().then(
+          (response) => {
+            let daily_squads = response.data.data;
+            if (!Array.isArray(this.daily_squads)) this.daily_squads = [this.daily_squads];
+            this.loading_daily = false;
+            this.daily_max_points = daily_squads[0].daily_points
+            this.weekly_max_points = daily_squads[0].total_points
+            this.squads_aux = daily_squads[0]
+          },
+          (error) => {
+            console.log(error);
+            this.loading_daily = false;
+          }
+        );
+        if (this.weekly_max_points == this.squad.total_points) {
+          this.champion_week = true
+        }
+        if (this.daily_max_points == this.squad.daily_points) {
+          this.champion_daily = true
+        }
+    } else if (this.length == 1) {
+      this.champion_week = true
+      this.champion_daily = true
+    } 
+    
   },
   watch: {
     search(val) {
@@ -530,6 +636,16 @@ export default {
 
 .daily h2{
   background-color: #D9D00433;
+
+}
+
+.total h1{
+  background-color: #3843A6;
+
+}
+
+.total h2{
+  background-color: #CEE5FF;
 
 }
 
@@ -625,4 +741,19 @@ export default {
   font-weight: 600;
   border: 3px solid #03618C;
 }
+
+.hover {
+  color: red; /* or any other styles you want to apply on hover */
+}
+
+.hover-effect {
+  transition: all 0.3s ease; /* this makes the change in style smooth */
+  cursor: pointer; /* this changes the cursor to a hand when hovering over the text */
+}
+
+.hover-effect:hover {
+  transform: scale(1.2); /* this enlarges the text, giving it a "pop" effect */
+  color: red; /* changes the text color */
+}
+
 </style>
