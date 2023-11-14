@@ -17,8 +17,6 @@ import QRCode from "../views/QRCode.vue";
 import Schedule from "../views/Schedule.vue";
 import qs from "qs";
 
-
-
 Vue.use(VueRouter);
 
 const routes = [

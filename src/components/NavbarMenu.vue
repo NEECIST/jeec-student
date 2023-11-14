@@ -2,15 +2,21 @@
   <div class="menu">
     <img class="background-gradient"/>
     <div class="menu-top">
-      <img
-        alt="profile photo"
-        :src="currentUser.photo"
-        style="width: 12vh; height: 12vh; border-radius: 50%"
-      />
+      <router-link :to="{ name: 'Profile' }">
+        <img
+          alt="profile photo"
+          :src="currentUser.photo"
+          style="width: 12vh; height: 12vh; border-radius: 50%"
+          class="hover-effect-img"
+        />
+      </router-link>  
+
       <div class="profile-info">
-        <div class="name">
-          <p>{{ nameArray[0] }}</p>
-          <p>{{ nameArray[nameArray.length - 1] }}</p>
+        <div class="name hover-effect-img">
+          <router-link :to="{ name: 'Profile' }">
+            <p>{{ nameArray[0] }}</p>
+            <p>{{ nameArray[nameArray.length - 1] }}</p>
+          </router-link>
         </div>
         <div class="level">
           <p>
@@ -37,7 +43,7 @@
       >
         <div class="menu-items" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
           <img style="width: 12.5vh; padding-left: 0vw;" :src="item.src" />
-          <p class="menu-names">{{ item.name }}</p>
+          <p class="menu-names hover-effect">{{ item.name }}</p>
         </div>
       </div>
       <!-- <table class="menu-items">
@@ -64,8 +70,8 @@
       </table> -->
     </div>
     <div width="auto" @click.stop="logout" class="menu-bottom">
-      <p class="logout">Log Out</p>
-      <img width="30vw" src="../assets/icons/logout.svg" style="margin-right: 5vw;"/>
+      <p class="logout hover-effect">Log Out</p>
+      <img class="hover-effect-img" width="30vw" src="../assets/icons/logout.svg" style="margin-right: 5vw;"/>
     </div>
   </div>
 </template>
@@ -248,4 +254,18 @@ export default {
   text-align: center;
 }
 
+.hover-effect {
+  transition: all 0.3s ease; /* this makes the change in style smooth */
+  cursor: pointer; /* this changes the cursor to a hand when hovering over the text */
+}
+
+.hover-effect:hover {
+  transform: scale(1.2); /* this enlarges the text, giving it a "pop" effect */
+  color: whitesmoke; /* changes the text color */
+}
+
+.hover-effect-img {
+  transition: all 0.3s ease; /* this makes the change in style smooth */
+  cursor: pointer; /* this changes the cursor to a hand when hovering over the text */
+}
 </style>
